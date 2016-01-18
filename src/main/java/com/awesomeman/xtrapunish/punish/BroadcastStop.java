@@ -15,14 +15,8 @@ import com.awesomeman.xtrapunish.XtraPunish;
  */
 public class BroadcastStop implements CommandExecutor {
     
-    private XtraPunish instance;
-    
-    public BroadcastStop(XtraPunish instance) {
-        this.instance = instance;
-    }
-    
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-        if(instance.cancelBroadcast()) {
+        if(XtraPunish.instance.broadcastManager.cancelBroadcast()) {
             src.sendMessage(Text.of(TextColors.RED, "Broadcast is not running!"));
         } else {
             src.sendMessage(Text.of(TextColors.GOLD, "Broadcast successfully stopped."));

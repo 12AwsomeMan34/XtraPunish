@@ -8,23 +8,27 @@ import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.plugin.Plugin;
-import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.text.Text;
 
+import com.awesomeman.xtrapunish.manager.BroadcastManager;
 import com.awesomeman.xtrapunish.punish.*;
 import com.google.inject.Inject;
 
 @Plugin(id = "XtraPunish", name = "XtraPunish", version = XtraPunish.VERSION)
 public class XtraPunish {
     
+    public static XtraPunish instance;
+    public BroadcastManager broadcastManager;
     protected static final String VERSION = "1.0";
     private @Inject Logger logger;
     private @Inject Game game;
-    private Task broadcast;
     
     @Listener
     public void onInit(GameInitializationEvent event) {
         logger.info("Initializing XtraPunish version " + VERSION);
+        
+        instance = this;
+        broadcastManager = new BroadcastManager();
         
         CommandManager service = game.getCommandManager();
         
@@ -88,13 +92,13 @@ public class XtraPunish {
                 .permission("xtrapunish.broadcast.start")
                 .description(Text.of("Broadcasts a message to the server non-stop!"))
                 .arguments(GenericArguments.remainingJoinedStrings(Text.of("broadcast")))
-                .executor(new BroadcastOverlord(this))
+                .executor(new BroadcastOverlord())
                 .build();
         
         CommandSpec stopBroadcastCommand = CommandSpec.builder()
                 .permission("xtrapunish.broadcast.stop")
                 .description(Text.of("Stops that annoying broadcast!"))
-                .executor(new BroadcastStop(this))
+                .executor(new BroadcastStop())
                 .build();
         
         CommandSpec noFoodCommand = CommandSpec.builder()
@@ -130,28 +134,5 @@ public class XtraPunish {
         
         service.register(this, mainCommand, "xtra", "xtrapunish", "punish");
         logger.info("XtraPunish has successfully loaded!");
-    }
-    
-    public void storeBroadcast(Task broadcast) {
-        this.broadcast = broadcast;
-    }
-    
-    public Task getBroadcast() {
-        return broadcast;
-    }
-    
-    /**
-     * Cancel's the broadcast task and sets it to null, so that we don't
-     * have multiple broadcasts running.
-     * 
-     * @return If the broadcast was not running
-     */
-    public boolean cancelBroadcast() {
-        if(broadcast != null) {
-            boolean running =  broadcast.cancel();
-            broadcast = null;
-            return running;
-        }
-        return true;
     }
 }

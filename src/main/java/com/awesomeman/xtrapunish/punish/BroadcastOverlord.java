@@ -22,14 +22,8 @@ import com.awesomeman.xtrapunish.XtraPunish;
  */
 public class BroadcastOverlord implements CommandExecutor {
     
-    private XtraPunish instance;
-    
-    public BroadcastOverlord(XtraPunish instance) {
-        this.instance = instance;
-    }
-    
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-        if(instance.getBroadcast() != null) {
+        if(XtraPunish.instance.broadcastManager.getBroadcast() != null) {
             src.sendMessage(Text.of(TextColors.RED, "Broadcast already running! Cannot create another one."));
             return CommandResult.empty();
         }
@@ -46,8 +40,8 @@ public class BroadcastOverlord implements CommandExecutor {
             task -> {
                 channel.send(broadcastMessage);
             }
-        ).async().interval(500, TimeUnit.MILLISECONDS).name("XtraPunish broadcast message command.").submit(instance);
-        instance.storeBroadcast(broadcastTask);
+        ).async().interval(500, TimeUnit.MILLISECONDS).name("XtraPunish broadcast message command.").submit(XtraPunish.instance);
+        XtraPunish.instance.broadcastManager.storeBroadcast(broadcastTask);
         return CommandResult.success();
     }
 }
