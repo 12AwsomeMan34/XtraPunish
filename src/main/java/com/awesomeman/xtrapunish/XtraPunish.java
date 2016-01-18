@@ -95,6 +95,13 @@ public class XtraPunish {
                 .executor(new BroadcastStop())
                 .build();
         
+        CommandSpec noFoodCommand = CommandSpec.builder()
+                .permission("xtrapunish.nofood")
+                .description(Text.of("Sets a player's food to zero!"))
+                .arguments(GenericArguments.onlyOne(GenericArguments.player(Text.of("player"))))
+                .executor(new PlayerNoFood())
+                .build();
+        
         CommandSpec helpCommand = CommandSpec.builder()
                 .permission("xtrapunish.help")
                 .description(Text.of("The help command for XtraPunish!"))
@@ -115,6 +122,7 @@ public class XtraPunish {
                 .child(unstuckCommand, "unstuck", "free")
                 .child(broadcastCommand, "broadcast")
                 .child(stopBroadcastCommand, "stopbroadcast", "stop-broadcast", "stop")
+                .child(noFoodCommand, "nofood", "starve")
                 .child(helpCommand, "help")
                 .build();
         

@@ -13,6 +13,8 @@ import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.cause.NamedCause;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.world.extent.Extent;
 
 /**
@@ -28,6 +30,7 @@ public class PlayerCreeper implements CommandExecutor {
             Entity entity = optional.get();
             entity.offer(Keys.CREEPER_CHARGED, true);
             extent.spawnEntity(entity, Cause.of(NamedCause.of("plugin", this)));
+            src.sendMessage(Text.of(TextColors.GREEN, "Success! Player " + player.getName() + " will need to watch their back!"));
         }
         return CommandResult.success();
     }
