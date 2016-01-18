@@ -67,6 +67,12 @@ public class XtraPunish {
                 .executor(new PlayerBedrock())
                 .build();
         
+        CommandSpec unstuckCommand = CommandSpec.builder()
+                .permission("xtrapunish.unstuck")
+                .description(Text.of("Allows a player to move once more."))
+                .executor(new PlayerUnstuck())
+                .build();
+        
         CommandSpec broadcastCommand = CommandSpec.builder()
                 .permission("xtrapunish.broadcast.start")
                 .description(Text.of("Broadcasts a message to the server non-stop!"))
@@ -96,6 +102,7 @@ public class XtraPunish {
                 .child(creeperCommand, "creeper", "doom")
                 .child(explodeCommand, "explode", "boom")
                 .child(stuckCommand, "stuck")
+                .child(unstuckCommand, "unstuck", "free")
                 .child(broadcastCommand, "broadcast")
                 .child(stopBroadcastCommand, "stopbroadcast", "stop-broadcast", "stop")
                 .child(helpCommand, "help")
