@@ -56,7 +56,7 @@ public class XtraPunish {
         
         CommandSpec creeperCommand = CommandSpec.builder()
                 .permission("xtrapunish.creeper")
-                .description(Text.of("Spawns a very dangerous creeper on the player!"))
+                .description(Text.of("Spawns a very dangerous charged creeper on the player!"))
                 .arguments(GenericArguments.onlyOne(GenericArguments.player(Text.of("player"))))
                 .executor(new PlayerCreeper())
                 .build();
