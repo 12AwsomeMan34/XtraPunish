@@ -5,12 +5,13 @@ import org.spongepowered.api.Game;
 import org.spongepowered.api.command.CommandManager;
 import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandSpec;
+import org.spongepowered.api.event.EventManager;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.text.Text;
 
-import com.awesomeman.xtrapunish.manager.BroadcastManager;
+import com.awesomeman.xtrapunish.manager.*;
 import com.awesomeman.xtrapunish.punish.*;
 import com.google.inject.Inject;
 
@@ -19,6 +20,7 @@ public class XtraPunish {
     
     public static XtraPunish instance;
     public BroadcastManager broadcastManager;
+    public StuckManager stuckManager;
     protected static final String VERSION = "1.0";
     private @Inject Logger logger;
     private @Inject Game game;
@@ -29,8 +31,12 @@ public class XtraPunish {
         
         instance = this;
         broadcastManager = new BroadcastManager();
+        stuckManager = new StuckManager();
         
+        EventManager eventManager = game.getEventManager();
         CommandManager service = game.getCommandManager();
+        
+        eventManager.registerListeners(this, stuckManager);
         
         CommandSpec bedrockCommand = CommandSpec.builder()
                 .permission("xtrapunish.trap")
@@ -78,7 +84,7 @@ public class XtraPunish {
                 .permission("xtrapunish.stuck")
                 .description(Text.of("Prevents a player from moving!"))
                 .arguments(GenericArguments.onlyOne(GenericArguments.player(Text.of("player"))))
-                .executor(new PlayerBedrock())
+                .executor(new PlayerStuck())
                 .build();
         
         CommandSpec unstuckCommand = CommandSpec.builder()

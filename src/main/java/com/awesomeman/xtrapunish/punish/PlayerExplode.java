@@ -13,6 +13,8 @@ import org.spongepowered.api.entity.explosive.PrimedTNT;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.cause.NamedCause;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.world.extent.Extent;
 
 /**
@@ -28,6 +30,9 @@ public class PlayerExplode implements CommandExecutor {
             PrimedTNT tnt = (PrimedTNT) optional.get();
             // Temporary, update when spawncause is in api and impl
             extent.spawnEntity(tnt, Cause.of(NamedCause.of("Explosion", this)));
+            src.sendMessage(Text.of(TextColors.GREEN, "Kaboom!"));
+        } else {
+            src.sendMessage(Text.of(TextColors.RED, "Unable to create tnt entity!"));
         }
         return CommandResult.success();
     }
