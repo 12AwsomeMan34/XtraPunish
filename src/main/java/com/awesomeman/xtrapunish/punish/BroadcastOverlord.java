@@ -7,11 +7,12 @@ import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
 
 /**
- * Continuously broadcasts a message to the entire server until /punish broadcaststop is ran.
+ * Continuously broadcasts a message to the entire server until /punish stop is ran.
  */
 public class BroadcastOverlord implements CommandExecutor {
     
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
+        String broadcast = args.<String>getOne("broadcast").get();
         return CommandResult.success();
     }
 }

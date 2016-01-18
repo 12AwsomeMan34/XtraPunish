@@ -5,6 +5,7 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.entity.living.player.Player;
 
 /**
  * Frees a player, allowing them to move once more.
@@ -12,6 +13,7 @@ import org.spongepowered.api.command.spec.CommandExecutor;
 public class PlayerUnstuck implements CommandExecutor {
     
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
+        Player player = args.<Player>getOne("player").get();
         return CommandResult.success();
     }
 }
