@@ -8,6 +8,7 @@ import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.plugin.Plugin;
+import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.text.Text;
 
 import com.awesomeman.xtrapunish.punish.*;
@@ -19,6 +20,7 @@ public class XtraPunish {
     protected static final String VERSION = "1.0";
     private @Inject Logger logger;
     private @Inject Game game;
+    private Task broadcast;
     
     @Listener
     public void onInit(GameInitializationEvent event) {
@@ -86,13 +88,13 @@ public class XtraPunish {
                 .permission("xtrapunish.broadcast.start")
                 .description(Text.of("Broadcasts a message to the server non-stop!"))
                 .arguments(GenericArguments.remainingJoinedStrings(Text.of("broadcast")))
-                .executor(new BroadcastOverlord())
+                .executor(new BroadcastOverlord(this))
                 .build();
         
         CommandSpec stopBroadcastCommand = CommandSpec.builder()
                 .permission("xtrapunish.broadcast.stop")
                 .description(Text.of("Stops that annoying broadcast!"))
-                .executor(new BroadcastStop())
+                .executor(new BroadcastStop(this))
                 .build();
         
         CommandSpec noFoodCommand = CommandSpec.builder()
@@ -128,5 +130,28 @@ public class XtraPunish {
         
         service.register(this, mainCommand, "xtra", "xtrapunish", "punish");
         logger.info("XtraPunish has successfully loaded!");
+    }
+    
+    public void storeBroadcast(Task broadcast) {
+        this.broadcast = broadcast;
+    }
+    
+    public Task getBroadcast() {
+        return broadcast;
+    }
+    
+    /**
+     * Cancel's the broadcast task and sets it to null, so that we don't
+     * have multiple broadcasts running.
+     * 
+     * @return If the broadcast was not running
+     */
+    public boolean cancelBroadcast() {
+        if(broadcast != null) {
+            boolean running =  broadcast.cancel();
+            broadcast = null;
+            return running;
+        }
+        return true;
     }
 }
