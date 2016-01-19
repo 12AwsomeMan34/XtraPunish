@@ -23,11 +23,17 @@ import org.spongepowered.api.world.extent.Extent;
 public class PlayerCreeper implements CommandExecutor {
     
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-        Player player = args.<Player>getOne("player").get();
+        Optional<Player> optional = args.<Player>getOne("player");
+        if(!optional.isPresent()) {
+            src.sendMessage(Text.of(TextColors.RED, "Player argument not specified! Correct usage: /punish creeper Player"));
+            return CommandResult.empty();
+        }
+        Player player = optional.get();
+        
         Extent extent = player.getLocation().getExtent();
-        Optional<Entity> optional = extent.createEntity(EntityTypes.CREEPER, player.getLocation().getBlockPosition());
-        if(optional.isPresent()) {
-            Entity entity = optional.get();
+        Optional<Entity> optional2 = extent.createEntity(EntityTypes.CREEPER, player.getLocation().getPosition());
+        if(optional2.isPresent()) {
+            Entity entity = optional2.get();
             entity.offer(Keys.CREEPER_CHARGED, true);
             extent.spawnEntity(entity, Cause.of(NamedCause.of("plugin", this)));
             src.sendMessage(Text.of(TextColors.GREEN, "Success! Player " + player.getName() + " will need to watch their back!"));

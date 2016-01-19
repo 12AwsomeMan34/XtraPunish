@@ -1,5 +1,6 @@
 package com.awesomeman.xtrapunish.punish;
 
+import java.util.Optional;
 import java.util.Random;
 
 import org.spongepowered.api.command.CommandException;
@@ -17,7 +18,12 @@ import org.spongepowered.api.text.format.TextColors;
 public class PlayerChatSpam implements CommandExecutor {
     
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-        Player player = args.<Player>getOne("player").get();
+        Optional<Player> optional = args.<Player>getOne("player");
+        if(!optional.isPresent()) {
+            src.sendMessage(Text.of(TextColors.RED, "Player argument not specified! Correct usage: /punish spam Player"));
+            return CommandResult.empty();
+        }
+        Player player = optional.get();
         Random random = new Random();
         String message = "";
         char letter;

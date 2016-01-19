@@ -20,6 +20,7 @@ public class HelpCommand implements CommandExecutor {
         src.sendMessage(Text.of(TextColors.GREEN, "/punish creeper <player> - ", TextColors.GOLD, "Spawns a very powerful charged creeper onto the target player!"));
         src.sendMessage(Text.of(TextColors.GREEN, "/punish explode <player> - ", TextColors.GOLD, "Creates an explosion at the target player's location."));
         src.sendMessage(Text.of(TextColors.GREEN, "/punish stuck <player> - ", TextColors.GOLD, "Prevents a player from moving at all!"));
+        src.sendMessage(Text.of(TextColors.GREEN, "/punish unstuck <player> - ", TextColors.GOLD, "Frees a player if they were stuck!"));
         src.sendMessage(Text.of(TextColors.GREEN, "/punish broadcast <message> - ", TextColors.GOLD, "Broadcasts a message to the server non-stop!"));
         src.sendMessage(Text.of(TextColors.GREEN, "/punish stop - ", TextColors.GOLD, "Stops the broadcast."));
         src.sendMessage(Text.of(TextColors.GREEN, "/punish starve <player> - ", TextColors.GOLD, "Sets a player's food to zero."));

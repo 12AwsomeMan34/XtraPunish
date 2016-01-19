@@ -41,63 +41,63 @@ public class XtraPunish {
         CommandSpec bedrockCommand = CommandSpec.builder()
                 .permission("xtrapunish.trap")
                 .description(Text.of("Traps a player in cold bedrock!"))
-                .arguments(GenericArguments.onlyOne(GenericArguments.player(Text.of("player"))))
+                .arguments(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))))
                 .executor(new PlayerBedrock())
                 .build();
         
         CommandSpec bounceCommand = CommandSpec.builder()
                 .permission("xtrapunish.bounce")
                 .description(Text.of("Bounces a player into the sky!"))
-                .arguments(GenericArguments.onlyOne(GenericArguments.player(Text.of("player"))))
+                .arguments(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))))
                 .executor(new PlayerBounce())
                 .build();
         
         CommandSpec burningCommand = CommandSpec.builder()
                 .permission("xtrapunish.burning")
                 .description(Text.of("Sets a player on fire!"))
-                .arguments(GenericArguments.onlyOne(GenericArguments.player(Text.of("player"))))
+                .arguments(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))))
                 .executor(new PlayerBurning())
                 .build();
         
         CommandSpec chatSpamCommand = CommandSpec.builder()
                 .permission("xtrapunish.chatspam")
                 .description(Text.of("Fills a poor player's chat with random charactors!"))
-                .arguments(GenericArguments.onlyOne(GenericArguments.player(Text.of("player"))))
+                .arguments(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))))
                 .executor(new PlayerChatSpam())
                 .build();
         
         CommandSpec creeperCommand = CommandSpec.builder()
                 .permission("xtrapunish.creeper")
                 .description(Text.of("Spawns a very dangerous charged creeper on the player!"))
-                .arguments(GenericArguments.onlyOne(GenericArguments.player(Text.of("player"))))
+                .arguments(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))))
                 .executor(new PlayerCreeper())
                 .build();
         
         CommandSpec explodeCommand = CommandSpec.builder()
                 .permission("xtrapunish.explode")
                 .description(Text.of("Creates an explosion on a player!"))
-                .arguments(GenericArguments.onlyOne(GenericArguments.player(Text.of("player"))))
+                .arguments(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))))
                 .executor(new PlayerExplode())
                 .build();
         
         CommandSpec stuckCommand = CommandSpec.builder()
                 .permission("xtrapunish.stuck")
                 .description(Text.of("Prevents a player from moving!"))
-                .arguments(GenericArguments.onlyOne(GenericArguments.player(Text.of("player"))))
+                .arguments(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))))
                 .executor(new PlayerStuck())
                 .build();
         
         CommandSpec unstuckCommand = CommandSpec.builder()
                 .permission("xtrapunish.unstuck")
                 .description(Text.of("Allows a player to move once more."))
-                .arguments(GenericArguments.onlyOne(GenericArguments.player(Text.of("player"))))
+                .arguments(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))))
                 .executor(new PlayerUnstuck())
                 .build();
         
         CommandSpec broadcastCommand = CommandSpec.builder()
                 .permission("xtrapunish.broadcast.start")
                 .description(Text.of("Broadcasts a message to the server non-stop!"))
-                .arguments(GenericArguments.remainingJoinedStrings(Text.of("broadcast")))
+                .arguments(GenericArguments.optional(GenericArguments.remainingJoinedStrings(Text.of("broadcast"))))
                 .executor(new BroadcastOverlord())
                 .build();
         
@@ -110,7 +110,7 @@ public class XtraPunish {
         CommandSpec noFoodCommand = CommandSpec.builder()
                 .permission("xtrapunish.nofood")
                 .description(Text.of("Sets a player's food to zero!"))
-                .arguments(GenericArguments.onlyOne(GenericArguments.player(Text.of("player"))))
+                .arguments(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))))
                 .executor(new PlayerNoFood())
                 .build();
         

@@ -23,11 +23,17 @@ import org.spongepowered.api.world.extent.Extent;
 public class PlayerExplode implements CommandExecutor {
     
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-        Player player = args.<Player>getOne("player").get();
+        Optional<Player> optional = args.<Player>getOne("player");
+        if(!optional.isPresent()) {
+            src.sendMessage(Text.of(TextColors.RED, "Player argument not specified! Correct usage: /punish explode Player"));
+            return CommandResult.empty();
+        }
+        Player player = optional.get();
+        
         Extent extent = player.getLocation().getExtent();
-        Optional<Entity> optional = extent.createEntity(EntityTypes.PRIMED_TNT, player.getLocation().getPosition());
-        if(optional.isPresent()) {
-            PrimedTNT tnt = (PrimedTNT) optional.get();
+        Optional<Entity> optional2 = extent.createEntity(EntityTypes.PRIMED_TNT, player.getLocation().getPosition());
+        if(optional2.isPresent()) {
+            PrimedTNT tnt = (PrimedTNT) optional2.get();
             // Temporary, update when spawncause is in api and impl
             extent.spawnEntity(tnt, Cause.of(NamedCause.of("Explosion", this)));
             src.sendMessage(Text.of(TextColors.GREEN, "Kaboom!"));

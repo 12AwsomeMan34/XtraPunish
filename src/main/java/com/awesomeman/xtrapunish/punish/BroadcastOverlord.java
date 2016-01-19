@@ -1,5 +1,6 @@
 package com.awesomeman.xtrapunish.punish;
 
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import org.spongepowered.api.Sponge;
@@ -23,12 +24,18 @@ import com.awesomeman.xtrapunish.XtraPunish;
 public class BroadcastOverlord implements CommandExecutor {
     
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
+        Optional<String> optional = args.<String>getOne("broadcast");
+        if(!optional.isPresent()) {
+            src.sendMessage(Text.of(TextColors.RED, "Message argument not specified! Correct usage: /punish broadcast <My Message Here>"));
+            return CommandResult.empty();
+        }
+        String broadcast = optional.get();
+        
         if(XtraPunish.instance.broadcastManager.getBroadcast() != null) {
             src.sendMessage(Text.of(TextColors.RED, "Broadcast already running! Cannot create another one."));
             return CommandResult.empty();
         }
         
-        String broadcast = args.<String>getOne("broadcast").get();
         // Allow our message to be formatted with &
         Text broadcastMessage = TextSerializers.FORMATTING_CODE.deserialize(broadcast);
         MessageChannel channel = MessageChannel.TO_ALL;
