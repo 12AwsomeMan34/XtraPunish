@@ -25,7 +25,7 @@ SOFTWARE.
 package com.awesomeman.xtrapunish;
 
 import org.slf4j.Logger;
-import org.spongepowered.api.Game;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandManager;
 import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandSpec;
@@ -46,8 +46,7 @@ public class XtraPunish {
     public BroadcastManager broadcastManager;
     public StuckManager stuckManager;
     protected static final String VERSION = "1.0";
-    private @Inject Logger logger;
-    private @Inject Game game;
+    public @Inject Logger logger;
     
     @Listener
     public void onInit(GameInitializationEvent event) {
@@ -57,8 +56,8 @@ public class XtraPunish {
         broadcastManager = new BroadcastManager();
         stuckManager = new StuckManager();
         
-        EventManager eventManager = game.getEventManager();
-        CommandManager service = game.getCommandManager();
+        EventManager eventManager = Sponge.getEventManager();
+        CommandManager service = Sponge.getCommandManager();
         
         eventManager.registerListeners(this, stuckManager);
         
