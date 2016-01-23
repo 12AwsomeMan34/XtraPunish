@@ -69,13 +69,6 @@ public class XtraPunish {
                 .executor(new PlayerBedrock())
                 .build();
         
-        CommandSpec bounceCommand = CommandSpec.builder()
-                .permission("xtrapunish.bounce")
-                .description(Text.of("Bounces a player into the sky!"))
-                .arguments(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))))
-                .executor(new PlayerBounce())
-                .build();
-        
         CommandSpec burningCommand = CommandSpec.builder()
                 .permission("xtrapunish.burning")
                 .description(Text.of("Sets a player on fire!"))
@@ -149,7 +142,6 @@ public class XtraPunish {
                 .description(Text.of("Main command for XtraPunish!"))
                 .executor(new HelpCommand())
                 .child(bedrockCommand, "bedrock", "trap")
-                .child(bounceCommand, "bounce")
                 .child(burningCommand, "burn", "fire", "burning")
                 .child(chatSpamCommand, "chat", "spam", "chatspam")
                 .child(creeperCommand, "creeper", "doom")
