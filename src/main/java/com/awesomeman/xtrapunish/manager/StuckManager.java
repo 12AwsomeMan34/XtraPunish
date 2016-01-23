@@ -24,30 +24,64 @@ SOFTWARE.
 
 package com.awesomeman.xtrapunish.manager;
 
-import java.util.Collections;
-import java.util.Set;
-import java.util.WeakHashMap;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.block.ChangeBlockEvent;
 import org.spongepowered.api.event.entity.DisplaceEntityEvent;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 public class StuckManager {
     
-    private Set<Player> stuckPlayers = Collections.newSetFromMap(new WeakHashMap<>());
+    // We don't want to store live references to players, we store what we need
+    private List<UUID> stuckPlayers = new ArrayList<>();
+    private List<Location<World>> stuckPlayersLoc = new ArrayList<>();
     
     public boolean setPlayerStuck(Player player) {
-        return stuckPlayers.add(player);
+        if(!stuckPlayers.contains(player.getUniqueId())) {
+            stuckPlayers.add(player.getUniqueId());
+            stuckPlayersLoc.add(player.getLocation());
+            return true;
+        }
+        return false;
     }
     
     public boolean setPlayerUnstuck(Player player) {
-        return stuckPlayers.remove(player);
+        if(stuckPlayers.contains(player.getUniqueId())) {
+            // We need to remove the loc first, as we get the index from stuckPlayers
+            stuckPlayersLoc.remove(stuckPlayers.indexOf(player.getUniqueId()));
+            stuckPlayers.remove(player.getUniqueId());
+            return true;
+        }
+        return false;
     }
     
     @Listener
     public void playerMove(DisplaceEntityEvent.Move.TargetPlayer event) {
-        if(stuckPlayers.contains(event.getTargetEntity())) {
-            event.setCancelled(true);
+        if(stuckPlayers.contains(event.getTargetEntity().getUniqueId())) {
+            Location<World> playerLoc = event.getTargetEntity().getLocation();
+            // stuckPlayersLoc and stuckPlayers are added together in a list, so they are at the same index
+            Location<World> storedLoc = stuckPlayersLoc.get(stuckPlayers.indexOf(event.getTargetEntity().getUniqueId()));
+            if(playerLoc.getX() > storedLoc.getX() + 0.5 || playerLoc.getX() < storedLoc.getX() - 0.5
+                    || playerLoc.getZ() > storedLoc.getZ() + 0.5 || playerLoc.getZ() < storedLoc.getZ() - 0.5) {
+                event.getTargetEntity().setLocation(storedLoc);
+            }
+        }
+    }
+    
+    @Listener
+    public void breakBlock(ChangeBlockEvent.Break event) {
+        Optional<Player> optional = event.getCause().<Player>first(Player.class);
+        if(optional.isPresent()) {
+            if(stuckPlayers.contains(optional.get().getUniqueId())) {
+                // Prevent players from break blocks while they are stuck
+                event.setCancelled(true);
+            }
         }
     }
 }
