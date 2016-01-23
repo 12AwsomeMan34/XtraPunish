@@ -39,6 +39,8 @@ import org.spongepowered.api.util.Direction;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
+import com.flowpowered.math.vector.Vector3d;
+
 /**
  * Spawns bedrock around a player.
  */
@@ -72,9 +74,11 @@ public class PlayerBedrock implements CommandExecutor {
         sideLoc3.getRelative(Direction.UP).setBlockType(BlockTypes.BEDROCK);
         sideLoc4.getRelative(Direction.UP).setBlockType(BlockTypes.BEDROCK);
         
-        // Set the player's location to prevent the player being in the bedrock, or out of it
-        player.setLocation(bottomLoc.getRelative(Direction.UP));
-        
+        // Set the player's location to prevent the player being stuck in the bedrock, or out of the trap
+        player.setLocation(player.getLocation().setPosition(new Vector3d(
+                Math.floor(bottomLoc.getX()) + 0.5,
+                player.getLocation().getY(),
+                Math.floor(bottomLoc.getZ()) + 0.5)));
         return CommandResult.success();
     }
 }

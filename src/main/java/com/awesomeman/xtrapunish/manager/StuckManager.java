@@ -79,7 +79,7 @@ public class StuckManager {
         Optional<Player> optional = event.getCause().<Player>first(Player.class);
         if(optional.isPresent()) {
             if(stuckPlayers.contains(optional.get().getUniqueId())) {
-                // Prevent players from break blocks while they are stuck
+                // Prevent players from breaking blocks while they are stuck
                 event.setCancelled(true);
             }
         }
