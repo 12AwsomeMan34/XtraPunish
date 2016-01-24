@@ -47,6 +47,9 @@ public class HelpCommand implements CommandExecutor {
         src.sendMessage(Text.of(TextColors.GREEN, "/punish broadcast <message> - ", TextColors.GOLD, "Broadcasts a message to the server non-stop!"));
         src.sendMessage(Text.of(TextColors.GREEN, "/punish stop - ", TextColors.GOLD, "Stops the broadcast."));
         src.sendMessage(Text.of(TextColors.GREEN, "/punish starve <player> - ", TextColors.GOLD, "Sets a player's food to zero."));
+        src.sendMessage(Text.of(TextColors.GREEN, "/punish anvil <player> - ", TextColors.GOLD, "Drops three anvils onto the player."));
+        src.sendMessage(Text.of(TextColors.GREEN, "/punish horde <player> - ", TextColors.GOLD, "Spawns a horde of creepers onto the player."));
+        src.sendMessage(Text.of(TextColors.GREEN, "/punish cobweb <player> - ", TextColors.GOLD, "Spawns cobweb around the player. The cobweb will disappear when the player exits the cobwebs."));
         return CommandResult.success();
     }
 }

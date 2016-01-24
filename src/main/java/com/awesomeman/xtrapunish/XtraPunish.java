@@ -46,7 +46,7 @@ public class XtraPunish {
     public BroadcastManager broadcastManager;
     public StuckManager stuckManager;
     public CobwebManager cobwebManager;
-    protected static final String VERSION = "1.0";
+    protected static final String VERSION = "1.1";
     public @Inject Logger logger;
     
     @Listener
