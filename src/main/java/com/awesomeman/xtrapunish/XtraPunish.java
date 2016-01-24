@@ -130,6 +130,13 @@ public class XtraPunish {
                 .executor(new PlayerNoFood())
                 .build();
         
+        CommandSpec anvilCommand = CommandSpec.builder()
+                .permission("xtrapunish.anvil")
+                .description(Text.of("Drops three anvils on a player!"))
+                .arguments(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))))
+                .executor(new PlayerAnvil())
+                .build();
+        
         CommandSpec helpCommand = CommandSpec.builder()
                 .permission("xtrapunish.help")
                 .description(Text.of("The help command for XtraPunish!"))
@@ -150,6 +157,7 @@ public class XtraPunish {
                 .child(broadcastCommand, "broadcast")
                 .child(stopBroadcastCommand, "stopbroadcast", "stop-broadcast", "stop")
                 .child(noFoodCommand, "nofood", "starve")
+                .child(anvilCommand, "anvil")
                 .child(helpCommand, "help")
                 .build();
         
