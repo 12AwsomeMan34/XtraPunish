@@ -2,20 +2,23 @@ package com.awesomeman.xtrapunish.punish;
 
 import java.util.Optional;
 
-import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.cause.NamedCause;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
-import org.spongepowered.api.util.Direction;
-import org.spongepowered.api.world.Location;
-import org.spongepowered.api.world.World;
+import org.spongepowered.api.world.extent.Extent;
 
-public class PlayerAnvil implements CommandExecutor {
+import com.awesomeman.xtrapunish.XtraPunish;
+
+public class PlayerHorde implements CommandExecutor {
 
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
@@ -25,16 +28,17 @@ public class PlayerAnvil implements CommandExecutor {
             return CommandResult.empty();
         }
         Player player = optional.get();
-        Location<World> loc = player.getLocation();
+        Extent extent = player.getLocation().getExtent();
         
-        Location<World> anvil1 = loc.add(0, 6, 0);
-        Location<World> anvil2 = anvil1.getRelative(Direction.UP);
-        Location<World> anvil3 = anvil2.getRelative(Direction.UP);
-        anvil1.setBlockType(BlockTypes.ANVIL);
-        anvil2.setBlockType(BlockTypes.ANVIL);
-        anvil3.setBlockType(BlockTypes.ANVIL);
+        // 20 creepers
+        for(int i = 0; i < 20; i++) {
+            Optional<Entity> optional2 = extent.createEntity(EntityTypes.CREEPER, player.getLocation().getPosition());
+            if(optional2.isPresent()) {
+                extent.spawnEntity(optional2.get(), Cause.of(NamedCause.of("plugin", XtraPunish.instance)));
+            }
+        }
         
-        src.sendMessage(Text.of(TextColors.GREEN, "Dropping the hammer!"));
+        src.sendMessage(Text.of(TextColors.GREEN, "Player " + player.getName() + " might as well be sleeping with the fishes!"));        
         return CommandResult.success();
     }
 }

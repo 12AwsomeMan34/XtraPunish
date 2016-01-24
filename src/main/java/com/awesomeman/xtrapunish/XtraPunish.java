@@ -137,6 +137,13 @@ public class XtraPunish {
                 .executor(new PlayerAnvil())
                 .build();
         
+        CommandSpec hordeCommand = CommandSpec.builder()
+                .permission("xtrapunish.horde")
+                .description(Text.of("Spawns a horde of creepers onto the player!"))
+                .arguments(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))))
+                .executor(new PlayerHorde())
+                .build();
+        
         CommandSpec helpCommand = CommandSpec.builder()
                 .permission("xtrapunish.help")
                 .description(Text.of("The help command for XtraPunish!"))
@@ -158,6 +165,7 @@ public class XtraPunish {
                 .child(stopBroadcastCommand, "stopbroadcast", "stop-broadcast", "stop")
                 .child(noFoodCommand, "nofood", "starve")
                 .child(anvilCommand, "anvil")
+                .child(hordeCommand, "horde")
                 .child(helpCommand, "help")
                 .build();
         
