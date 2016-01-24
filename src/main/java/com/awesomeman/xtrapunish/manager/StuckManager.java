@@ -75,11 +75,11 @@ public class StuckManager {
     }
     
     @Listener
-    public void breakBlock(ChangeBlockEvent.Break event) {
+    public void breakBlock(ChangeBlockEvent event) {
         Optional<Player> optional = event.getCause().<Player>first(Player.class);
         if(optional.isPresent()) {
             if(stuckPlayers.contains(optional.get().getUniqueId())) {
-                // Prevent players from breaking blocks while they are stuck
+                // Prevent players from changing blocks while they are stuck
                 event.setCancelled(true);
             }
         }

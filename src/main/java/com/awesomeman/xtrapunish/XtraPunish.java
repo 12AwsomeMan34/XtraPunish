@@ -45,6 +45,7 @@ public class XtraPunish {
     public static XtraPunish instance;
     public BroadcastManager broadcastManager;
     public StuckManager stuckManager;
+    public CobwebManager cobwebManager;
     protected static final String VERSION = "1.0";
     public @Inject Logger logger;
     
@@ -55,11 +56,13 @@ public class XtraPunish {
         instance = this;
         broadcastManager = new BroadcastManager();
         stuckManager = new StuckManager();
+        cobwebManager = new CobwebManager();
         
         EventManager eventManager = Sponge.getEventManager();
         CommandManager service = Sponge.getCommandManager();
         
         eventManager.registerListeners(this, stuckManager);
+        eventManager.registerListeners(this, cobwebManager);
         
         CommandSpec bedrockCommand = CommandSpec.builder()
                 .permission("xtrapunish.trap")
@@ -144,6 +147,13 @@ public class XtraPunish {
                 .executor(new PlayerHorde())
                 .build();
         
+        CommandSpec cobwebCommand = CommandSpec.builder()
+                .permission("xtrapunish.cobweb")
+                .description(Text.of("Spawns cobwebs around a player. When the player exists the cobwebs, they disappear!"))
+                .arguments(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))))
+                .executor(new PlayerCobweb())
+                .build();
+        
         CommandSpec helpCommand = CommandSpec.builder()
                 .permission("xtrapunish.help")
                 .description(Text.of("The help command for XtraPunish!"))
@@ -166,6 +176,7 @@ public class XtraPunish {
                 .child(noFoodCommand, "nofood", "starve")
                 .child(anvilCommand, "anvil")
                 .child(hordeCommand, "horde")
+                .child(cobwebCommand, "cobweb")
                 .child(helpCommand, "help")
                 .build();
         
