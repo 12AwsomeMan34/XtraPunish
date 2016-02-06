@@ -24,8 +24,11 @@ SOFTWARE.
 
 package com.awesomeman.xtrapunish.punish;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import org.spongepowered.api.block.BlockState;
 import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -53,8 +56,6 @@ public class PlayerCobweb implements CommandExecutor {
         Player player = optional.get();
         Location<World> loc = player.getLocation();
         
-        // We get all the locations and set them manually, because that's how we roll
-        loc.setBlockType(BlockTypes.WEB);
         // Immediately around the player
         Location<World> loc1 = loc.getRelative(Direction.NORTH);
         Location<World> loc2 = loc.getRelative(Direction.EAST);
@@ -76,25 +77,33 @@ public class PlayerCobweb implements CommandExecutor {
         Location<World> loc1_7 = loc7.getRelative(Direction.UP);
         Location<World> loc1_8 = loc8.getRelative(Direction.UP);
         
-        loc1.setBlockType(BlockTypes.WEB);
-        loc2.setBlockType(BlockTypes.WEB);
-        loc3.setBlockType(BlockTypes.WEB);
-        loc4.setBlockType(BlockTypes.WEB);
-        loc5.setBlockType(BlockTypes.WEB);
-        loc6.setBlockType(BlockTypes.WEB);
-        loc7.setBlockType(BlockTypes.WEB);
-        loc8.setBlockType(BlockTypes.WEB);
-        loc_1.setBlockType(BlockTypes.WEB);
-        loc1_1.setBlockType(BlockTypes.WEB);
-        loc1_2.setBlockType(BlockTypes.WEB);
-        loc1_3.setBlockType(BlockTypes.WEB);
-        loc1_4.setBlockType(BlockTypes.WEB);
-        loc1_5.setBlockType(BlockTypes.WEB);
-        loc1_6.setBlockType(BlockTypes.WEB);
-        loc1_7.setBlockType(BlockTypes.WEB);
-        loc1_8.setBlockType(BlockTypes.WEB);
+        List<Location<World>> locs = new ArrayList<>();
+        locs.add(loc);
+        locs.add(loc1);
+        locs.add(loc2);
+        locs.add(loc3);
+        locs.add(loc4);
+        locs.add(loc5);
+        locs.add(loc6);
+        locs.add(loc7);
+        locs.add(loc8);
+        locs.add(loc1_1);
+        locs.add(loc1_2);
+        locs.add(loc1_3);
+        locs.add(loc1_4);
+        locs.add(loc1_5);
+        locs.add(loc1_6);
+        locs.add(loc1_7);
+        locs.add(loc1_8);
+        
+        List<BlockState> states = new ArrayList<>();
+        
+        for(Location<World> location : locs) {
+            states.add(location.getBlock());
+            location.setBlockType(BlockTypes.WEB);
+        }
         // We made it to the end. Happy face. Now to track the player
-        XtraPunish.instance.cobwebManager.addPlayer(player);
+        XtraPunish.instance.cobwebManager.addPlayer(player, locs, states);
         
         src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " will be engulfed in cobwebs!"));
         
