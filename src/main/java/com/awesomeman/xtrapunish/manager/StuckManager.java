@@ -68,8 +68,8 @@ public class StuckManager {
             // stuckPlayersLoc and stuckPlayers are added together in a list, so they are at the same index
             Location<World> storedLoc = stuckPlayersLoc.get(stuckPlayers.indexOf(event.getTargetEntity().getUniqueId()));
             if(playerLoc.getX() > storedLoc.getX() + 0.5 || playerLoc.getX() < storedLoc.getX() - 0.5
-            		|| playerLoc.getY() > storedLoc.getY() + 1
-                    || playerLoc.getZ() > storedLoc.getZ() + 0.5 || playerLoc.getZ() < storedLoc.getZ() - 0.5) {
+                    || playerLoc.getY() > storedLoc.getY() + 1
+            		|| playerLoc.getZ() > storedLoc.getZ() + 0.5 || playerLoc.getZ() < storedLoc.getZ() - 0.5) {
                 event.getTargetEntity().setLocation(storedLoc);
             }
         }
