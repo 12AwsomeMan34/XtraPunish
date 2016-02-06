@@ -87,6 +87,7 @@ public class PlayerCobweb implements CommandExecutor {
         locs.add(loc6);
         locs.add(loc7);
         locs.add(loc8);
+        locs.add(loc_1);
         locs.add(loc1_1);
         locs.add(loc1_2);
         locs.add(loc1_3);
