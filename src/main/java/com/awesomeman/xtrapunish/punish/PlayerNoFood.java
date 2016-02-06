@@ -46,7 +46,7 @@ public class PlayerNoFood implements CommandExecutor {
         Player player = optional.get();
         
         player.offer(player.foodLevel().set(0));
-        src.sendMessage(Text.of(TextColors.GREEN, "Success! Player " + player.getName() + " is now starving!"));
+        src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " is now starving!"));
         return CommandResult.success();
     }
 }

@@ -51,7 +51,7 @@ public class PlayerStuck implements CommandExecutor {
         Player player = optional.get();
         
         if(XtraPunish.instance.stuckManager.setPlayerStuck(player)) {
-            src.sendMessage(Text.of(TextColors.GREEN, "Player " + player.getName() + " will not be moving anytime soon!"));
+            src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " will not be moving anytime soon!"));
         } else {
             src.sendMessage(Text.of(TextColors.RED, "Player already stuck!"));
         }

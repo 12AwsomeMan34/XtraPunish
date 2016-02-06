@@ -73,6 +73,7 @@ public class BroadcastOverlord implements CommandExecutor {
             }
         ).async().interval(500, TimeUnit.MILLISECONDS).name("XtraPunish broadcast message command.").submit(XtraPunish.instance);
         XtraPunish.instance.broadcastManager.storeBroadcast(broadcastTask);
+        src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Broadcast has started."));
         return CommandResult.success();
     }
 }

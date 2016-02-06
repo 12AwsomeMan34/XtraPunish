@@ -53,6 +53,7 @@ public class PlayerCobweb implements CommandExecutor {
         Player player = optional.get();
         Location<World> loc = player.getLocation();
         
+        // We get all the locations and set them manually, because that's how we roll
         loc.setBlockType(BlockTypes.WEB);
         // Immediately around the player
         Location<World> loc1 = loc.getRelative(Direction.NORTH);
@@ -92,10 +93,10 @@ public class PlayerCobweb implements CommandExecutor {
         loc1_6.setBlockType(BlockTypes.WEB);
         loc1_7.setBlockType(BlockTypes.WEB);
         loc1_8.setBlockType(BlockTypes.WEB);
-        
+        // We made it to the end. Happy face. Now to track the player
         XtraPunish.instance.cobwebManager.addPlayer(player);
         
-        src.sendMessage(Text.of(TextColors.GREEN, "Success! Player " + player.getName() + " will be engulfed in cobwebs!"));
+        src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " will be engulfed in cobwebs!"));
         
         return CommandResult.success();
     }

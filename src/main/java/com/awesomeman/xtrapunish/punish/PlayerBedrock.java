@@ -79,6 +79,8 @@ public class PlayerBedrock implements CommandExecutor {
                 Math.floor(bottomLoc.getX()) + 0.5,
                 Math.floor(player.getLocation().getY()),
                 Math.floor(bottomLoc.getZ()) + 0.5)));
+        
+        src.sendMessage(Text.of(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " is now encased in bedrock!")));
         return CommandResult.success();
     }
 }

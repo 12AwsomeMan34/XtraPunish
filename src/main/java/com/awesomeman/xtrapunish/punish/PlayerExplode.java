@@ -60,7 +60,7 @@ public class PlayerExplode implements CommandExecutor {
             PrimedTNT tnt = (PrimedTNT) optional2.get();
             // Temporary, update when spawncause is in api and impl
             extent.spawnEntity(tnt, Cause.of(NamedCause.of("Explosion", this)));
-            src.sendMessage(Text.of(TextColors.GREEN, "Kaboom!"));
+            src.sendMessage(Text.of(TextColors.GREEN, "Success!", TextColors.GOLD, " Kaboom!"));
         } else {
             src.sendMessage(Text.of(TextColors.RED, "Unable to create tnt entity!"));
         }

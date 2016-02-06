@@ -58,7 +58,7 @@ public class PlayerAnvil implements CommandExecutor {
         anvil2.setBlockType(BlockTypes.ANVIL);
         anvil3.setBlockType(BlockTypes.ANVIL);
         
-        src.sendMessage(Text.of(TextColors.GREEN, "Sucess! Dropping the hammer!"));
+        src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Dropping the hammer on " + player.getName() + "!"));
         return CommandResult.success();
     }
 }

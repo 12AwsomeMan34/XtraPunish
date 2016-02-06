@@ -52,7 +52,7 @@ public class PlayerBurning implements CommandExecutor {
         IgniteableData data = Sponge.getGame().getDataManager().getManipulatorBuilder(IgniteableData.class).get().create();
         // Player should not last this long :P
         player.offer(data.fireTicks().set(Integer.MAX_VALUE));
-        src.sendMessage(Text.of(TextColors.GREEN, "Success! Player " + player.getName() + " is now a little warm!"));
+        src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " is now a little warm!"));
         return CommandResult.success();
     }
 }

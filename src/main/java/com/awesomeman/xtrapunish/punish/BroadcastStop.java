@@ -43,7 +43,7 @@ public class BroadcastStop implements CommandExecutor {
         if(XtraPunish.instance.broadcastManager.cancelBroadcast()) {
             src.sendMessage(Text.of(TextColors.RED, "Broadcast is not running!"));
         } else {
-            src.sendMessage(Text.of(TextColors.GOLD, "Broadcast successfully stopped."));
+            src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Broadcast successfully stopped."));
         }
         return CommandResult.success();
     }

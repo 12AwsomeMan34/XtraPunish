@@ -51,7 +51,7 @@ public class PlayerUnstuck implements CommandExecutor {
         Player player = optional.get();
         
         if(XtraPunish.instance.stuckManager.setPlayerUnstuck(player)) {
-            src.sendMessage(Text.of(TextColors.GREEN, "Player " + player.getName() + " is free once more!"));
+            src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " is free once more!"));
         } else {
             src.sendMessage(Text.of(TextColors.RED, "Player already free!"));
         }

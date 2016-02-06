@@ -52,6 +52,7 @@ public class PlayerChatSpam implements CommandExecutor {
         String message = "";
         char letter;
         
+        // TODO: random colours ?
         // We send 40 messages
         for(int i = 0; i < 40; i++) {
             // With 50 chars in each
@@ -63,7 +64,7 @@ public class PlayerChatSpam implements CommandExecutor {
             message = "";
         }
         
-        src.sendMessage(Text.of(TextColors.GREEN, "Success! Player " + player.getName() + " cannot see his chat!"));
+        src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " cannot see his chat!"));
         return CommandResult.success();
     }
 }

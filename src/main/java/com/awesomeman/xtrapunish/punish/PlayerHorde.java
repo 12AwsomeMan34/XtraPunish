@@ -62,7 +62,7 @@ public class PlayerHorde implements CommandExecutor {
             }
         }
         
-        src.sendMessage(Text.of(TextColors.GREEN, "Player " + player.getName() + " might as well be sleeping with the fishes!"));        
+        src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " might as well be sleeping with the fishes!"));        
         return CommandResult.success();
     }
 }
