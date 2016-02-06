@@ -50,7 +50,7 @@ public class XtraPunish {
     public StuckManager stuckManager;
     public CobwebManager cobwebManager;
     // Make sure to use exactly this tag on github releases
-    protected static final String VERSION = "1.1";
+    protected static final String VERSION = "1.1.2";
     public @Inject Logger logger;
     
     @Listener

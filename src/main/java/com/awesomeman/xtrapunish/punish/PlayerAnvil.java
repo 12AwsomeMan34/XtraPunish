@@ -45,7 +45,7 @@ public class PlayerAnvil implements CommandExecutor {
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");
         if(!optional.isPresent()) {
-            src.sendMessage(Text.of(TextColors.RED, "Player argument not specified! Correct usage: /punish anvil Player"));
+            src.sendMessage(Text.of(TextColors.RED, "Player argument not specified! Correct usage: /punish anvil <player>"));
             return CommandResult.empty();
         }
         Player player = optional.get();

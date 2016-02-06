@@ -50,7 +50,7 @@ public class BroadcastOverlord implements CommandExecutor {
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<String> optional = args.<String>getOne("broadcast");
         if(!optional.isPresent()) {
-            src.sendMessage(Text.of(TextColors.RED, "Message argument not specified! Correct usage: /punish broadcast <My Message Here>"));
+            src.sendMessage(Text.of(TextColors.RED, "Message argument not specified! Correct usage: /punish broadcast <broadcast>"));
             return CommandResult.empty();
         }
         String broadcast = optional.get();

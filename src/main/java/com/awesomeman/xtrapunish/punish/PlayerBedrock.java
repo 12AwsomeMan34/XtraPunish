@@ -49,7 +49,7 @@ public class PlayerBedrock implements CommandExecutor {
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");
         if(!optional.isPresent()) {
-            src.sendMessage(Text.of(TextColors.RED, "Player argument not specified! Correct usage: /punish trap Player"));
+            src.sendMessage(Text.of(TextColors.RED, "Player argument not specified! Correct usage: /punish trap <player>"));
             return CommandResult.empty();
         }
         Player player = optional.get();
@@ -77,7 +77,7 @@ public class PlayerBedrock implements CommandExecutor {
         // Set the player's location to prevent the player being stuck in the bedrock, or out of the trap
         player.setLocation(player.getLocation().setPosition(new Vector3d(
                 Math.floor(bottomLoc.getX()) + 0.5,
-                player.getLocation().getY(),
+                Math.floor(player.getLocation().getY()),
                 Math.floor(bottomLoc.getZ()) + 0.5)));
         return CommandResult.success();
     }
