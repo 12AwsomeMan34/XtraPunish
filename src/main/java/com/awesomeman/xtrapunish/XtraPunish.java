@@ -24,6 +24,8 @@ SOFTWARE.
 
 package com.awesomeman.xtrapunish;
 
+import me.flibio.updatifier.Updatifier;
+
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandManager;
@@ -39,13 +41,15 @@ import com.awesomeman.xtrapunish.manager.*;
 import com.awesomeman.xtrapunish.punish.*;
 import com.google.inject.Inject;
 
-@Plugin(id = "XtraPunish", name = "XtraPunish", version = XtraPunish.VERSION)
+@Updatifier(repoName = "XtraPunish", repoOwner = "12AwsomeMan34", version = XtraPunish.VERSION)
+@Plugin(id = "XtraPunish", name = "XtraPunish", version = XtraPunish.VERSION, dependencies = "after: Updatifier")
 public class XtraPunish {
     
     public static XtraPunish instance;
     public BroadcastManager broadcastManager;
     public StuckManager stuckManager;
     public CobwebManager cobwebManager;
+    // Make sure to use exactly this tag on github releases
     protected static final String VERSION = "1.1";
     public @Inject Logger logger;
     
