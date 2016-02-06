@@ -24,39 +24,38 @@ SOFTWARE.
 
 package com.awesomeman.xtrapunish.punish;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.Optional;
 
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.EntityTypes;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.cause.NamedCause;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.world.extent.Extent;
 
-import com.awesomeman.xtrapunish.XtraPunish;
+public class PlayerStrike implements CommandExecutor {
 
-public class SendVersion implements CommandExecutor {
-    
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-        src.sendMessage(Text.of(TextColors.GREEN, "-=-=-=- XtraPunish -=-=-=-"));
-        src.sendMessage(Text.of(TextColors.GREEN, "Version: ", TextColors.GOLD, XtraPunish.VERSION));
-        src.sendMessage(Text.of(TextColors.GREEN, "Author: ", TextColors.GOLD, "12AwesomeMan34"));
+        Optional<Player> optional = args.<Player>getOne("player");
+        if(!optional.isPresent()) {
+            src.sendMessage(Text.of(TextColors.RED, "Player argument not specified! Correct usage: /punish strike <player>"));
+            return CommandResult.empty();
+        }
+        Player player = optional.get();
+        Extent extent = player.getLocation().getExtent();
         
-        try {
-            src.sendMessage(Text
-                    .builder("Github: ")
-                    .color(TextColors.GREEN)
-                    .append(Text.builder("https://github.com/12AwsomeMan34/XtraPunish").color(TextColors.GOLD)
-                            .onClick(TextActions.openUrl(new URL("https://github.com/12AwsomeMan34/XtraPunish")))
-                            .build()).build());
-        } catch(MalformedURLException e) {
-            XtraPunish.instance.logger.error("Error opening github url!");
-            src.sendMessage(Text.of(TextColors.RED, "Error opening github url!"));
-            e.printStackTrace();
+        Optional<Entity> optional2 = extent.createEntity(EntityTypes.LIGHTNING, player.getLocation().getPosition());
+        if(optional2.isPresent()) {
+            extent.spawnEntity(optional2.get(), Cause.of(NamedCause.of("Lightning", this)));
+            src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Striking " + player.getName() + "."));
         }
         return CommandResult.success();
     }
