@@ -158,6 +158,13 @@ public class XtraPunish {
                 .executor(new PlayerCobweb())
                 .build();
         
+        CommandSpec dropCommand = CommandSpec.builder()
+                .permission("xtrapunish.drop")
+                .description(Text.of("Drops a player from 150 blocks in the air."))
+                .arguments(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))))
+                .executor(new PlayerDrop())
+                .build();
+        
         CommandSpec helpCommand = CommandSpec.builder()
                 .permission("xtrapunish.help")
                 .description(Text.of("The help command for XtraPunish!"))
@@ -181,6 +188,7 @@ public class XtraPunish {
                 .child(anvilCommand, "anvil")
                 .child(hordeCommand, "horde")
                 .child(cobwebCommand, "cobweb")
+                .child(dropCommand, "drop")
                 .child(helpCommand, "help")
                 .build();
         
