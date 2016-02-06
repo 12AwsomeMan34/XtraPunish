@@ -27,7 +27,6 @@ package com.awesomeman.xtrapunish.manager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
@@ -38,13 +37,12 @@ import org.spongepowered.api.world.World;
 
 public class StuckManager {
     
-    // We don't want to store live references to players, we store what we need
-    private List<UUID> stuckPlayers = new ArrayList<>();
+    private List<Player> stuckPlayers = new ArrayList<>();
     private List<Location<World>> stuckPlayersLoc = new ArrayList<>();
     
     public boolean setPlayerStuck(Player player) {
-        if(!stuckPlayers.contains(player.getUniqueId())) {
-            stuckPlayers.add(player.getUniqueId());
+        if(!stuckPlayers.contains(player)) {
+            stuckPlayers.add(player);
             stuckPlayersLoc.add(player.getLocation());
             return true;
         }
@@ -52,10 +50,10 @@ public class StuckManager {
     }
     
     public boolean setPlayerUnstuck(Player player) {
-        if(stuckPlayers.contains(player.getUniqueId())) {
+        if(stuckPlayers.contains(player)) {
             // We need to remove the loc first, as we get the index from stuckPlayers
-            stuckPlayersLoc.remove(stuckPlayers.indexOf(player.getUniqueId()));
-            stuckPlayers.remove(player.getUniqueId());
+            stuckPlayersLoc.remove(stuckPlayers.indexOf(player));
+            stuckPlayers.remove(player);
             return true;
         }
         return false;
@@ -63,10 +61,10 @@ public class StuckManager {
     
     @Listener
     public void playerMove(DisplaceEntityEvent.Move.TargetPlayer event) {
-        if(stuckPlayers.contains(event.getTargetEntity().getUniqueId())) {
+        if(stuckPlayers.contains(event.getTargetEntity())) {
             Location<World> playerLoc = event.getTargetEntity().getLocation();
             // stuckPlayersLoc and stuckPlayers are added together in a list, so they are at the same index
-            Location<World> storedLoc = stuckPlayersLoc.get(stuckPlayers.indexOf(event.getTargetEntity().getUniqueId()));
+            Location<World> storedLoc = stuckPlayersLoc.get(stuckPlayers.indexOf(event.getTargetEntity()));
             if(playerLoc.getX() > storedLoc.getX() + 0.5 || playerLoc.getX() < storedLoc.getX() - 0.5
                     || playerLoc.getY() > storedLoc.getY() + 1
                     || playerLoc.getZ() > storedLoc.getZ() + 0.5 || playerLoc.getZ() < storedLoc.getZ() - 0.5) {
@@ -79,7 +77,7 @@ public class StuckManager {
     public void breakBlock(ChangeBlockEvent event) {
         Optional<Player> optional = event.getCause().<Player>first(Player.class);
         if(optional.isPresent()) {
-            if(stuckPlayers.contains(optional.get().getUniqueId())) {
+            if(stuckPlayers.contains(optional.get())) {
                 // Prevent players from changing blocks while they are stuck
                 event.setCancelled(true);
             }
