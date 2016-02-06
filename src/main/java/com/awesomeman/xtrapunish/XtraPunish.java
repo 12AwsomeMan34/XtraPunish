@@ -50,7 +50,7 @@ public class XtraPunish {
     public StuckManager stuckManager;
     public CobwebManager cobwebManager;
     // Make sure to use exactly this tag on github releases
-    protected static final String VERSION = "1.1.2";
+    public static final String VERSION = "1.1.2";
     public @Inject Logger logger;
     
     @Listener
@@ -165,6 +165,12 @@ public class XtraPunish {
                 .executor(new PlayerDrop())
                 .build();
         
+        CommandSpec versionCommand = CommandSpec.builder()
+                .permission("xtrapunish.version")
+                .description(Text.of("Displays information about XtraPunish."))
+                .executor(new SendVersion())
+                .build();
+        
         CommandSpec helpCommand = CommandSpec.builder()
                 .permission("xtrapunish.help")
                 .description(Text.of("The help command for XtraPunish!"))
@@ -189,6 +195,7 @@ public class XtraPunish {
                 .child(hordeCommand, "horde")
                 .child(cobwebCommand, "cobweb")
                 .child(dropCommand, "drop")
+                .child(versionCommand, "version", "v")
                 .child(helpCommand, "help")
                 .build();
         
