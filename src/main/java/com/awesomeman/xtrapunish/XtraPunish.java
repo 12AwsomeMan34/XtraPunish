@@ -172,6 +172,13 @@ public class XtraPunish {
                 .executor(new PlayerStrike())
                 .build();
         
+        CommandSpec glassCommand = CommandSpec.builder()
+                .permission("xtrapunish.glass")
+                .description(Text.of("Teleports a player high into the sky and places them on a glass block."))
+                .arguments(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))))
+                .executor(new PlayerGlass())
+                .build();
+        
         CommandSpec versionCommand = CommandSpec.builder()
                 .permission("xtrapunish.version")
                 .description(Text.of("Displays information about XtraPunish."))
@@ -203,6 +210,7 @@ public class XtraPunish {
                 .child(cobwebCommand, "cobweb")
                 .child(dropCommand, "drop")
                 .child(strikeCommand, "lightning", "thor", "strike")
+                .child(glassCommand, "glass")
                 .child(versionCommand, "version", "v")
                 .child(helpCommand, "help")
                 .build();

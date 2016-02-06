@@ -52,6 +52,7 @@ public class HelpCommand implements CommandExecutor {
         src.sendMessage(Text.of(TextColors.GREEN, "/punish cobweb <player> - ", TextColors.GOLD, "Spawns cobweb around the player. The cobweb will disappear when the player exits the cobwebs."));
         src.sendMessage(Text.of(TextColors.GREEN, "/punish drop <player> - ", TextColors.GOLD, "Drops a player from 150 blocks in the air."));
         src.sendMessage(Text.of(TextColors.GREEN, "/punish strike <player> - ", TextColors.GOLD, "Strikes a player with lightning."));
+        src.sendMessage(Text.of(TextColors.GREEN, "/punish glass <player> - ", TextColors.GOLD, "Teleports a player high into the sky with a glass block beneath them."));
         src.sendMessage(Text.of(TextColors.GREEN, "/punish version - ", TextColors.GOLD, "Displays the current version running and other information."));
         return CommandResult.success();
     }
