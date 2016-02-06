@@ -179,6 +179,13 @@ public class XtraPunish {
                 .executor(new PlayerGlass())
                 .build();
         
+        CommandSpec popularCommand = CommandSpec.builder()
+                .permission("xtrapunish.popular")
+                .description(Text.of("Teleports all players in a server to the specified player."))
+                .arguments(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))))
+                .executor(new PlayerPopular())
+                .build();
+        
         CommandSpec versionCommand = CommandSpec.builder()
                 .permission("xtrapunish.version")
                 .description(Text.of("Displays information about XtraPunish."))
@@ -211,6 +218,7 @@ public class XtraPunish {
                 .child(dropCommand, "drop")
                 .child(strikeCommand, "lightning", "thor", "strike")
                 .child(glassCommand, "glass")
+                .child(popularCommand, "popular", "tpall")
                 .child(versionCommand, "version", "v")
                 .child(helpCommand, "help")
                 .build();
