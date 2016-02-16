@@ -1,7 +1,7 @@
 /*
 The MIT License (MIT)
 
-Copyright © 2016 12AwesomeMan34 / 12AwsomeMan34
+Copyright (c) 2016 12AwesomeMan34 / 12AwsomeMan34
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
