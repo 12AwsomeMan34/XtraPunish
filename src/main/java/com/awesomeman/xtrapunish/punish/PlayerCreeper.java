@@ -59,7 +59,7 @@ public class PlayerCreeper implements CommandExecutor {
         if(optional2.isPresent()) {
             Entity entity = optional2.get();
             entity.offer(Keys.CREEPER_CHARGED, true);
-            extent.spawnEntity(entity, Cause.of(NamedCause.of("plugin", this)));
+            extent.spawnEntity(entity, Cause.of(src));
             src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " will need to watch their back!"));
         } else {
             src.sendMessage(Text.of(TextColors.RED, "The entity could not be created!"));
