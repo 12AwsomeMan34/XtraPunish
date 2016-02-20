@@ -45,18 +45,17 @@ public class SendVersion implements CommandExecutor {
         src.sendMessage(Text.of(TextColors.GREEN, "-=-=-=- XtraPunish -=-=-=-"));
         src.sendMessage(Text.of(TextColors.GREEN, "Version: ", TextColors.GOLD, XtraPunish.VERSION));
         src.sendMessage(Text.of(TextColors.GREEN, "Author: ", TextColors.GOLD, "12AwesomeMan34"));
-        
+        String github = "https://github.com/12AwsomeMan34/XtraPunish";
         try {
             src.sendMessage(Text
                     .builder("Github: ")
                     .color(TextColors.GREEN)
-                    .append(Text.builder("https://github.com/12AwsomeMan34/XtraPunish").color(TextColors.GOLD)
-                            .onClick(TextActions.openUrl(new URL("https://github.com/12AwsomeMan34/XtraPunish")))
+                    .append(Text.builder(github).color(TextColors.GOLD)
+                            .onClick(TextActions.openUrl(new URL(github)))
                             .build()).build());
         } catch(MalformedURLException e) {
             XtraPunish.instance.logger.error("Error opening github url!");
-            src.sendMessage(Text.of(TextColors.RED, "Error opening github url!"));
-            e.printStackTrace();
+            src.sendMessage(Text.of(TextColors.GOLD, github));
         }
         return CommandResult.success();
     }
