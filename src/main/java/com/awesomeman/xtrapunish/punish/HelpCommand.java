@@ -59,6 +59,7 @@ public class HelpCommand implements CommandExecutor {
         content.add(Text.of(TextColors.GREEN, "/punish strike <player> - ", TextColors.GOLD, "Strikes a player with lightning."));
         content.add(Text.of(TextColors.GREEN, "/punish glass <player> - ", TextColors.GOLD, "Teleports a player high into the sky with a glass block beneath them."));
         content.add(Text.of(TextColors.GREEN, "/punish popular <player> - ", TextColors.GOLD, "Teleports all players in a server to the specified player."));
+        content.add(Text.of(TextColors.GREEN, "/punish sponge <player> - ", TextColors.GOLD, "Replaces all items in a player's inventory with sponges."));
         content.add(Text.of(TextColors.GREEN, "/punish version - ", TextColors.GOLD, "Displays the current version running and other information."));
         
         PaginationService service = Sponge.getServiceManager().provide(PaginationService.class).get();

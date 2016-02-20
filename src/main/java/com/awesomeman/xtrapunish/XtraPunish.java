@@ -186,6 +186,13 @@ public class XtraPunish {
                 .executor(new PlayerPopular())
                 .build();
         
+        CommandSpec spongeCommand = CommandSpec.builder()
+                .permission("xtrapunish.sponge")
+                .description(Text.of("Sets everything in a player's inventory to sponge."))
+                .arguments(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))))
+                .executor(new PlayerSponge())
+                .build();
+        
         CommandSpec versionCommand = CommandSpec.builder()
                 .permission("xtrapunish.version")
                 .description(Text.of("Displays information about XtraPunish."))
@@ -219,6 +226,7 @@ public class XtraPunish {
                 .child(strikeCommand, "lightning", "thor", "strike")
                 .child(glassCommand, "glass")
                 .child(popularCommand, "popular", "tpall")
+                .child(spongeCommand, "sponge")
                 .child(versionCommand, "version", "v")
                 .child(helpCommand, "help")
                 .build();
