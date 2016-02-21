@@ -26,19 +26,21 @@ package com.awesomeman.xtrapunish.punish;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Optional;
 
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
 
 import com.awesomeman.xtrapunish.XtraPunish;
+import com.awesomeman.xtrapunish.api.punish.Punishment;
 
-public class SendVersion implements CommandExecutor {
+public class SendVersion implements Punishment {
     
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
@@ -58,5 +60,30 @@ public class SendVersion implements CommandExecutor {
             src.sendMessage(Text.of(TextColors.GOLD, github));
         }
         return CommandResult.success();
+    }
+
+    @Override
+    public String permission() {
+        return "xtrapunish.version";
+    }
+
+    @Override
+    public Text description() {
+        return Text.of("Displays information about XtraPunish.");
+    }
+
+    @Override
+    public Text helpDescription() {
+        return Text.of(TextColors.GREEN, "/punish version - ", TextColors.GOLD, "Displays the current version running and other information.");
+    }
+
+    @Override
+    public Optional<CommandElement> arguments() {
+        return Optional.empty();
+    }
+
+    @Override
+    public String command() {
+        return "version";
     }
 }

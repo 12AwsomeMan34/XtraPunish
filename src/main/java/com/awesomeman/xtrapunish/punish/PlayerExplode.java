@@ -30,7 +30,8 @@ import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.entity.explosive.PrimedTNT;
@@ -40,10 +41,12 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.world.extent.Extent;
 
+import com.awesomeman.xtrapunish.api.punish.Punishment;
+
 /**
  * Spawns tnt that will instantly explode on the player's location.
  */
-public class PlayerExplode implements CommandExecutor {
+public class PlayerExplode implements Punishment {
     
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");
@@ -64,5 +67,30 @@ public class PlayerExplode implements CommandExecutor {
             src.sendMessage(Text.of(TextColors.RED, "Unable to create tnt entity!"));
         }
         return CommandResult.success();
+    }
+
+    @Override
+    public String permission() {
+        return "xtrapunish.explode";
+    }
+
+    @Override
+    public Text description() {
+        return Text.of("Creates an explosion on a player!");
+    }
+
+    @Override
+    public Text helpDescription() {
+        return Text.of(TextColors.GREEN, "/punish explode <player> - ", TextColors.GOLD, "Creates an explosion at the target player's location.");
+    }
+
+    @Override
+    public Optional<CommandElement> arguments() {
+        return Optional.of(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))));
+    }
+
+    @Override
+    public String command() {
+        return "explode";
     }
 }

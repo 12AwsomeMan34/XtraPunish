@@ -30,7 +30,8 @@ import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.Inventory;
@@ -40,7 +41,9 @@ import org.spongepowered.api.item.inventory.type.GridInventory;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
-public class PlayerSponge implements CommandExecutor {
+import com.awesomeman.xtrapunish.api.punish.Punishment;
+
+public class PlayerSponge implements Punishment {
 
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
@@ -61,5 +64,30 @@ public class PlayerSponge implements CommandExecutor {
             slot.set(sponge);
         }
         return CommandResult.success();
+    }
+
+    @Override
+    public String permission() {
+        return "xtrapunish.sponge";
+    }
+
+    @Override
+    public Text description() {
+        return Text.of("Sets everything in a player's inventory to sponge.");
+    }
+
+    @Override
+    public Text helpDescription() {
+        return Text.of(TextColors.GREEN, "/punish sponge <player> - ", TextColors.GOLD, "Replaces all items in a player's inventory with sponges.");
+    }
+
+    @Override
+    public Optional<CommandElement> arguments() {
+        return Optional.of(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))));
+    }
+
+    @Override
+    public String command() {
+        return "sponge";
     }
 }

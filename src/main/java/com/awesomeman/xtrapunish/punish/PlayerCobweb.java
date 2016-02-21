@@ -34,7 +34,8 @@ import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
@@ -43,8 +44,9 @@ import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 import com.awesomeman.xtrapunish.XtraPunish;
+import com.awesomeman.xtrapunish.api.punish.Punishment;
 
-public class PlayerCobweb implements CommandExecutor {
+public class PlayerCobweb implements Punishment {
 
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
@@ -109,5 +111,30 @@ public class PlayerCobweb implements CommandExecutor {
         src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " will be engulfed in cobwebs!"));
         
         return CommandResult.success();
+    }
+
+    @Override
+    public String permission() {
+        return "xtrapunish.cobweb";
+    }
+
+    @Override
+    public Text description() {
+        return Text.of("Spawns cobwebs around a player. When the player exists the cobwebs, they disappear!");
+    }
+
+    @Override
+    public Text helpDescription() {
+        return Text.of(TextColors.GREEN, "/punish cobweb <player> - ", TextColors.GOLD, "Spawns cobweb around the player. The cobweb will disappear when the player exits the cobwebs.");
+    }
+
+    @Override
+    public Optional<CommandElement> arguments() {
+        return Optional.of(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))));
+    }
+
+    @Override
+    public String command() {
+        return "cobweb";
     }
 }

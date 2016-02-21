@@ -31,16 +31,19 @@ import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.data.manipulator.mutable.entity.IgniteableData;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
+import com.awesomeman.xtrapunish.api.punish.Punishment;
+
 /**
  * Sets a player on fire.
  */
-public class PlayerBurning implements CommandExecutor {
+public class PlayerBurning implements Punishment {
     
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");
@@ -54,5 +57,30 @@ public class PlayerBurning implements CommandExecutor {
         player.offer(data.fireTicks().set(Integer.MAX_VALUE));
         src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " is now a little warm!"));
         return CommandResult.success();
+    }
+
+    @Override
+    public String permission() {
+        return "xtrapunish.burning";
+    }
+
+    @Override
+    public Text description() {
+        return Text.of("Sets a player on fire!");
+    }
+
+    @Override
+    public Text helpDescription() {
+        return Text.of(TextColors.GREEN, "/punish burn <player> - ", TextColors.GOLD, "Sets a player on fire!");
+    }
+
+    @Override
+    public Optional<CommandElement> arguments() {
+        return Optional.of(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))));
+    }
+
+    @Override
+    public String command() {
+        return "burn";
     }
 }

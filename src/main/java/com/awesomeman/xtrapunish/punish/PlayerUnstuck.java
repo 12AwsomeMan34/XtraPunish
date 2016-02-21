@@ -30,17 +30,19 @@ import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
 import com.awesomeman.xtrapunish.XtraPunish;
+import com.awesomeman.xtrapunish.api.punish.Punishment;
 
 /**
  * Frees a player, allowing them to move once more.
  */
-public class PlayerUnstuck implements CommandExecutor {
+public class PlayerUnstuck implements Punishment {
     
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");
@@ -56,5 +58,30 @@ public class PlayerUnstuck implements CommandExecutor {
             src.sendMessage(Text.of(TextColors.RED, "Player already free!"));
         }
         return CommandResult.success();
+    }
+
+    @Override
+    public String permission() {
+        return "xtrapunish.unstuck";
+    }
+
+    @Override
+    public Text description() {
+        return Text.of("Allows a player to move once more.");
+    }
+
+    @Override
+    public Text helpDescription() {
+        return Text.of(TextColors.GREEN, "/punish unstuck <player> - ", TextColors.GOLD, "Frees a player if they were stuck!");
+    }
+
+    @Override
+    public Optional<CommandElement> arguments() {
+        return Optional.of(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))));
+    }
+
+    @Override
+    public String command() {
+        return "unstuck";
     }
 }

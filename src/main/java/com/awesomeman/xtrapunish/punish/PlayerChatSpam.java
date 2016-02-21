@@ -31,15 +31,18 @@ import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
+import com.awesomeman.xtrapunish.api.punish.Punishment;
+
 /**
  * Spams a player's chat with random characters.
  */
-public class PlayerChatSpam implements CommandExecutor {
+public class PlayerChatSpam implements Punishment {
     
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");
@@ -66,5 +69,30 @@ public class PlayerChatSpam implements CommandExecutor {
         
         src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " cannot see his chat!"));
         return CommandResult.success();
+    }
+
+    @Override
+    public String permission() {
+        return "xtrapunish.chatspam";
+    }
+
+    @Override
+    public Text description() {
+        return Text.of("Fills a poor player's chat with random charactors!");
+    }
+
+    @Override
+    public Text helpDescription() {
+        return Text.of(TextColors.GREEN, "/punish spam <player> - ", TextColors.GOLD, "Spams a player's chat with random charactors.");
+    }
+
+    @Override
+    public Optional<CommandElement> arguments() {
+        return Optional.of(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))));
+    }
+
+    @Override
+    public String command() {
+        return "spam";
     }
 }

@@ -30,7 +30,8 @@ import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.entity.living.player.Player;
@@ -41,8 +42,9 @@ import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.world.extent.Extent;
 
 import com.awesomeman.xtrapunish.XtraPunish;
+import com.awesomeman.xtrapunish.api.punish.Punishment;
 
-public class PlayerHorde implements CommandExecutor {
+public class PlayerHorde implements Punishment {
 
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
@@ -64,5 +66,30 @@ public class PlayerHorde implements CommandExecutor {
         
         src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " might as well be sleeping with the fishes!"));        
         return CommandResult.success();
+    }
+
+    @Override
+    public String permission() {
+        return "xtrapunish.horde";
+    }
+
+    @Override
+    public Text description() {
+        return Text.of("Spawns a horde of creepers onto the player!");
+    }
+
+    @Override
+    public Text helpDescription() {
+        return Text.of(TextColors.GREEN, "/punish horde <player> - ", TextColors.GOLD, "Spawns a horde of creepers onto the player.");
+    }
+
+    @Override
+    public Optional<CommandElement> arguments() {
+        return Optional.of(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))));
+    }
+
+    @Override
+    public String command() {
+        return "horde";
     }
 }

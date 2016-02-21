@@ -30,7 +30,8 @@ import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityTypes;
@@ -40,10 +41,12 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.world.extent.Extent;
 
+import com.awesomeman.xtrapunish.api.punish.Punishment;
+
 /**
  * Spawns a powerful charged creeper onto the player.
  */
-public class PlayerCreeper implements CommandExecutor {
+public class PlayerCreeper implements Punishment {
     
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");
@@ -64,5 +67,30 @@ public class PlayerCreeper implements CommandExecutor {
             src.sendMessage(Text.of(TextColors.RED, "The entity could not be created!"));
         }
         return CommandResult.success();
+    }
+
+    @Override
+    public String permission() {
+        return "xtrapunish.creeper";
+    }
+
+    @Override
+    public Text description() {
+        return Text.of("Spawns a very dangerous charged creeper on the player!");
+    }
+
+    @Override
+    public Text helpDescription() {
+        return Text.of(TextColors.GREEN, "/punish creeper <player> - ", TextColors.GOLD, "Spawns a very powerful charged creeper onto the target player!");
+    }
+
+    @Override
+    public Optional<CommandElement> arguments() {
+        return Optional.of(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))));
+    }
+
+    @Override
+    public String command() {
+        return "creeper";
     }
 }

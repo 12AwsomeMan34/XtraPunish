@@ -24,20 +24,23 @@ SOFTWARE.
 
 package com.awesomeman.xtrapunish.punish;
 
+import java.util.Optional;
+
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
 import com.awesomeman.xtrapunish.XtraPunish;
+import com.awesomeman.xtrapunish.api.punish.Punishment;
 
 /**
  * Stops that annoying broadcast!
  */
-public class BroadcastStop implements CommandExecutor {
+public class BroadcastStop implements Punishment {
     
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         if(XtraPunish.instance.broadcastManager.cancelBroadcast()) {
@@ -46,5 +49,30 @@ public class BroadcastStop implements CommandExecutor {
             src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Broadcast successfully stopped."));
         }
         return CommandResult.success();
+    }
+
+    @Override
+    public String permission() {
+        return "xtrapunish.broadcast.stop";
+    }
+
+    @Override
+    public Text description() {
+        return Text.of("Stops that annoying broadcast!");
+    }
+
+    @Override
+    public Text helpDescription() {
+        return Text.of(TextColors.GREEN, "/punish stop-broadcast - ", TextColors.GOLD, "Stops the broadcast.");
+    }
+
+    @Override
+    public Optional<CommandElement> arguments() {
+        return Optional.empty();
+    }
+
+    @Override
+    public String command() {
+        return "stop-broadcast";
     }
 }

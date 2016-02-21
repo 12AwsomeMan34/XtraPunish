@@ -30,7 +30,8 @@ import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.entity.living.player.Player;
@@ -40,7 +41,9 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.world.extent.Extent;
 
-public class PlayerStrike implements CommandExecutor {
+import com.awesomeman.xtrapunish.api.punish.Punishment;
+
+public class PlayerStrike implements Punishment {
 
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
@@ -58,5 +61,30 @@ public class PlayerStrike implements CommandExecutor {
             src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Striking " + player.getName() + "."));
         }
         return CommandResult.success();
+    }
+
+    @Override
+    public String permission() {
+        return "xtrapunish.strike";
+    }
+
+    @Override
+    public Text description() {
+        return Text.of("Strikes a player with lightning.");
+    }
+
+    @Override
+    public Text helpDescription() {
+        return Text.of(TextColors.GREEN, "/punish strike <player> - ", TextColors.GOLD, "Strikes a player with lightning.");
+    }
+
+    @Override
+    public Optional<CommandElement> arguments() {
+        return Optional.of(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))));
+    }
+
+    @Override
+    public String command() {
+        return "strike";
     }
 }

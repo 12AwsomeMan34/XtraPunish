@@ -31,7 +31,8 @@ import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
@@ -39,12 +40,13 @@ import org.spongepowered.api.util.Direction;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
+import com.awesomeman.xtrapunish.api.punish.Punishment;
 import com.flowpowered.math.vector.Vector3d;
 
 /**
  * Spawns bedrock around a player.
  */
-public class PlayerBedrock implements CommandExecutor {
+public class PlayerBedrock implements Punishment {
     
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");
@@ -82,5 +84,30 @@ public class PlayerBedrock implements CommandExecutor {
         
         src.sendMessage(Text.of(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " is now encased in bedrock!")));
         return CommandResult.success();
+    }
+
+    @Override
+    public String permission() {
+        return "xtrapunish.trap";
+    }
+
+    @Override
+    public Text description() {
+        return Text.of("Traps a player in cold bedrock!");
+    }
+
+    @Override
+    public Text helpDescription() {
+        return Text.of(TextColors.GREEN, "/punish trap <player> - ", TextColors.GOLD, "Traps a player in bedrock!");
+    }
+
+    @Override
+    public Optional<CommandElement> arguments() {
+        return Optional.of(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))));
+    }
+
+    @Override
+    public String command() {
+        return "trap";
     }
 }

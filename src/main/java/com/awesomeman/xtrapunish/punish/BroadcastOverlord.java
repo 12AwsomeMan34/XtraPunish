@@ -32,7 +32,8 @@ import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.scheduler.Scheduler;
 import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.text.Text;
@@ -41,11 +42,12 @@ import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.serializer.TextSerializers;
 
 import com.awesomeman.xtrapunish.XtraPunish;
+import com.awesomeman.xtrapunish.api.punish.Punishment;
 
 /**
  * Continuously broadcasts a message to the entire server until /punish stop is ran.
  */
-public class BroadcastOverlord implements CommandExecutor {
+public class BroadcastOverlord implements Punishment {
     
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<String> optional = args.<String>getOne("broadcast");
@@ -75,5 +77,30 @@ public class BroadcastOverlord implements CommandExecutor {
         XtraPunish.instance.broadcastManager.storeBroadcast(broadcastTask);
         src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Broadcast has started."));
         return CommandResult.success();
+    }
+
+    @Override
+    public String permission() {
+        return "xtrapunish.broadcast.start";
+    }
+
+    @Override
+    public Text description() {
+        return Text.of("Broadcasts a message to the server non-stop!");
+    }
+
+    @Override
+    public Text helpDescription() {
+        return Text.of(TextColors.GREEN, "/punish broadcast <message> - ", TextColors.GOLD, "Broadcasts a message to the server non-stop!");
+    }
+
+    @Override
+    public Optional<CommandElement> arguments() {
+        return Optional.of(GenericArguments.optional(GenericArguments.remainingJoinedStrings(Text.of("broadcast"))));
+    }
+
+    @Override
+    public String command() {
+        return "broadcast";
     }
 }

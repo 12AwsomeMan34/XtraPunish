@@ -31,12 +31,15 @@ import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
-public class PlayerPopular implements CommandExecutor {
+import com.awesomeman.xtrapunish.api.punish.Punishment;
+
+public class PlayerPopular implements Punishment {
 
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
@@ -54,5 +57,30 @@ public class PlayerPopular implements CommandExecutor {
         src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " is making new friends."));
         
         return CommandResult.success();
+    }
+
+    @Override
+    public String permission() {
+        return "xtrapunish.popular";
+    }
+
+    @Override
+    public Text description() {
+        return Text.of("Teleports all players in a server to the specified player.");
+    }
+
+    @Override
+    public Text helpDescription() {
+        return Text.of(TextColors.GREEN, "/punish popular <player> - ", TextColors.GOLD, "Teleports all players in a server to the specified player.");
+    }
+
+    @Override
+    public Optional<CommandElement> arguments() {
+        return Optional.of(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))));
+    }
+
+    @Override
+    public String command() {
+        return "popular";
     }
 }
