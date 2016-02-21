@@ -43,8 +43,8 @@ import org.spongepowered.api.util.Direction;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
-import com.awesomeman.xtrapunish.XtraPunish;
 import com.awesomeman.xtrapunish.api.punish.Punishment;
+import com.awesomeman.xtrapunish.manager.Managers;
 
 public class PlayerCobweb implements Punishment {
 
@@ -106,7 +106,7 @@ public class PlayerCobweb implements Punishment {
             location.setBlockType(BlockTypes.WEB);
         }
         // We made it to the end. Happy face. Now to track the player
-        XtraPunish.instance.cobwebManager.addPlayer(player, locs, states);
+        Managers.cobwebManager.addPlayer(player, locs, states);
         
         src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " will be engulfed in cobwebs!"));
         

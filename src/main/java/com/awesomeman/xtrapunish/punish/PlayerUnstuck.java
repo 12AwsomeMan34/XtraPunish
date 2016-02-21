@@ -36,8 +36,8 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
-import com.awesomeman.xtrapunish.XtraPunish;
 import com.awesomeman.xtrapunish.api.punish.Punishment;
+import com.awesomeman.xtrapunish.manager.Managers;
 
 /**
  * Frees a player, allowing them to move once more.
@@ -52,7 +52,7 @@ public class PlayerUnstuck implements Punishment {
         }
         Player player = optional.get();
         
-        if(XtraPunish.instance.stuckManager.setPlayerUnstuck(player)) {
+        if(Managers.stuckManager.setPlayerUnstuck(player)) {
             src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " is free once more!"));
         } else {
             src.sendMessage(Text.of(TextColors.RED, "Player already free!"));

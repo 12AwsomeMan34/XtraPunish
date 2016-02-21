@@ -39,8 +39,9 @@ import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.text.Text;
 
-import com.awesomeman.xtrapunish.manager.*;
-import com.awesomeman.xtrapunish.punish.*;
+import com.awesomeman.xtrapunish.manager.Managers;
+import com.awesomeman.xtrapunish.punish.HelpCommand;
+import com.awesomeman.xtrapunish.punish.Punishments;
 import com.google.inject.Inject;
 
 @Updatifier(repoName = "XtraPunish", repoOwner = "12AwsomeMan34", version = XtraPunish.VERSION)
@@ -50,9 +51,6 @@ public class XtraPunish {
     // Make sure to use exactly this tag on github releases
     public static final String VERSION = "1.3";
     public static XtraPunish instance;
-    public BroadcastManager broadcastManager;
-    public StuckManager stuckManager;
-    public CobwebManager cobwebManager;
     public @Inject Logger logger;
     public List<CommandSpec> commands = new ArrayList<>();
     public List<Text> helpList = new ArrayList<>();
@@ -63,15 +61,13 @@ public class XtraPunish {
         logger.info("Initializing XtraPunish version " + VERSION);
         
         instance = this;
-        broadcastManager = new BroadcastManager();
-        stuckManager = new StuckManager();
-        cobwebManager = new CobwebManager();
+        Managers.initManagers();
         
         EventManager eventManager = Sponge.getEventManager();
         CommandManager service = Sponge.getCommandManager();
         
-        eventManager.registerListeners(this, stuckManager);
-        eventManager.registerListeners(this, cobwebManager);
+        eventManager.registerListeners(this, Managers.stuckManager);
+        eventManager.registerListeners(this, Managers.cobwebManager);
         
         Punishments.registerPunishments();
         

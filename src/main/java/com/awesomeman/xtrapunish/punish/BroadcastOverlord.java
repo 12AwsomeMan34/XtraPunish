@@ -43,6 +43,7 @@ import org.spongepowered.api.text.serializer.TextSerializers;
 
 import com.awesomeman.xtrapunish.XtraPunish;
 import com.awesomeman.xtrapunish.api.punish.Punishment;
+import com.awesomeman.xtrapunish.manager.Managers;
 
 /**
  * Continuously broadcasts a message to the entire server until /punish stop is ran.
@@ -57,7 +58,7 @@ public class BroadcastOverlord implements Punishment {
         }
         String broadcast = optional.get();
         
-        if(XtraPunish.instance.broadcastManager.getBroadcast() != null) {
+        if(Managers.broadcastManager.getBroadcast() != null) {
             src.sendMessage(Text.of(TextColors.RED, "Broadcast already running! Cannot create another one."));
             return CommandResult.empty();
         }
@@ -74,7 +75,7 @@ public class BroadcastOverlord implements Punishment {
                 channel.send(broadcastMessage);
             }
         ).async().interval(500, TimeUnit.MILLISECONDS).name("XtraPunish broadcast message command.").submit(XtraPunish.instance);
-        XtraPunish.instance.broadcastManager.storeBroadcast(broadcastTask);
+        Managers.broadcastManager.storeBroadcast(broadcastTask);
         src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Broadcast has started."));
         return CommandResult.success();
     }

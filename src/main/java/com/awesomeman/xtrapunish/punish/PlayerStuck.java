@@ -36,8 +36,8 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
-import com.awesomeman.xtrapunish.XtraPunish;
 import com.awesomeman.xtrapunish.api.punish.Punishment;
+import com.awesomeman.xtrapunish.manager.Managers;
 
 /**
  * Cancel's a player's movement.
@@ -52,7 +52,7 @@ public class PlayerStuck implements Punishment {
         }
         Player player = optional.get();
         
-        if(XtraPunish.instance.stuckManager.setPlayerStuck(player)) {
+        if(Managers.stuckManager.setPlayerStuck(player)) {
             src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " will not be moving anytime soon!"));
         } else {
             src.sendMessage(Text.of(TextColors.RED, "Player already stuck!"));

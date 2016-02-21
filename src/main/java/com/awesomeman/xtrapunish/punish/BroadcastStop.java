@@ -34,8 +34,8 @@ import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
-import com.awesomeman.xtrapunish.XtraPunish;
 import com.awesomeman.xtrapunish.api.punish.Punishment;
+import com.awesomeman.xtrapunish.manager.Managers;
 
 /**
  * Stops that annoying broadcast!
@@ -43,7 +43,7 @@ import com.awesomeman.xtrapunish.api.punish.Punishment;
 public class BroadcastStop implements Punishment {
     
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-        if(XtraPunish.instance.broadcastManager.cancelBroadcast()) {
+        if(Managers.broadcastManager.cancelBroadcast()) {
             src.sendMessage(Text.of(TextColors.RED, "Broadcast is not running!"));
         } else {
             src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Broadcast successfully stopped."));
