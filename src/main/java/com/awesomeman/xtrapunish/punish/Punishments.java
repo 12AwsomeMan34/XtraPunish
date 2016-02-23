@@ -31,28 +31,31 @@ import com.awesomeman.xtrapunish.api.punish.Punishment;
 
 public class Punishments {
     
+    /**
+     * Construct the {@link CommandSpec} and add the necessary specifications.
+     * 
+     * @param punishment The punishment to be registered
+     */
     public static void registerPunishment(Punishment punishment) {
-        CommandSpec command;
+        CommandSpec.Builder command = CommandSpec.builder()
+                .permission(punishment.permission())
+                .description(punishment.description())
+                .executor(punishment);
         if(punishment.arguments().isPresent()) {
-            command = CommandSpec.builder()
-                    .permission(punishment.permission())
-                    .description(punishment.description())
-                    .arguments(punishment.arguments().get())
-                    .executor(punishment)
-                    .build();
-        } else {
-            command = CommandSpec.builder()
-                    .permission(punishment.permission())
-                    .description(punishment.description())
-                    .executor(punishment)
-                    .build();
+            command.arguments(punishment.arguments().get());
         }
         
         XtraPunish.instance.helpList.add(punishment.helpDescription());
         XtraPunish.instance.commandList.add(punishment.command());
-        XtraPunish.instance.commands.add(command);
+        XtraPunish.instance.commands.add(command.build());
     }
     
+    /**
+     * ALL commands must be registered through this. They must all be in
+     * alphabetical order.
+     * 
+     * <p>This should only ever run once, on startup.</p>
+     */
     public static void registerPunishments() {
         registerPunishment(new BroadcastOverlord());
         registerPunishment(new BroadcastStop());
