@@ -19,3 +19,7 @@ dependencies {
     compile "org.spongepowered:spongeapi:3.1.0-SNAPSHOT"
     compile "com.github.Flibio:Updatifier:v1.0.0"
 }
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.11'
+}
