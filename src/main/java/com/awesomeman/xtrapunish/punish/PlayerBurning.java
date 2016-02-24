@@ -47,15 +47,25 @@ public class PlayerBurning implements Punishment {
     
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");
-        if(!optional.isPresent()) {
-            src.sendMessage(Text.of(TextColors.RED, "Player argument not specified! Correct usage: /punish burn <player>"));
+        boolean flag = args.hasAny("a");
+        if(!optional.isPresent() && !flag) {
+            src.sendMessage(Text.of(TextColors.RED, "Player argument not specified! Correct usage: /punish burn <player> [-a]"));
             return CommandResult.empty();
         }
-        Player player = optional.get();
+        
         IgniteableData data = Sponge.getGame().getDataManager().getManipulatorBuilder(IgniteableData.class).get().create();
-        // Player should not last this long :P
-        player.offer(data.fireTicks().set(Integer.MAX_VALUE));
-        src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " is now a little warm!"));
+        if(flag) {
+            for(Player player : Sponge.getServer().getOnlinePlayers()) {
+                if(!src.equals(player)) {
+                    player.offer(data.fireTicks().set(data.fireTicks().getMaxValue()));
+                }
+            }
+            src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "All players on the server are now a little warm!"));
+        } else {
+            Player player = optional.get();
+            player.offer(data.fireTicks().set(data.fireTicks().getMaxValue()));
+            src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " is now a little warm!"));
+        }
         return CommandResult.success();
     }
 
@@ -71,12 +81,13 @@ public class PlayerBurning implements Punishment {
 
     @Override
     public Text helpDescription() {
-        return Text.of(TextColors.GREEN, "/punish burn <player> - ", TextColors.GOLD, "Sets a player on fire!");
+        return Text.of(TextColors.GREEN, "/punish burn <player> [-a] - ", TextColors.GOLD, "Sets a player on fire!");
     }
 
     @Override
     public Optional<CommandElement> arguments() {
-        return Optional.of(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))));
+        return Optional.of(GenericArguments.flags().flag("a")
+                .buildWith(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player"))))));
     }
 
     @Override
