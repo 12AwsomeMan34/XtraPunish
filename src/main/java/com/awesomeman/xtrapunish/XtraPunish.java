@@ -44,7 +44,7 @@ import com.awesomeman.xtrapunish.punish.HelpCommand;
 import com.awesomeman.xtrapunish.punish.Punishments;
 import com.google.inject.Inject;
 
-@Updatifier(repoName = "XtraPunish", repoOwner = "12AwsomeMan34", version = XtraPunish.VERSION)
+@Updatifier(repoName = "XtraPunish", repoOwner = "XtraStudio", version = XtraPunish.VERSION)
 @Plugin(id = "XtraPunish", name = "XtraPunish", version = XtraPunish.VERSION, dependencies = "after: Updatifier")
 public class XtraPunish {
     
