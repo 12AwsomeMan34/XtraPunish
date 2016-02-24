@@ -47,7 +47,7 @@ public class SendVersion implements Punishment {
         src.sendMessage(Text.of(TextColors.GREEN, "-=-=-=- XtraPunish -=-=-=-"));
         src.sendMessage(Text.of(TextColors.GREEN, "Version: ", TextColors.GOLD, XtraPunish.VERSION));
         src.sendMessage(Text.of(TextColors.GREEN, "Author: ", TextColors.GOLD, "12AwesomeMan34"));
-        String github = "https://github.com/12AwsomeMan34/XtraPunish";
+        String github = "https://github.com/XtraStudio/XtraPunish";
         try {
             src.sendMessage(Text
                     .builder("Github: ")

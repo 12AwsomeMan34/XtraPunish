@@ -49,7 +49,7 @@ import com.google.inject.Inject;
 public class XtraPunish {
     
     // Make sure to use exactly this tag on github releases
-    public static final String VERSION = "1.3";
+    public static final String VERSION = "1.4";
     public static XtraPunish instance;
     public @Inject Logger logger;
     public List<CommandSpec> commands = new ArrayList<>();
