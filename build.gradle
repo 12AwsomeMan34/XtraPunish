@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'net.minecrell.licenser' version '0.1.5'
     id 'net.ellune.blossom' version '1.0.1'
+    id 'com.github.johnrengelman.shadow' version '1.2.3'
 }
 
 sourceCompatibility = '1.8'
@@ -22,9 +23,13 @@ repositories {
     }
 }
 
+configurations {
+    compile.extendsFrom shadow
+}
+
 dependencies {
     compile "org.spongepowered:spongeapi:4.1.0-SNAPSHOT"
-    compile "com.github.Flibio:Updatifier:v1.0.0"
+    shadow "com.github.Flibio:Updatifier:v1.4.0:api"
 }
 
 blossom {
@@ -47,6 +52,12 @@ license {
 }
 
 build.dependsOn checkLicenses
+tasks.getByPath(':jar').enabled = false
+
+shadowJar {
+    configurations = [project.configurations.shadow]
+    classifier = ''
+}
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.11'
