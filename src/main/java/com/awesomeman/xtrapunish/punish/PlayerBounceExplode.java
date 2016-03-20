@@ -32,48 +32,60 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.command.args.GenericArguments;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.world.explosion.Explosion;
 
 import com.awesomeman.xtrapunish.api.punish.Punishment;
-import com.awesomeman.xtrapunish.manager.Managers;
 
 /**
- * Stops that annoying broadcast!
+ * Bounces a player into the air with an explosion.
  */
-public class BroadcastStop implements Punishment {
+public class PlayerBounceExplode implements Punishment {
     
+    @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-        if(Managers.broadcastManager.cancelBroadcast()) {
-            src.sendMessage(Text.of(TextColors.RED, "Broadcast is not running!"));
-        } else {
-            src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Broadcast successfully stopped."));
+        Optional<Player> optional = args.<Player>getOne("player");
+        if(!optional.isPresent()) {
+            src.sendMessage(Text.of(TextColors.RED, "Player argument not specified! Correct usage: /punish bounce-explode <player>"));
+            return CommandResult.empty();
         }
+        Player player = optional.get();
+        
+        Explosion explosion = Explosion.builder()
+                .world(player.getWorld()).origin(player.getLocation().getPosition())
+                .radius(1)
+                .shouldDamageEntities(true)
+                .shouldBreakBlocks(false).build();
+        player.getWorld().triggerExplosion(explosion);
+        
         return CommandResult.success();
     }
-
+    
     @Override
     public String permission() {
-        return "xtrapunish.broadcast.stop";
+        return "xtrapunish.explode.bounce";
     }
-
+    
     @Override
     public Text description() {
-        return Text.of("Stops that annoying broadcast!");
+        return Text.of("Bounces a player with an explosion!");
     }
-
+    
     @Override
     public Text helpDescription() {
-        return Text.of(TextColors.GREEN, "/punish stop-broadcast - ", TextColors.GOLD, "Stops the broadcast.");
+        return Text.of(TextColors.GREEN, "/punish bounceexplode <player> - ", TextColors.GOLD, "Bounces a player with an explosion.");
     }
-
+    
     @Override
     public Optional<CommandElement> arguments() {
-        return Optional.empty();
+        return Optional.of(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))));
     }
-
+    
     @Override
     public String[] command() {
-        return new String[] { "stop-broadcast" };
+        return new String[] { "bounceexplode", "bounce-explode", "bounce_explode" };
     }
 }

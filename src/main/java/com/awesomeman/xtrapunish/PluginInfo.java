@@ -23,34 +23,13 @@
  * THE SOFTWARE.
  */
 
-package com.awesomeman.xtrapunish.manager;
+package com.awesomeman.xtrapunish;
 
-import org.spongepowered.api.scheduler.Task;
-
-public class BroadcastManager {
+public class PluginInfo {
     
-    private Task broadcast;
-    
-    public void storeBroadcast(Task broadcast) {
-        this.broadcast = broadcast;
-    }
-    
-    public Task getBroadcast() {
-        return broadcast;
-    }
-    
-    /**
-     * Cancel's the broadcast task and sets it to null, so that we don't
-     * have multiple broadcasts running.
-     * 
-     * @return If the broadcast was not running
-     */
-    public boolean cancelBroadcast() {
-        if(broadcast != null) {
-            boolean running =  broadcast.cancel();
-            broadcast = null;
-            return running;
-        }
-        return true;
-    }
+    public static final String ID = "@project.id@";
+    public static final String NAME = "@project.name@";
+    public static final String VERSION = "@project.version@";
+    public static final String DESCRIPTION = "@project.description@";
+    public static final String ORGANIZATION = "@project.organization@";
 }

@@ -1,8 +1,11 @@
-apply plugin: 'java'
+plugins {
+    id 'java'
+    id 'net.minecrell.licenser' version '0.1.5'
+    id 'net.ellune.blossom' version '1.0.1'
+}
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
-version = '1.4'
 
 repositories {
     mavenCentral()
@@ -13,12 +16,37 @@ repositories {
     maven {
         url 'https://jitpack.io'
     }
+    maven {
+        name 'minecrell-releases'
+        url 'http://repo.minecrell.net/releases'
+    }
 }
 
 dependencies {
-    compile "org.spongepowered:spongeapi:3.1.0-SNAPSHOT"
+    compile "org.spongepowered:spongeapi:4.1.0-SNAPSHOT"
     compile "com.github.Flibio:Updatifier:v1.0.0"
 }
+
+blossom {
+    replaceToken '@project.version@', project.version, 'src/main/java/com/awesomeman/xtrapunish/PluginInfo.java'
+    replaceToken '@project.id@', project.id, 'src/main/java/com/awesomeman/xtrapunish/PluginInfo.java'
+    replaceToken '@project.name@', project.name, 'src/main/java/com/awesomeman/xtrapunish/PluginInfo.java'
+    replaceToken '@project.description@', project.description, 'src/main/java/com/awesomeman/xtrapunish/PluginInfo.java'
+    replaceToken '@project.organization@', project.organization, 'src/main/java/com/awesomeman/xtrapunish/PluginInfo.java'
+}
+
+license {
+    ext.name = project.name
+    ext.organization = project.organization
+    ext.url = project.url
+    ext.inceptionYear = project.inceptionYear
+    ext.currentYear = project.currentYear
+    header rootProject.file('HEADER.txt')
+    include '**/*.java'
+    style.java = 'JAVADOC'
+}
+
+build.dependsOn checkLicenses
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.11'
