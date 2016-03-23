@@ -25,11 +25,14 @@
 
 package com.awesomeman.xtrapunish.api.punish;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.text.Text;
+
+import com.awesomeman.xtrapunish.util.AffectedBlocks;
 
 public interface Punishment extends CommandExecutor {
     
@@ -70,4 +73,12 @@ public interface Punishment extends CommandExecutor {
      * @return The command to be run alongside /punish
      */
     String[] command();
+    
+    /**
+     * Gets a list of blocks affected by this punishment. Note that not all
+     * commands will affect blocks.
+     * 
+     * @return The blocks affected by this command
+     */
+    Optional<List<AffectedBlocks>> affectedBlocks();
 }

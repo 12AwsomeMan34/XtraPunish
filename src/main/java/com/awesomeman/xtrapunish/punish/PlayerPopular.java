@@ -25,6 +25,7 @@
 
 package com.awesomeman.xtrapunish.punish;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.spongepowered.api.Sponge;
@@ -39,6 +40,7 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
 import com.awesomeman.xtrapunish.api.punish.Punishment;
+import com.awesomeman.xtrapunish.util.AffectedBlocks;
 
 public class PlayerPopular implements Punishment {
 
@@ -83,5 +85,10 @@ public class PlayerPopular implements Punishment {
     @Override
     public String[] command() {
         return new String[] { "popular" };
+    }
+
+    @Override
+    public Optional<List<AffectedBlocks>> affectedBlocks() {
+        return Optional.empty();
     }
 }

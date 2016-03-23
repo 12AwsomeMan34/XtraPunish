@@ -37,10 +37,10 @@ import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.event.EventManager;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
-import org.spongepowered.api.plugin.Dependency;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.text.Text;
 
+import com.awesomeman.xtrapunish.api.punish.Punishment;
 import com.awesomeman.xtrapunish.manager.Managers;
 import com.awesomeman.xtrapunish.punish.HelpCommand;
 import com.awesomeman.xtrapunish.punish.Punishments;
@@ -48,7 +48,6 @@ import com.google.inject.Inject;
 
 @Updatifier(repoName = PluginInfo.NAME, repoOwner = PluginInfo.ORGANIZATION, version = PluginInfo.VERSION)
 @Plugin(id = PluginInfo.ID, name = PluginInfo.NAME, version = PluginInfo.VERSION,
-    dependencies = @Dependency(id = "Updatifier", optional = true),
     description = PluginInfo.DESCRIPTION)
 public class XtraPunish {
     
@@ -57,6 +56,7 @@ public class XtraPunish {
     public List<CommandSpec> commands = new ArrayList<>();
     public List<Text> helpList = new ArrayList<>();
     public List<String[]> commandList = new ArrayList<>();
+    public List<Punishment> punishments = new ArrayList<>();
     
     @Listener
     public void onInit(GameInitializationEvent event) {

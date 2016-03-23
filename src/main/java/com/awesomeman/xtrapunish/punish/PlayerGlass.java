@@ -25,8 +25,11 @@
 
 package com.awesomeman.xtrapunish.punish;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import org.spongepowered.api.block.BlockState;
 import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -41,8 +44,11 @@ import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 import com.awesomeman.xtrapunish.api.punish.Punishment;
+import com.awesomeman.xtrapunish.util.AffectedBlocks;
 
 public class PlayerGlass implements Punishment {
+    
+    private List<AffectedBlocks> history = new ArrayList<>();
     
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
@@ -53,6 +59,13 @@ public class PlayerGlass implements Punishment {
         }
         Player player = optional.get();
         Location<World> location = player.getLocation();
+        
+        List<Location<World>> locs = new ArrayList<>();
+        List<BlockState> states = new ArrayList<>();
+        locs.add(location);
+        states.add(location.getBlock());
+        history.add(new AffectedBlocks(locs, states));
+        
         location.add(0, 149, 0).setBlockType(BlockTypes.GLASS);
         player.setLocation(location.add(0, 150, 0));
         
@@ -83,5 +96,10 @@ public class PlayerGlass implements Punishment {
     @Override
     public String[] command() {
         return new String[] { "glass" };
+    }
+
+    @Override
+    public Optional<List<AffectedBlocks>> affectedBlocks() {
+        return Optional.of(history);
     }
 }

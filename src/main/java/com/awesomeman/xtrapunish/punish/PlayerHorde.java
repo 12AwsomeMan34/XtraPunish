@@ -25,6 +25,7 @@
 
 package com.awesomeman.xtrapunish.punish;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.spongepowered.api.command.CommandException;
@@ -44,6 +45,7 @@ import org.spongepowered.api.world.extent.Extent;
 
 import com.awesomeman.xtrapunish.XtraPunish;
 import com.awesomeman.xtrapunish.api.punish.Punishment;
+import com.awesomeman.xtrapunish.util.AffectedBlocks;
 
 public class PlayerHorde implements Punishment {
 
@@ -92,5 +94,10 @@ public class PlayerHorde implements Punishment {
     @Override
     public String[] command() {
         return new String[] { "horde" };
+    }
+
+    @Override
+    public Optional<List<AffectedBlocks>> affectedBlocks() {
+        return Optional.empty();
     }
 }

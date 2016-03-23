@@ -25,8 +25,12 @@
 
 package com.awesomeman.xtrapunish.punish;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
+import org.spongepowered.api.block.BlockState;
 import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -42,12 +46,15 @@ import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 import com.awesomeman.xtrapunish.api.punish.Punishment;
+import com.awesomeman.xtrapunish.util.AffectedBlocks;
 import com.flowpowered.math.vector.Vector3d;
 
 /**
  * Spawns bedrock around a player.
  */
 public class PlayerBedrock implements Punishment {
+    
+    private List<AffectedBlocks> history = new ArrayList<>();
     
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");
@@ -58,24 +65,29 @@ public class PlayerBedrock implements Punishment {
         Player player = optional.get();
         
         Location<World> loc = player.getLocation();
-        // Store the bottom so we can set the player's location later
+        
         Location<World> bottomLoc = loc.getRelative(Direction.DOWN);
-        bottomLoc.setBlockType(BlockTypes.BEDROCK);
-        loc.getRelative(Direction.UP).getRelative(Direction.UP).setBlockType(BlockTypes.BEDROCK);
-        // Sides have to be two high, so we just create a location object for the initial layer
+        Location<World> topLoc = loc.getRelative(Direction.UP).getRelative(Direction.UP);
         Location<World> sideLoc1 = player.getLocation().getRelative(Direction.NORTH);
         Location<World> sideLoc2 = player.getLocation().getRelative(Direction.EAST);
         Location<World> sideLoc3 = player.getLocation().getRelative(Direction.SOUTH);
         Location<World> sideLoc4 = player.getLocation().getRelative(Direction.WEST);
-        sideLoc1.setBlockType(BlockTypes.BEDROCK);
-        sideLoc2.setBlockType(BlockTypes.BEDROCK);
-        sideLoc3.setBlockType(BlockTypes.BEDROCK);
-        sideLoc4.setBlockType(BlockTypes.BEDROCK);
-        // Now for the second layer, we can just set it on the location
-        sideLoc1.getRelative(Direction.UP).setBlockType(BlockTypes.BEDROCK);
-        sideLoc2.getRelative(Direction.UP).setBlockType(BlockTypes.BEDROCK);
-        sideLoc3.getRelative(Direction.UP).setBlockType(BlockTypes.BEDROCK);
-        sideLoc4.getRelative(Direction.UP).setBlockType(BlockTypes.BEDROCK);
+        Location<World> sideLoc1_1 = sideLoc1.getRelative(Direction.UP);
+        Location<World> sideLoc2_1 = sideLoc2.getRelative(Direction.UP);
+        Location<World> sideLoc3_1 = sideLoc3.getRelative(Direction.UP);
+        Location<World> sideLoc4_1 = sideLoc4.getRelative(Direction.UP);
+        
+        List<Location<World>> locs = new ArrayList<>();
+        List<BlockState> states = new ArrayList<>();
+        
+        locs.addAll(Arrays.asList(bottomLoc, topLoc, sideLoc1, sideLoc2, sideLoc3, sideLoc4,
+                sideLoc1_1, sideLoc2_1, sideLoc3_1, sideLoc4_1));
+        
+        for(Location<World> location : locs) {
+            states.add(location.getBlock());
+            location.setBlockType(BlockTypes.BEDROCK);
+        }
+        history.add(new AffectedBlocks(locs, states));
         
         // Set the player's location to prevent the player being stuck in the bedrock, or out of the trap
         player.setLocation(player.getLocation().setPosition(new Vector3d(
@@ -110,5 +122,10 @@ public class PlayerBedrock implements Punishment {
     @Override
     public String[] command() {
         return new String[] { "trap" };
+    }
+
+    @Override
+    public Optional<List<AffectedBlocks>> affectedBlocks() {
+        return Optional.of(history);
     }
 }

@@ -34,74 +34,90 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.command.args.GenericArguments;
-import org.spongepowered.api.data.key.Keys;
-import org.spongepowered.api.entity.Entity;
-import org.spongepowered.api.entity.EntityTypes;
-import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.event.cause.Cause;
-import org.spongepowered.api.event.cause.NamedCause;
-import org.spongepowered.api.event.cause.entity.spawn.EntitySpawnCause;
-import org.spongepowered.api.event.cause.entity.spawn.SpawnTypes;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
-import org.spongepowered.api.world.extent.Extent;
 
+import com.awesomeman.xtrapunish.XtraPunish;
 import com.awesomeman.xtrapunish.api.punish.Punishment;
 import com.awesomeman.xtrapunish.util.AffectedBlocks;
 
-/**
- * Spawns a powerful charged creeper onto the player.
- */
-public class PlayerCreeper implements Punishment {
+public class PluginUndo implements Punishment {
     
+    @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-        Optional<Player> optional = args.<Player>getOne("player");
+        Optional<String> optional = args.<String>getOne("command");
         if(!optional.isPresent()) {
-            src.sendMessage(Text.of(TextColors.RED, "Player argument not specified! Correct usage: /punish creeper <player>"));
+            src.sendMessage(Text.of(TextColors.RED, "Command argument not specified! Correct usage: /punish undo <command>"));
             return CommandResult.empty();
         }
-        Player player = optional.get();
+        String command = optional.get();
+        Punishment punishment = null;
         
-        Extent extent = player.getLocation().getExtent();
-        Optional<Entity> optional2 = extent.createEntity(EntityTypes.CREEPER, player.getLocation().getPosition());
-        if(optional2.isPresent()) {
-            Entity entity = optional2.get();
-            entity.offer(Keys.CREEPER_CHARGED, true);
-            extent.spawnEntity(entity, Cause.of(NamedCause.source(EntitySpawnCause.builder().entity(entity).type(SpawnTypes.PLUGIN).build())));
-            src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " will need to watch their back!"));
-        } else {
-            src.sendMessage(Text.of(TextColors.RED, "The entity could not be created!"));
+        // Cycle through commands list
+        for(int i = 0; i < XtraPunish.instance.commandList.size(); i++) {
+            // Cycle through any possible aliases
+            for(String command2 : XtraPunish.instance.commandList.get(i)) {
+                // Check if the possible alias matches our string
+                if(command.toLowerCase().equals(command2.toLowerCase())) {
+                    punishment = XtraPunish.instance.punishments.get(i);
+                }
+            }
         }
+        
+        if(punishment == null) {
+            src.sendMessage(Text.of(TextColors.RED, "Command not found!"));
+            return CommandResult.empty();
+        }
+        if(!punishment.affectedBlocks().isPresent()) {
+            src.sendMessage(Text.of(TextColors.RED, "Command does not support undo."));
+            return CommandResult.empty();
+        }
+        if(punishment.affectedBlocks().get().isEmpty()) {
+            src.sendMessage(Text.of(TextColors.RED, "No history found for command ", punishment.command()[0], "."));
+            return CommandResult.empty();
+        }
+        List<AffectedBlocks> affected = punishment.affectedBlocks().get();
+        AffectedBlocks blocks = affected.get(affected.size() - 1);
+        
+        for(int i = 0; i < blocks.loc.size(); i++) {
+            blocks.loc.get(i).setBlock(blocks.oldState.get(i));
+        }
+        
+        punishment.affectedBlocks().get().remove(blocks);
+        
+        src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Command has been undone."));
+        
         return CommandResult.success();
     }
-
+    
     @Override
     public String permission() {
-        return "xtrapunish.creeper";
+        return "xtrapunish.undo";
     }
-
+    
     @Override
     public Text description() {
-        return Text.of("Spawns a very dangerous charged creeper on the player!");
+        return Text.of("Undoes any damage caused by a specified command.");
     }
-
+    
     @Override
     public Text helpDescription() {
-        return Text.of(TextColors.GREEN, "/punish creeper <player> - ", TextColors.GOLD, "Spawns a very powerful charged creeper onto the target player!");
+        return Text.of(TextColors.GREEN, "/punish undo <command> - ", TextColors.GOLD, "Undoes any damage caused by the specified command.");
     }
-
+    
     @Override
     public Optional<CommandElement> arguments() {
-        return Optional.of(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))));
+        return Optional.of(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.string(Text.of("command")))));
     }
-
+    
     @Override
     public String[] command() {
-        return new String[] { "creeper" };
+        return new String[] { "undo" };
     }
 
     @Override
     public Optional<List<AffectedBlocks>> affectedBlocks() {
+        // TODO: redo command perhaps ?
         return Optional.empty();
     }
 }

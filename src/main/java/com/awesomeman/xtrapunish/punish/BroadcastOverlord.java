@@ -25,6 +25,7 @@
 
 package com.awesomeman.xtrapunish.punish;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -45,6 +46,7 @@ import org.spongepowered.api.text.serializer.TextSerializers;
 import com.awesomeman.xtrapunish.XtraPunish;
 import com.awesomeman.xtrapunish.api.punish.Punishment;
 import com.awesomeman.xtrapunish.manager.Managers;
+import com.awesomeman.xtrapunish.util.AffectedBlocks;
 
 /**
  * Continuously broadcasts a message to the entire server until /punish stop is ran.
@@ -104,5 +106,10 @@ public class BroadcastOverlord implements Punishment {
     @Override
     public String[] command() {
         return new String[] { "broadcast" };
+    }
+
+    @Override
+    public Optional<List<AffectedBlocks>> affectedBlocks() {
+        return Optional.empty();
     }
 }

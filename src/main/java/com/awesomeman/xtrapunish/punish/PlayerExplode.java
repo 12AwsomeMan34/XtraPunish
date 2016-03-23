@@ -25,6 +25,7 @@
 
 package com.awesomeman.xtrapunish.punish;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.spongepowered.api.command.CommandException;
@@ -38,6 +39,7 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.world.explosion.Explosion;
 import com.awesomeman.xtrapunish.api.punish.Punishment;
+import com.awesomeman.xtrapunish.util.AffectedBlocks;
 
 /**
  * Explodes a player.
@@ -84,5 +86,11 @@ public class PlayerExplode implements Punishment {
     @Override
     public String[] command() {
         return new String[] { "explode" };
+    }
+
+    @Override
+    public Optional<List<AffectedBlocks>> affectedBlocks() {
+        // TODO: reverse explosions ?
+        return Optional.empty();
     }
 }

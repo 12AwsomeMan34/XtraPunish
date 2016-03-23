@@ -26,6 +26,7 @@
 package com.awesomeman.xtrapunish.punish;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,9 +47,12 @@ import org.spongepowered.api.world.World;
 
 import com.awesomeman.xtrapunish.api.punish.Punishment;
 import com.awesomeman.xtrapunish.manager.Managers;
+import com.awesomeman.xtrapunish.util.AffectedBlocks;
 
 public class PlayerCobweb implements Punishment {
-
+    
+    private List<AffectedBlocks> history = new ArrayList<>();
+    
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");
@@ -81,24 +85,9 @@ public class PlayerCobweb implements Punishment {
         Location<World> loc1_8 = loc8.getRelative(Direction.UP);
         
         List<Location<World>> locs = new ArrayList<>();
-        locs.add(loc);
-        locs.add(loc1);
-        locs.add(loc2);
-        locs.add(loc3);
-        locs.add(loc4);
-        locs.add(loc5);
-        locs.add(loc6);
-        locs.add(loc7);
-        locs.add(loc8);
-        locs.add(loc_1);
-        locs.add(loc1_1);
-        locs.add(loc1_2);
-        locs.add(loc1_3);
-        locs.add(loc1_4);
-        locs.add(loc1_5);
-        locs.add(loc1_6);
-        locs.add(loc1_7);
-        locs.add(loc1_8);
+        
+        locs.addAll(Arrays.asList(loc, loc1, loc2, loc3, loc4, loc5, loc6, loc7, loc8, loc_1,
+                loc1_1, loc1_2, loc1_3, loc1_4, loc1_5, loc1_6, loc1_7, loc1_8));
         
         List<BlockState> states = new ArrayList<>();
         
@@ -106,6 +95,8 @@ public class PlayerCobweb implements Punishment {
             states.add(location.getBlock());
             location.setBlockType(BlockTypes.WEB);
         }
+        history.add(new AffectedBlocks(locs, states));
+        
         // We made it to the end. Happy face. Now to track the player
         Managers.cobwebManager.addPlayer(player, locs, states);
         
@@ -137,5 +128,10 @@ public class PlayerCobweb implements Punishment {
     @Override
     public String[] command() {
         return new String[] { "cobweb" };
+    }
+
+    @Override
+    public Optional<List<AffectedBlocks>> affectedBlocks() {
+        return Optional.of(history);
     }
 }

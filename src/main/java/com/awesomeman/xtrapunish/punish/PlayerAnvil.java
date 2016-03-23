@@ -25,8 +25,12 @@
 
 package com.awesomeman.xtrapunish.punish;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
+import org.spongepowered.api.block.BlockState;
 import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -42,9 +46,12 @@ import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 import com.awesomeman.xtrapunish.api.punish.Punishment;
+import com.awesomeman.xtrapunish.util.AffectedBlocks;
 
 public class PlayerAnvil implements Punishment {
-
+    
+    private List<AffectedBlocks> history = new ArrayList<>();
+    
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");
@@ -58,6 +65,13 @@ public class PlayerAnvil implements Punishment {
         Location<World> anvil1 = loc.add(0, 6, 0);
         Location<World> anvil2 = anvil1.getRelative(Direction.UP);
         Location<World> anvil3 = anvil2.getRelative(Direction.UP);
+        
+        List<Location<World>> locs = new ArrayList<>();
+        List<BlockState> states = new ArrayList<>();
+        locs.addAll(Arrays.asList(loc, anvil2.sub(0, 6, 0), anvil3.sub(0, 6, 0)));
+        states.addAll(Arrays.asList(loc.getBlock(), anvil2.sub(0, 6, 0).getBlock(), anvil3.sub(0, 6, 0).getBlock()));
+        history.add(new AffectedBlocks(locs, states));
+        
         anvil1.setBlockType(BlockTypes.ANVIL);
         anvil2.setBlockType(BlockTypes.ANVIL);
         anvil3.setBlockType(BlockTypes.ANVIL);
@@ -89,5 +103,10 @@ public class PlayerAnvil implements Punishment {
     @Override
     public String[] command() {
         return new String[] { "anvil" };
+    }
+
+    @Override
+    public Optional<List<AffectedBlocks>> affectedBlocks() {
+        return Optional.of(history);
     }
 }

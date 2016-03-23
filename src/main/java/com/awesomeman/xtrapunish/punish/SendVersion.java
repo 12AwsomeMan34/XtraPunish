@@ -27,6 +27,7 @@ package com.awesomeman.xtrapunish.punish;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 
 import org.spongepowered.api.command.CommandException;
@@ -41,6 +42,7 @@ import org.spongepowered.api.text.format.TextColors;
 import com.awesomeman.xtrapunish.PluginInfo;
 import com.awesomeman.xtrapunish.XtraPunish;
 import com.awesomeman.xtrapunish.api.punish.Punishment;
+import com.awesomeman.xtrapunish.util.AffectedBlocks;
 
 public class SendVersion implements Punishment {
     
@@ -87,5 +89,10 @@ public class SendVersion implements Punishment {
     @Override
     public String[] command() {
         return new String[] { "version" };
+    }
+
+    @Override
+    public Optional<List<AffectedBlocks>> affectedBlocks() {
+        return Optional.empty();
     }
 }

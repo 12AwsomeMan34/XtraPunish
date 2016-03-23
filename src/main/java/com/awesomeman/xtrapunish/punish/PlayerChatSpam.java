@@ -25,6 +25,7 @@
 
 package com.awesomeman.xtrapunish.punish;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -39,6 +40,7 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
 import com.awesomeman.xtrapunish.api.punish.Punishment;
+import com.awesomeman.xtrapunish.util.AffectedBlocks;
 
 /**
  * Spams a player's chat with random characters.
@@ -95,5 +97,10 @@ public class PlayerChatSpam implements Punishment {
     @Override
     public String[] command() {
         return new String[] { "spam" };
+    }
+
+    @Override
+    public Optional<List<AffectedBlocks>> affectedBlocks() {
+        return Optional.empty();
     }
 }

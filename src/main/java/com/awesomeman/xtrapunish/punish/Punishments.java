@@ -49,6 +49,7 @@ public class Punishments {
         XtraPunish.instance.helpList.add(punishment.helpDescription());
         XtraPunish.instance.commandList.add(punishment.command());
         XtraPunish.instance.commands.add(command.build());
+        XtraPunish.instance.punishments.add(punishment);
     }
     
     /**
@@ -78,6 +79,7 @@ public class Punishments {
         registerPunishment(new PlayerStrike());
         registerPunishment(new PlayerStuck());
         registerPunishment(new PlayerUnstuck());
+        registerPunishment(new PluginUndo());
         registerPunishment(new SendVersion());
     }
 }
