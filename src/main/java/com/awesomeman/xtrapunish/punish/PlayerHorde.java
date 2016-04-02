@@ -44,10 +44,10 @@ import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.world.extent.Extent;
 
 import com.awesomeman.xtrapunish.XtraPunish;
-import com.awesomeman.xtrapunish.api.punish.Punishment;
 import com.awesomeman.xtrapunish.util.AffectedBlocks;
+import com.awesomeman.xtrapunish.util.CommandBase;
 
-public class PlayerHorde implements Punishment {
+public class PlayerHorde implements CommandBase {
 
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {

@@ -38,10 +38,10 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
-import com.awesomeman.xtrapunish.api.punish.Punishment;
 import com.awesomeman.xtrapunish.util.AffectedBlocks;
+import com.awesomeman.xtrapunish.util.CommandBase;
 
-public class PlayerNoFood implements Punishment {
+public class PlayerNoFood implements CommandBase {
     
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");

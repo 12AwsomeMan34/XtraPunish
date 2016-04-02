@@ -25,7 +25,6 @@
 
 package com.awesomeman.xtrapunish.punish;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -34,8 +33,8 @@ import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.command.args.GenericArguments;
+import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.scheduler.Scheduler;
 import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.text.Text;
@@ -44,14 +43,11 @@ import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.serializer.TextSerializers;
 
 import com.awesomeman.xtrapunish.XtraPunish;
-import com.awesomeman.xtrapunish.api.punish.Punishment;
 import com.awesomeman.xtrapunish.manager.Managers;
-import com.awesomeman.xtrapunish.util.AffectedBlocks;
+import com.awesomeman.xtrapunish.util.CommandBase;
+import com.awesomeman.xtrapunish.util.UndoSuccess;
 
-/**
- * Continuously broadcasts a message to the entire server until /punish stop is ran.
- */
-public class BroadcastOverlord implements Punishment {
+public class BroadcastOverlord implements CommandBase {
     
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<String> optional = args.<String>getOne("broadcast");
@@ -84,32 +80,28 @@ public class BroadcastOverlord implements Punishment {
     }
 
     @Override
-    public String permission() {
-        return "xtrapunish.broadcast.start";
+    public String description() {
+        return "Broadcasts a message to the server non-stop!";
     }
-
-    @Override
-    public Text description() {
-        return Text.of("Broadcasts a message to the server non-stop!");
-    }
-
-    @Override
-    public Text helpDescription() {
-        return Text.of(TextColors.GREEN, "/punish broadcast <message> - ", TextColors.GOLD, "Broadcasts a message to the server non-stop!");
-    }
-
-    @Override
-    public Optional<CommandElement> arguments() {
-        return Optional.of(GenericArguments.optional(GenericArguments.remainingJoinedStrings(Text.of("broadcast"))));
-    }
-
+    
     @Override
     public String[] command() {
         return new String[] { "broadcast" };
     }
-
+    
     @Override
-    public Optional<List<AffectedBlocks>> affectedBlocks() {
-        return Optional.empty();
+    public CommandSpec commandSpec() {
+        return CommandSpec.builder()
+                .permission("xtrapunish.broadcast.start")
+                .description(Text.of(description()))
+                .arguments(GenericArguments.optional(
+                        GenericArguments.remainingJoinedStrings(Text.of("broadcast"))))
+                .executor(this)
+                .build();
+    }
+    
+    @Override
+    public UndoSuccess undoRecent() {
+        return UndoSuccess.FAILUE_NOT_SUPPORTED;
     }
 }

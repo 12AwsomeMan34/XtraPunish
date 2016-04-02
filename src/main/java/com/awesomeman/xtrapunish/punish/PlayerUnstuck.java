@@ -38,14 +38,14 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
-import com.awesomeman.xtrapunish.api.punish.Punishment;
 import com.awesomeman.xtrapunish.manager.Managers;
 import com.awesomeman.xtrapunish.util.AffectedBlocks;
+import com.awesomeman.xtrapunish.util.CommandBase;
 
 /**
  * Frees a player, allowing them to move once more.
  */
-public class PlayerUnstuck implements Punishment {
+public class PlayerUnstuck implements CommandBase {
     
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");

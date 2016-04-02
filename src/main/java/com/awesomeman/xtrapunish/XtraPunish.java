@@ -40,10 +40,10 @@ import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.text.Text;
 
-import com.awesomeman.xtrapunish.api.punish.Punishment;
 import com.awesomeman.xtrapunish.manager.Managers;
 import com.awesomeman.xtrapunish.punish.HelpCommand;
 import com.awesomeman.xtrapunish.punish.Punishments;
+import com.awesomeman.xtrapunish.util.CommandBase;
 import com.google.inject.Inject;
 
 @Updatifier(repoName = PluginInfo.NAME, repoOwner = PluginInfo.ORGANIZATION, version = PluginInfo.VERSION)
@@ -52,11 +52,8 @@ import com.google.inject.Inject;
 public class XtraPunish {
     
     public static XtraPunish instance;
-    public @Inject Logger logger;
-    public List<CommandSpec> commands = new ArrayList<>();
-    public List<Text> helpList = new ArrayList<>();
-    public List<String[]> commandList = new ArrayList<>();
-    public List<Punishment> punishments = new ArrayList<>();
+    public @Inject Logger logger;    
+    public List<CommandBase> commandBases = new ArrayList<>();
     
     @Listener
     public void onInit(GameInitializationEvent event) {
@@ -78,8 +75,8 @@ public class XtraPunish {
                 .description(Text.of("Main command for XtraPunish!"))
                 .executor(new HelpCommand());
         
-        for(int i = 0; i < commands.size(); i++) {
-            mainCommandBuilder.child(commands.get(i), commandList.get(i));
+        for(CommandBase command : commandBases) {
+            mainCommandBuilder.child(command.commandSpec(), command.command());
         }
         
         service.register(this, mainCommandBuilder.build(), "xtra", "xtrapunish", "punish");

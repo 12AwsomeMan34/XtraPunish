@@ -23,62 +23,41 @@
  * THE SOFTWARE.
  */
 
-package com.awesomeman.xtrapunish.api.punish;
+package com.awesomeman.xtrapunish.util;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.command.spec.CommandExecutor;
-import org.spongepowered.api.text.Text;
+import org.spongepowered.api.command.spec.CommandSpec;
 
-import com.awesomeman.xtrapunish.util.AffectedBlocks;
-
-public interface Punishment extends CommandExecutor {
+public interface CommandBase extends CommandExecutor {
     
     /**
-     * Permission for the command.
-     * 
-     * @return The permission for the command
-     */
-    String permission();
-    
-    /**
-     * The description of the command.
+     * The description of the command. This is used in the help list
+     * and in the {@link CommandSpec}.
      * 
      * @return The description of the command
      */
-    Text description();
+    String description();
     
     /**
-     * Gets the help description for a command. This description will
-     * be used for the pagination help list, and should be formatted
-     * for such.
+     * The command or any command aliases to be run.
      * 
-     * @return The help description
-     */
-    Text helpDescription();
-    
-    /**
-     * The arguments for the command. Note that not all commands have
-     * arguments.
-     * 
-     * @return An optional of the arguments for the command, if present
-     */
-    Optional<CommandElement> arguments();
-    
-    /**
-     * The command or any command aliases to be run alongside /punish.
-     * 
-     * @return The command to be run alongside /punish
+     * @return The command to be run
      */
     String[] command();
     
     /**
-     * Gets a list of blocks affected by this punishment. Note that not all
-     * commands will affect blocks.
+     * The built {@link CommandSpec} for the command.
      * 
-     * @return The blocks affected by this command
+     * @return The {@link CommandSpec} for the command
      */
-    Optional<List<AffectedBlocks>> affectedBlocks();
+    CommandSpec commandSpec();
+    
+    /**
+     * This should undo any potential damage that may have been caused
+     * by the use of this command. Note that not all commands may be
+     * undone (ex. message commands).
+     * 
+     * @return If the command was undone successfully
+     */
+    UndoSuccess undoRecent();
 }

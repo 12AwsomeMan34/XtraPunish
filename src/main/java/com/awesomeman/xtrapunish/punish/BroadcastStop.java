@@ -36,14 +36,11 @@ import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
-import com.awesomeman.xtrapunish.api.punish.Punishment;
 import com.awesomeman.xtrapunish.manager.Managers;
 import com.awesomeman.xtrapunish.util.AffectedBlocks;
+import com.awesomeman.xtrapunish.util.CommandBase;
 
-/**
- * Stops that annoying broadcast!
- */
-public class BroadcastStop implements Punishment {
+public class BroadcastStop implements CommandBase {
     
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         if(Managers.broadcastManager.cancelBroadcast()) {
@@ -52,11 +49,6 @@ public class BroadcastStop implements Punishment {
             src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Broadcast successfully stopped."));
         }
         return CommandResult.success();
-    }
-
-    @Override
-    public String permission() {
-        return "xtrapunish.broadcast.stop";
     }
 
     @Override
@@ -70,17 +62,7 @@ public class BroadcastStop implements Punishment {
     }
 
     @Override
-    public Optional<CommandElement> arguments() {
-        return Optional.empty();
-    }
-
-    @Override
     public String[] command() {
         return new String[] { "stop-broadcast" };
-    }
-
-    @Override
-    public Optional<List<AffectedBlocks>> affectedBlocks() {
-        return Optional.empty();
     }
 }

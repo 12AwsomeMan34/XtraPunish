@@ -28,28 +28,28 @@ package com.awesomeman.xtrapunish.punish;
 import org.spongepowered.api.command.spec.CommandSpec;
 
 import com.awesomeman.xtrapunish.XtraPunish;
-import com.awesomeman.xtrapunish.api.punish.Punishment;
+import com.awesomeman.xtrapunish.util.CommandBase;
 
 public class Punishments {
     
     /**
      * Construct the {@link CommandSpec} and add the necessary specifications.
      * 
-     * @param punishment The punishment to be registered
+     * @param commandBase The punishment to be registered
      */
-    public static void registerPunishment(Punishment punishment) {
+    public static void registerPunishment(CommandBase commandBase) {
         CommandSpec.Builder command = CommandSpec.builder()
-                .permission(punishment.permission())
-                .description(punishment.description())
-                .executor(punishment);
-        if(punishment.arguments().isPresent()) {
-            command.arguments(punishment.arguments().get());
+                .permission(commandBase.permission())
+                .description(commandBase.description())
+                .executor(commandBase);
+        if(commandBase.arguments().isPresent()) {
+            command.arguments(commandBase.arguments().get());
         }
         
-        XtraPunish.instance.helpList.add(punishment.helpDescription());
-        XtraPunish.instance.commandList.add(punishment.command());
+        XtraPunish.instance.helpList.add(commandBase.helpDescription());
+        XtraPunish.instance.commandList.add(commandBase.command());
         XtraPunish.instance.commands.add(command.build());
-        XtraPunish.instance.punishments.add(punishment);
+        XtraPunish.instance.commandBases.add(commandBase);
     }
     
     /**

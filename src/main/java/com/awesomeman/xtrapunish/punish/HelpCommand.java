@@ -25,53 +25,47 @@
 
 package com.awesomeman.xtrapunish.punish;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.service.pagination.PaginationService;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
 import com.awesomeman.xtrapunish.XtraPunish;
-import com.awesomeman.xtrapunish.api.punish.Punishment;
-import com.awesomeman.xtrapunish.util.AffectedBlocks;
+import com.awesomeman.xtrapunish.util.CommandBase;
+import com.awesomeman.xtrapunish.util.UndoSuccess;
 
-public class HelpCommand implements Punishment {
+public class HelpCommand implements CommandBase {
     
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         PaginationService service = Sponge.getServiceManager().provide(PaginationService.class).get();
+        
+        List<Text> descriptions = new ArrayList<>();        
+        for(CommandBase command : XtraPunish.instance.commandBases) {
+            descriptions.add(Text.of(TextColors.GREEN, "/punish ",
+                    command.command()[0], " - ", TextColors.GOLD,
+                    command.description()));
+        }
+        
         service.builder()
             .title(Text.of(TextColors.GOLD, "XtraPunish"))
-            .contents(XtraPunish.instance.helpList)
+            .contents(descriptions)
             .padding(Text.of("-="))
             .sendTo(src);
+        
         return CommandResult.success();
     }
 
     @Override
-    public String permission() {
-        return "xtrapunish.help";
-    }
-
-    @Override
-    public Text description() {
-        return Text.of("The help command for XtraPunish!");
-    }
-
-    @Override
-    public Text helpDescription() {
-        return Text.of(TextColors.GREEN, "/punish help - ", TextColors.GOLD, "Display's this help list!");
-    }
-
-    @Override
-    public Optional<CommandElement> arguments() {
-        return Optional.empty();
+    public String description() {
+        return "Display's this help list!";
     }
 
     @Override
@@ -80,7 +74,16 @@ public class HelpCommand implements Punishment {
     }
 
     @Override
-    public Optional<List<AffectedBlocks>> affectedBlocks() {
-        return Optional.empty();
+    public CommandSpec commandSpec() {
+        return CommandSpec.builder()
+                .permission("xtrapunish.help")
+                .description(Text.of(description()))
+                .executor(this)
+                .build();
+    }
+
+    @Override
+    public UndoSuccess undoRecent() {
+        return UndoSuccess.FAILUE_NOT_SUPPORTED;
     }
 }

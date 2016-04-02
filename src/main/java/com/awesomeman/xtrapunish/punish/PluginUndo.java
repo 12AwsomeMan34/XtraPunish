@@ -25,23 +25,22 @@
 
 package com.awesomeman.xtrapunish.punish;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.command.args.GenericArguments;
+import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
 import com.awesomeman.xtrapunish.XtraPunish;
-import com.awesomeman.xtrapunish.api.punish.Punishment;
-import com.awesomeman.xtrapunish.util.AffectedBlocks;
+import com.awesomeman.xtrapunish.util.CommandBase;
+import com.awesomeman.xtrapunish.util.UndoSuccess;
 
-public class PluginUndo implements Punishment {
+public class PluginUndo implements CommandBase {
     
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
@@ -51,63 +50,28 @@ public class PluginUndo implements Punishment {
             return CommandResult.empty();
         }
         String command = optional.get();
-        Punishment punishment = null;
         
-        // Cycle through commands list
-        for(int i = 0; i < XtraPunish.instance.commandList.size(); i++) {
-            // Cycle through any possible aliases
-            for(String command2 : XtraPunish.instance.commandList.get(i)) {
-                // Check if the possible alias matches our string
-                if(command.toLowerCase().equals(command2.toLowerCase())) {
-                    punishment = XtraPunish.instance.punishments.get(i);
+        for(CommandBase commandBase : XtraPunish.instance.commandBases) {
+            for(String command2 : commandBase.command()) {
+                if(command2.equals(command)) {
+                    switch(commandBase.undoRecent()) {
+                        case SUCCESS:
+                            src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Command has been undone."));
+                            break;
+                        case FAILUE_NOT_SUPPORTED:
+                            src.sendMessage(Text.of(TextColors.RED, "That command does not support undo!"));
+                            break;
+                        case FAILURE_NO_HISTORY:
+                            src.sendMessage(Text.of(TextColors.RED, "That command has no history that can be undone!"));
+                            break;
+                        case FAILUE_UNKNOWN:
+                            src.sendMessage(Text.of(TextColors.RED, "An error occured while attempting to undo that command!"));
+                            break;
+                    }
                 }
             }
         }
-        
-        if(punishment == null) {
-            src.sendMessage(Text.of(TextColors.RED, "Command not found!"));
-            return CommandResult.empty();
-        }
-        if(!punishment.affectedBlocks().isPresent()) {
-            src.sendMessage(Text.of(TextColors.RED, "Command does not support undo."));
-            return CommandResult.empty();
-        }
-        if(punishment.affectedBlocks().get().isEmpty()) {
-            src.sendMessage(Text.of(TextColors.RED, "No history found for command ", punishment.command()[0], "."));
-            return CommandResult.empty();
-        }
-        List<AffectedBlocks> affected = punishment.affectedBlocks().get();
-        AffectedBlocks blocks = affected.get(affected.size() - 1);
-        
-        for(int i = 0; i < blocks.loc.size(); i++) {
-            blocks.loc.get(i).setBlock(blocks.oldState.get(i));
-        }
-        
-        punishment.affectedBlocks().get().remove(blocks);
-        
-        src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Command has been undone."));
-        
         return CommandResult.success();
-    }
-    
-    @Override
-    public String permission() {
-        return "xtrapunish.undo";
-    }
-    
-    @Override
-    public Text description() {
-        return Text.of("Undoes any damage caused by a specified command.");
-    }
-    
-    @Override
-    public Text helpDescription() {
-        return Text.of(TextColors.GREEN, "/punish undo <command> - ", TextColors.GOLD, "Undoes any damage caused by the specified command.");
-    }
-    
-    @Override
-    public Optional<CommandElement> arguments() {
-        return Optional.of(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.string(Text.of("command")))));
     }
     
     @Override
@@ -116,8 +80,23 @@ public class PluginUndo implements Punishment {
     }
 
     @Override
-    public Optional<List<AffectedBlocks>> affectedBlocks() {
-        // TODO: redo command perhaps ?
-        return Optional.empty();
+    public String description() {
+        return "Undoes any damage caused by a specified command.";
+    }
+
+    @Override
+    public CommandSpec commandSpec() {
+        return CommandSpec.builder()
+                .permission("xtrapunish.undo")
+                .description(Text.of(description()))
+                .arguments(GenericArguments.optional(
+                        GenericArguments.string(Text.of("command"))))
+                .executor(this)
+                .build();
+    }
+
+    @Override
+    public UndoSuccess undoRecent() {
+        return UndoSuccess.FAILUE_NOT_SUPPORTED;
     }
 }

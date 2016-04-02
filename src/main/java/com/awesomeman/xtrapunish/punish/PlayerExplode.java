@@ -38,13 +38,14 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.world.explosion.Explosion;
-import com.awesomeman.xtrapunish.api.punish.Punishment;
+
 import com.awesomeman.xtrapunish.util.AffectedBlocks;
+import com.awesomeman.xtrapunish.util.CommandBase;
 
 /**
  * Explodes a player.
  */
-public class PlayerExplode implements Punishment {
+public class PlayerExplode implements CommandBase {
     
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");

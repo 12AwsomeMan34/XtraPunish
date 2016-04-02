@@ -36,8 +36,8 @@ import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.command.args.GenericArguments;
+import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
@@ -45,14 +45,12 @@ import org.spongepowered.api.util.Direction;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
-import com.awesomeman.xtrapunish.api.punish.Punishment;
 import com.awesomeman.xtrapunish.util.AffectedBlocks;
+import com.awesomeman.xtrapunish.util.CommandBase;
+import com.awesomeman.xtrapunish.util.UndoSuccess;
 import com.flowpowered.math.vector.Vector3d;
 
-/**
- * Spawns bedrock around a player.
- */
-public class PlayerBedrock implements Punishment {
+public class PlayerBedrock implements CommandBase {
     
     private List<AffectedBlocks> history = new ArrayList<>();
     
@@ -100,23 +98,8 @@ public class PlayerBedrock implements Punishment {
     }
 
     @Override
-    public String permission() {
-        return "xtrapunish.trap";
-    }
-
-    @Override
-    public Text description() {
-        return Text.of("Traps a player in cold bedrock!");
-    }
-
-    @Override
-    public Text helpDescription() {
-        return Text.of(TextColors.GREEN, "/punish trap <player> - ", TextColors.GOLD, "Traps a player in bedrock!");
-    }
-
-    @Override
-    public Optional<CommandElement> arguments() {
-        return Optional.of(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))));
+    public String description() {
+        return "Encases a player in bedrock!";
     }
 
     @Override
@@ -125,7 +108,23 @@ public class PlayerBedrock implements Punishment {
     }
 
     @Override
-    public Optional<List<AffectedBlocks>> affectedBlocks() {
-        return Optional.of(history);
+    public CommandSpec commandSpec() {
+        return CommandSpec.builder()
+                .permission("xtrapunish.trap")
+                .description(Text.of(description()))
+                .arguments(GenericArguments.optional(GenericArguments
+                        .onlyOne(GenericArguments.player(Text.of("player")))))
+                .executor(this)
+                .build();
+    }
+
+    @Override
+    public UndoSuccess undoRecent() {
+        AffectedBlocks affected = history.get(history.size() - 1);
+        for(int i = 0; i < affected.loc.size(); i++) {
+            affected.loc.get(i).setBlock(affected.oldState.get(i));
+        }
+        history.remove(affected);
+        return UndoSuccess.SUCCESS;
     }
 }

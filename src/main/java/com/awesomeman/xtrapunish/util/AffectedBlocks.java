@@ -25,6 +25,7 @@
 
 package com.awesomeman.xtrapunish.util;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.spongepowered.api.block.BlockState;
@@ -33,8 +34,8 @@ import org.spongepowered.api.world.World;
 
 public class AffectedBlocks {
     
-    public List<Location<World>> loc;
-    public List<BlockState> oldState;
+    public List<Location<World>> loc = new ArrayList<>();
+    public List<BlockState> oldState = new ArrayList<>();
     
     public AffectedBlocks(List<Location<World>> loc, List<BlockState> oldState) {
         this.loc = loc;

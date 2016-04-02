@@ -45,11 +45,11 @@ import org.spongepowered.api.util.Direction;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
-import com.awesomeman.xtrapunish.api.punish.Punishment;
 import com.awesomeman.xtrapunish.manager.Managers;
 import com.awesomeman.xtrapunish.util.AffectedBlocks;
+import com.awesomeman.xtrapunish.util.CommandBase;
 
-public class PlayerCobweb implements Punishment {
+public class PlayerCobweb implements CommandBase {
     
     private List<AffectedBlocks> history = new ArrayList<>();
     

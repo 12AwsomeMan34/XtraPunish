@@ -43,10 +43,10 @@ import org.spongepowered.api.item.inventory.type.GridInventory;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
-import com.awesomeman.xtrapunish.api.punish.Punishment;
 import com.awesomeman.xtrapunish.util.AffectedBlocks;
+import com.awesomeman.xtrapunish.util.CommandBase;
 
-public class PlayerSponge implements Punishment {
+public class PlayerSponge implements CommandBase {
 
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {

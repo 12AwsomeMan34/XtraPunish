@@ -27,24 +27,21 @@ package com.awesomeman.xtrapunish.punish;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
-import java.util.Optional;
-
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
 
 import com.awesomeman.xtrapunish.PluginInfo;
 import com.awesomeman.xtrapunish.XtraPunish;
-import com.awesomeman.xtrapunish.api.punish.Punishment;
-import com.awesomeman.xtrapunish.util.AffectedBlocks;
+import com.awesomeman.xtrapunish.util.CommandBase;
+import com.awesomeman.xtrapunish.util.UndoSuccess;
 
-public class SendVersion implements Punishment {
+public class SendVersion implements CommandBase {
     
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
@@ -67,32 +64,26 @@ public class SendVersion implements Punishment {
     }
 
     @Override
-    public String permission() {
-        return "xtrapunish.version";
-    }
-
-    @Override
-    public Text description() {
-        return Text.of("Displays information about XtraPunish.");
-    }
-
-    @Override
-    public Text helpDescription() {
-        return Text.of(TextColors.GREEN, "/punish version - ", TextColors.GOLD, "Displays the current version running and other information.");
-    }
-
-    @Override
-    public Optional<CommandElement> arguments() {
-        return Optional.empty();
-    }
-
-    @Override
     public String[] command() {
         return new String[] { "version" };
     }
 
     @Override
-    public Optional<List<AffectedBlocks>> affectedBlocks() {
-        return Optional.empty();
+    public String description() {
+        return "Displays the current version running among other information.";
+    }
+
+    @Override
+    public CommandSpec commandSpec() {
+        return CommandSpec.builder()
+                .permission("xtrapunish.version")
+                .description(Text.of(description()))
+                .executor(this)
+                .build();
+    }
+
+    @Override
+    public UndoSuccess undoRecent() {
+        return UndoSuccess.FAILUE_NOT_SUPPORTED;
     }
 }
