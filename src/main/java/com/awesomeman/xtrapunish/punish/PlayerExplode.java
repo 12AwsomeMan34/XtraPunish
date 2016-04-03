@@ -42,9 +42,6 @@ import org.spongepowered.api.world.explosion.Explosion;
 import com.awesomeman.xtrapunish.util.AffectedBlocks;
 import com.awesomeman.xtrapunish.util.CommandBase;
 
-/**
- * Explodes a player.
- */
 public class PlayerExplode implements CommandBase {
     
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {

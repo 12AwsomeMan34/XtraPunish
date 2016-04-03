@@ -25,25 +25,31 @@
 
 package com.awesomeman.xtrapunish.punish;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.command.args.GenericArguments;
+import org.spongepowered.api.command.spec.CommandSpec;
+import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.data.manipulator.mutable.entity.IgniteableData;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
-import com.awesomeman.xtrapunish.util.AffectedBlocks;
 import com.awesomeman.xtrapunish.util.CommandBase;
+import com.awesomeman.xtrapunish.util.UndoSuccess;
 
 public class PlayerBurning implements CommandBase {
+    
+    private List<Set<Player>> history = new ArrayList<>();
     
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");
@@ -55,48 +61,57 @@ public class PlayerBurning implements CommandBase {
         
         IgniteableData data = Sponge.getGame().getDataManager().getManipulatorBuilder(IgniteableData.class).get().create();
         if(flag) {
+            Set<Player> playersAffected = new HashSet<>();
             for(Player player : Sponge.getServer().getOnlinePlayers()) {
                 if(!src.equals(player)) {
                     player.offer(data.fireTicks().set(data.fireTicks().getMaxValue()));
+                    playersAffected.add(player);
                 }
             }
+            history.add(playersAffected);
             src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "All players on the server are now a little warm!"));
         } else {
             Player player = optional.get();
             player.offer(data.fireTicks().set(data.fireTicks().getMaxValue()));
+            
+            Set<Player> playerAffected = new HashSet<>();
+            playerAffected.add(player);
+            history.add(playerAffected);
+            
             src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " is now a little warm!"));
         }
         return CommandResult.success();
     }
-
+    
     @Override
-    public String permission() {
-        return "xtrapunish.burning";
+    public String description() {
+        return "Sets a player on fire.";
     }
-
-    @Override
-    public Text description() {
-        return Text.of("Sets a player on fire!");
-    }
-
-    @Override
-    public Text helpDescription() {
-        return Text.of(TextColors.GREEN, "/punish burn <player> [-a] - ", TextColors.GOLD, "Sets a player on fire!");
-    }
-
-    @Override
-    public Optional<CommandElement> arguments() {
-        return Optional.of(GenericArguments.flags().flag("a")
-                .buildWith(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player"))))));
-    }
-
+    
     @Override
     public String[] command() {
         return new String[] { "burn" };
     }
-
+    
     @Override
-    public Optional<List<AffectedBlocks>> affectedBlocks() {
-        return Optional.empty();
+    public CommandSpec commandSpec() {
+        return CommandSpec.builder()
+                .permission("xtrapunish.burning")
+                .description(Text.of(description()))
+                .arguments(GenericArguments.flags().flag("a").buildWith(GenericArguments
+                        .optional(GenericArguments.onlyOne(GenericArguments
+                                .player(Text.of("player"))))))
+                .executor(this)
+                .build();
+    }
+    
+    @Override
+    public UndoSuccess undoRecent() {
+        for(Set<Player> playerSet : history) {
+            for(Player player : playerSet) {
+                player.offer(Keys.FIRE_TICKS, 0);
+            }
+        }
+        return UndoSuccess.SUCCESS;
     }
 }

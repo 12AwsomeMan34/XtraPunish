@@ -36,8 +36,8 @@ import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.command.args.GenericArguments;
+import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
@@ -47,6 +47,8 @@ import org.spongepowered.api.world.World;
 
 import com.awesomeman.xtrapunish.util.AffectedBlocks;
 import com.awesomeman.xtrapunish.util.CommandBase;
+import com.awesomeman.xtrapunish.util.UndoSuccess;
+import com.awesomeman.xtrapunish.util.UndoUtil;
 
 public class PlayerAnvil implements CommandBase {
     
@@ -79,34 +81,30 @@ public class PlayerAnvil implements CommandBase {
         src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Dropping the hammer on " + player.getName() + "!"));
         return CommandResult.success();
     }
-
+    
     @Override
-    public String permission() {
-        return "xtrapunish.anvil";
+    public String description() {
+        return "Drops three anvils on a player!";
     }
-
-    @Override
-    public Text description() {
-        return Text.of("Drops three anvils on a player!");
-    }
-
-    @Override
-    public Text helpDescription() {
-        return Text.of(TextColors.GREEN, "/punish anvil <player> - ", TextColors.GOLD, "Drops three anvils onto the player.");
-    }
-
-    @Override
-    public Optional<CommandElement> arguments() {
-        return Optional.of(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))));
-    }
-
+    
     @Override
     public String[] command() {
         return new String[] { "anvil" };
     }
-
+    
     @Override
-    public Optional<List<AffectedBlocks>> affectedBlocks() {
-        return Optional.of(history);
+    public CommandSpec commandSpec() {
+        return CommandSpec.builder()
+                .permission("xtrapunish.anvil")
+                .description(Text.of(description()))
+                .arguments(GenericArguments.optional(GenericArguments.onlyOne(
+                        GenericArguments.player(Text.of("player")))))
+                .executor(this)
+                .build();
+    }
+    
+    @Override
+    public UndoSuccess undoRecent() {
+        return UndoUtil.removeBlockHistory(history);
     }
 }

@@ -25,26 +25,22 @@
 
 package com.awesomeman.xtrapunish.punish;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.command.args.GenericArguments;
+import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
 import com.awesomeman.xtrapunish.manager.Managers;
-import com.awesomeman.xtrapunish.util.AffectedBlocks;
 import com.awesomeman.xtrapunish.util.CommandBase;
+import com.awesomeman.xtrapunish.util.UndoSuccess;
 
-/**
- * Cancel's a player's movement.
- */
 public class PlayerStuck implements CommandBase {
     
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
@@ -62,34 +58,30 @@ public class PlayerStuck implements CommandBase {
         }
         return CommandResult.success();
     }
-
+    
     @Override
-    public String permission() {
-        return "xtrapunish.stuck";
+    public String description() {
+        return "Prevents a player from moving.";
     }
-
-    @Override
-    public Text description() {
-        return Text.of("Prevents a player from moving!");
-    }
-
-    @Override
-    public Text helpDescription() {
-        return Text.of(TextColors.GREEN, "/punish stuck <player> - ", TextColors.GOLD, "Prevents a player from moving at all!");
-    }
-
-    @Override
-    public Optional<CommandElement> arguments() {
-        return Optional.of(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))));
-    }
-
+    
     @Override
     public String[] command() {
         return new String[] { "stuck" };
     }
-
+    
     @Override
-    public Optional<List<AffectedBlocks>> affectedBlocks() {
-        return Optional.empty();
+    public CommandSpec commandSpec() {
+        return CommandSpec.builder()
+                .permission("xtrapunish.stuck")
+                .description(Text.of(description()))
+                .arguments(GenericArguments.optional(GenericArguments
+                        .onlyOne(GenericArguments.player(Text.of("player")))))
+                .executor(this)
+                .build();
+    }
+    
+    @Override
+    public UndoSuccess undoRecent() {
+        return UndoSuccess.FAILUE_NOT_SUPPORTED;
     }
 }

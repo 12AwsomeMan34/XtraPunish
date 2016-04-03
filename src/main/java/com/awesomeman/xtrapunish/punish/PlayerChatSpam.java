@@ -25,7 +25,6 @@
 
 package com.awesomeman.xtrapunish.punish;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -33,14 +32,14 @@ import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.command.args.GenericArguments;
+import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
-import com.awesomeman.xtrapunish.util.AffectedBlocks;
 import com.awesomeman.xtrapunish.util.CommandBase;
+import com.awesomeman.xtrapunish.util.UndoSuccess;
 
 public class PlayerChatSpam implements CommandBase {
     
@@ -55,7 +54,6 @@ public class PlayerChatSpam implements CommandBase {
         String message = "";
         char letter;
         
-        // TODO: random colours ?
         // We send 40 messages
         for(int i = 0; i < 40; i++) {
             // With 50 chars in each
@@ -72,32 +70,28 @@ public class PlayerChatSpam implements CommandBase {
     }
 
     @Override
-    public String permission() {
-        return "xtrapunish.chatspam";
+    public String description() {
+        return "Fills a player's chat with randomly generated charactors.";
     }
-
-    @Override
-    public Text description() {
-        return Text.of("Fills a poor player's chat with random charactors!");
-    }
-
-    @Override
-    public Text helpDescription() {
-        return Text.of(TextColors.GREEN, "/punish spam <player> - ", TextColors.GOLD, "Spams a player's chat with random charactors.");
-    }
-
-    @Override
-    public Optional<CommandElement> arguments() {
-        return Optional.of(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))));
-    }
-
+    
     @Override
     public String[] command() {
         return new String[] { "spam" };
     }
-
+    
     @Override
-    public Optional<List<AffectedBlocks>> affectedBlocks() {
-        return Optional.empty();
+    public CommandSpec commandSpec() {
+        return CommandSpec.builder()
+                .permission("xtrapunish.chatspam")
+                .description(Text.of(description()))
+                .arguments(GenericArguments.optional(GenericArguments
+                        .onlyOne(GenericArguments.player(Text.of("player")))))
+                .executor(this)
+                .build();
+    }
+    
+    @Override
+    public UndoSuccess undoRecent() {
+        return UndoSuccess.FAILUE_NOT_SUPPORTED;
     }
 }

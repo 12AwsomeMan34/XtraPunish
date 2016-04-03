@@ -25,30 +25,12 @@
 
 package com.awesomeman.xtrapunish.punish;
 
-import org.spongepowered.api.command.spec.CommandSpec;
-
 import com.awesomeman.xtrapunish.XtraPunish;
 import com.awesomeman.xtrapunish.util.CommandBase;
 
 public class Punishments {
     
-    /**
-     * Construct the {@link CommandSpec} and add the necessary specifications.
-     * 
-     * @param commandBase The punishment to be registered
-     */
     public static void registerPunishment(CommandBase commandBase) {
-        CommandSpec.Builder command = CommandSpec.builder()
-                .permission(commandBase.permission())
-                .description(commandBase.description())
-                .executor(commandBase);
-        if(commandBase.arguments().isPresent()) {
-            command.arguments(commandBase.arguments().get());
-        }
-        
-        XtraPunish.instance.helpList.add(commandBase.helpDescription());
-        XtraPunish.instance.commandList.add(commandBase.command());
-        XtraPunish.instance.commands.add(command.build());
         XtraPunish.instance.commandBases.add(commandBase);
     }
     
