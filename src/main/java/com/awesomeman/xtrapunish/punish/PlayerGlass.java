@@ -35,8 +35,8 @@ import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.command.args.GenericArguments;
+import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
@@ -45,6 +45,8 @@ import org.spongepowered.api.world.World;
 
 import com.awesomeman.xtrapunish.util.AffectedBlocks;
 import com.awesomeman.xtrapunish.util.CommandBase;
+import com.awesomeman.xtrapunish.util.UndoSuccess;
+import com.awesomeman.xtrapunish.util.UndoUtil;
 
 public class PlayerGlass implements CommandBase {
     
@@ -72,34 +74,30 @@ public class PlayerGlass implements CommandBase {
         src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " is now walking in the clouds."));
         return CommandResult.success();
     }
-
+    
     @Override
-    public String permission() {
-        return "xtrapunish.glass";
+    public String description() {
+        return "Teleports a player into the sky and places them on a glass block.";
     }
-
-    @Override
-    public Text description() {
-        return Text.of("Teleports a player high into the sky and places them on a glass block.");
-    }
-
-    @Override
-    public Text helpDescription() {
-        return Text.of(TextColors.GREEN, "/punish glass <player> - ", TextColors.GOLD, "Teleports a player high into the sky with a glass block beneath them.");
-    }
-
-    @Override
-    public Optional<CommandElement> arguments() {
-        return Optional.of(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))));
-    }
-
+    
     @Override
     public String[] command() {
         return new String[] { "glass" };
     }
-
+    
     @Override
-    public Optional<List<AffectedBlocks>> affectedBlocks() {
-        return Optional.of(history);
+    public CommandSpec commandSpec() {
+        return CommandSpec.builder()
+                .permission("xtrapunish.glass")
+                .description(Text.of(description()))
+                .arguments(GenericArguments.optional(GenericArguments
+                        .onlyOne(GenericArguments.player(Text.of("player")))))
+                .executor(this)
+                .build();
+    }
+    
+    @Override
+    public UndoSuccess undoRecent() {
+        return UndoUtil.removeBlockHistory(history);
     }
 }

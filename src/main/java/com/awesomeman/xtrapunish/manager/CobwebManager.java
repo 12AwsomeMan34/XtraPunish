@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-package com.awesomeman.xtrapunish.manager;
+/*package com.awesomeman.xtrapunish.manager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,3 +73,4 @@ public class CobwebManager {
         }
     }
 }
+*/
