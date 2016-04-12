@@ -56,16 +56,22 @@ public class PluginUndo implements CommandBase {
                 if(command2.equals(command)) {
                     switch(commandBase.undoRecent()) {
                         case SUCCESS:
-                            src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Command has been undone."));
+                            src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Command ", command2, " has been undone."));
                             break;
                         case FAILUE_NOT_SUPPORTED:
-                            src.sendMessage(Text.of(TextColors.RED, "That command does not support undo!"));
+                            src.sendMessage(Text.of(TextColors.RED, "Command ", command2, " does not support undo!"));
                             break;
                         case FAILURE_NO_HISTORY:
-                            src.sendMessage(Text.of(TextColors.RED, "That command has no history that can be undone!"));
+                            src.sendMessage(Text.of(TextColors.RED, "Command ", command2, " has no history that can be undone!"));
+                            break;
+                        case FAILUE_FOOD_DATA:
+                            src.sendMessage(Text.of(TextColors.RED, "Unable to successfully offer data for the command, ", command2, "!"));
+                            break;
+                        case FAILUE_NO_PLAYER:
+                            src.sendMessage(Text.of(TextColors.RED, "A player necessary to undo the command ", command2, " is unavailable. Removing undo entry."));
                             break;
                         case FAILUE_UNKNOWN:
-                            src.sendMessage(Text.of(TextColors.RED, "An error occured while attempting to undo that command!"));
+                            src.sendMessage(Text.of(TextColors.RED, "An error occured while attempting to undo command ", command2, "!"));
                             break;
                     }
                 }

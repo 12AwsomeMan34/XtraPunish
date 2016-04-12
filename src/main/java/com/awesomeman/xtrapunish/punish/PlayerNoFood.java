@@ -25,6 +25,7 @@
 
 package com.awesomeman.xtrapunish.punish;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,16 +33,19 @@ import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.command.args.GenericArguments;
+import org.spongepowered.api.command.spec.CommandSpec;
+import org.spongepowered.api.data.DataTransactionResult;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
-import com.awesomeman.xtrapunish.util.AffectedBlocks;
 import com.awesomeman.xtrapunish.util.CommandBase;
+import com.awesomeman.xtrapunish.util.UndoSuccess;
 
 public class PlayerNoFood implements CommandBase {
+    
+    private List<NoFoodStore> history = new ArrayList<>();
     
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");
@@ -51,38 +55,57 @@ public class PlayerNoFood implements CommandBase {
         }
         Player player = optional.get();
         
+        history.add(new NoFoodStore(player, player.foodLevel().get()));
+        
         player.offer(player.foodLevel().set(0));
         src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " is now starving!"));
         return CommandResult.success();
     }
-
+    
     @Override
-    public String permission() {
-        return "xtrapunish.nofood";
+    public String description() {
+        return "Sets a player's hunger to zero!";
     }
-
-    @Override
-    public Text description() {
-        return Text.of("Sets a player's food to zero!");
-    }
-
-    @Override
-    public Text helpDescription() {
-        return Text.of(TextColors.GREEN, "/punish starve <player> - ", TextColors.GOLD, "Sets a player's food to zero.");
-    }
-
-    @Override
-    public Optional<CommandElement> arguments() {
-        return Optional.of(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))));
-    }
-
+    
     @Override
     public String[] command() {
         return new String[] { "starve" };
     }
-
+    
     @Override
-    public Optional<List<AffectedBlocks>> affectedBlocks() {
-        return Optional.empty();
+    public CommandSpec commandSpec() {
+        return CommandSpec.builder()
+                .permission("xtrapunish.nofood")
+                .description(Text.of(Text.of(description())))
+                .arguments(GenericArguments.optional(GenericArguments
+                        .onlyOne(GenericArguments.player(Text.of("player")))))
+                .executor(this)
+                .build();
+    }
+    
+    @Override
+    public UndoSuccess undoRecent() {
+        NoFoodStore store = history.get(history.size() - 1);
+        
+        if(!store.player.isOnline()) {
+            return UndoSuccess.FAILUE_NO_PLAYER;
+        }
+        
+        if(store.player.offer(store.player.foodLevel().set(store.hunger))
+                .equals(DataTransactionResult.Type.SUCCESS)) {
+            return UndoSuccess.SUCCESS;
+        }
+        return UndoSuccess.FAILUE_UNKNOWN;
+    }
+    
+    private class NoFoodStore {
+        
+        public Player player;
+        public Integer hunger;
+        
+        public NoFoodStore(Player player, Integer hunger) {
+            this.player = player;
+            this.hunger = hunger;
+        }
     }
 }
