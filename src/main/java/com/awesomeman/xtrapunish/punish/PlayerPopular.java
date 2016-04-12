@@ -25,6 +25,7 @@
 
 package com.awesomeman.xtrapunish.punish;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,17 +34,21 @@ import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.command.args.GenericArguments;
+import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
-import com.awesomeman.xtrapunish.util.AffectedBlocks;
 import com.awesomeman.xtrapunish.util.CommandBase;
+import com.awesomeman.xtrapunish.util.UndoSuccess;
 
 public class PlayerPopular implements CommandBase {
-
+    
+    private List<PopularStore> history = new ArrayList<>();
+    
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");
@@ -53,42 +58,59 @@ public class PlayerPopular implements CommandBase {
         }
         Player player = optional.get();
         
+        List<Player> players = new ArrayList<>();
+        List<Location<World>> locs = new ArrayList<>();
+        
         for(Player player2 : Sponge.getServer().getOnlinePlayers()) {
+            players.add(player2); locs.add(player2.getLocation());
             player2.setLocation(player.getLocation());
         }
+        
+        history.add(new PopularStore(players, locs));
         
         src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " is making new friends."));
         
         return CommandResult.success();
     }
-
+    
     @Override
-    public String permission() {
-        return "xtrapunish.popular";
+    public String description() {
+        return "Teleports all players in a server to the specified player.";
     }
-
-    @Override
-    public Text description() {
-        return Text.of("Teleports all players in a server to the specified player.");
-    }
-
-    @Override
-    public Text helpDescription() {
-        return Text.of(TextColors.GREEN, "/punish popular <player> - ", TextColors.GOLD, "Teleports all players in a server to the specified player.");
-    }
-
-    @Override
-    public Optional<CommandElement> arguments() {
-        return Optional.of(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))));
-    }
-
+    
     @Override
     public String[] command() {
         return new String[] { "popular" };
     }
-
+    
     @Override
-    public Optional<List<AffectedBlocks>> affectedBlocks() {
-        return Optional.empty();
+    public CommandSpec commandSpec() {
+        return CommandSpec.builder()
+                .permission("xtrapunish.popular")
+                .description(Text.of(description()))
+                .arguments(GenericArguments.optional(GenericArguments
+                        .onlyOne(GenericArguments.player(Text.of("player")))))
+                .executor(this)
+                .build();
+    }
+    
+    @Override
+    public UndoSuccess undoRecent() {
+        PopularStore store = history.get(history.size() - 1);
+        for(int i = 0; i < store.players.size(); i++) {
+            store.players.get(i).setLocationSafely(store.locs.get(i));
+        }
+        return UndoSuccess.SUCCESS;
+    }
+    
+    public class PopularStore {
+        
+        public List<Player> players;
+        public List<Location<World>> locs;
+        
+        public PopularStore(List<Player> players, List<Location<World>> locs) {
+            this.players = players;
+            this.locs = locs;
+        }
     }
 }
