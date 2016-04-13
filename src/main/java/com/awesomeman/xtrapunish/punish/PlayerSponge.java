@@ -25,6 +25,7 @@
 
 package com.awesomeman.xtrapunish.punish;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,8 +33,8 @@ import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.command.args.GenericArguments;
+import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.Inventory;
@@ -43,11 +44,13 @@ import org.spongepowered.api.item.inventory.type.GridInventory;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
-import com.awesomeman.xtrapunish.util.AffectedBlocks;
 import com.awesomeman.xtrapunish.util.CommandBase;
+import com.awesomeman.xtrapunish.util.UndoSuccess;
 
 public class PlayerSponge implements CommandBase {
-
+    
+    private List<PlayerSpongeStore> history = new ArrayList<>();
+    
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");
@@ -56,46 +59,72 @@ public class PlayerSponge implements CommandBase {
             return CommandResult.empty();
         }
         Player player = optional.get();
-        ItemStack sponge = ItemStack.builder().itemType(ItemTypes.SPONGE).build();
         
         Inventory inv  = player.getInventory().query(GridInventory.class);
         Inventory hotbar = player.getInventory().query(Hotbar.class);
-        for(Inventory slot : inv.slots()) {
-            slot.set(sponge);
-        }
-        for(Inventory slot : hotbar.slots()) {
-            slot.set(sponge);
-        }
+        
+        List<ItemStack> items = new ArrayList<>();
+        List<Inventory> slots = new ArrayList<>();
+        
+        iterateSlots(inv, items, slots);
+        iterateSlots(hotbar, items, slots);
+        
+        history.add(new PlayerSpongeStore(items, slots));
         return CommandResult.success();
     }
-
-    @Override
-    public String permission() {
-        return "xtrapunish.sponge";
+    
+    public void iterateSlots(Inventory inv, List<ItemStack> items, List<Inventory> slots) {
+        ItemStack sponge = ItemStack.builder().itemType(ItemTypes.SPONGE).build();
+        for(Inventory slot : inv.slots()) {
+            Optional<ItemStack> stack = slot.poll();
+            if(stack.isPresent()) {
+                items.add(stack.get());
+            } else {
+                items.add(ItemStack.of(ItemTypes.NONE, 0));
+            }
+            slots.add(slot);
+            slot.set(sponge);
+        }
     }
-
+    
     @Override
-    public Text description() {
-        return Text.of("Sets everything in a player's inventory to sponge.");
+    public String description() {
+        return "Sets everything in a player's inventory to sponge.";
     }
-
-    @Override
-    public Text helpDescription() {
-        return Text.of(TextColors.GREEN, "/punish sponge <player> - ", TextColors.GOLD, "Replaces all items in a player's inventory with sponges.");
-    }
-
-    @Override
-    public Optional<CommandElement> arguments() {
-        return Optional.of(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))));
-    }
-
+    
     @Override
     public String[] command() {
         return new String[] { "sponge" };
     }
-
+    
     @Override
-    public Optional<List<AffectedBlocks>> affectedBlocks() {
-        return Optional.empty();
+    public CommandSpec commandSpec() {
+        return CommandSpec.builder()
+                .permission("xtrapunish.sponge")
+                .description(Text.of(description()))
+                .arguments(GenericArguments.optional(GenericArguments
+                        .onlyOne(GenericArguments.player(Text.of("player")))))
+                .executor(this)
+                .build();
+    }
+    
+    @Override
+    public UndoSuccess undoRecent() {
+        PlayerSpongeStore store = history.get(history.size() - 1);
+        for(int i = 0; i < store.items.size(); i++) {
+            store.slots.get(i).set(store.items.get(i));
+        }
+        return UndoSuccess.SUCCESS;
+    }
+    
+    public class PlayerSpongeStore {
+        
+        public List<ItemStack> items;
+        public List<Inventory> slots;
+        
+        public PlayerSpongeStore(List<ItemStack> items, List<Inventory> slots) {
+            this.items = items;
+            this.slots = slots;
+        }
     }
 }
