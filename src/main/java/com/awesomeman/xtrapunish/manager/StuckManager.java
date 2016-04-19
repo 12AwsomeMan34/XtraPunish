@@ -37,48 +37,50 @@ import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 public class StuckManager {
-    
+
     private List<Player> stuckPlayers = new ArrayList<>();
     private List<Location<World>> stuckPlayersLoc = new ArrayList<>();
-    
+
     public boolean setPlayerStuck(Player player) {
-        if(!stuckPlayers.contains(player)) {
+        if (!stuckPlayers.contains(player)) {
             stuckPlayers.add(player);
             stuckPlayersLoc.add(player.getLocation());
             return true;
         }
         return false;
     }
-    
+
     public boolean setPlayerUnstuck(Player player) {
-        if(stuckPlayers.contains(player)) {
-            // We need to remove the loc first, as we get the index from stuckPlayers
+        if (stuckPlayers.contains(player)) {
+            // We need to remove the loc first, as we get the index from
+            // stuckPlayers
             stuckPlayersLoc.remove(stuckPlayers.indexOf(player));
             stuckPlayers.remove(player);
             return true;
         }
         return false;
     }
-    
+
     @Listener
     public void playerMove(DisplaceEntityEvent.Move.TargetPlayer event) {
-        if(stuckPlayers.contains(event.getTargetEntity())) {
+        if (stuckPlayers.contains(event.getTargetEntity())) {
             Location<World> playerLoc = event.getTargetEntity().getLocation();
-            // stuckPlayersLoc and stuckPlayers are added together in a list, so they are at the same index
+            // stuckPlayersLoc and stuckPlayers are added together in a list, so
+            // they are at the same index
             Location<World> storedLoc = stuckPlayersLoc.get(stuckPlayers.indexOf(event.getTargetEntity()));
-            if(playerLoc.getX() > storedLoc.getX() + 0.5 || playerLoc.getX() < storedLoc.getX() - 0.5
+            if (playerLoc.getX() > storedLoc.getX() + 0.5 || playerLoc.getX() < storedLoc.getX() - 0.5
                     || playerLoc.getY() > storedLoc.getY() + 1
                     || playerLoc.getZ() > storedLoc.getZ() + 0.5 || playerLoc.getZ() < storedLoc.getZ() - 0.5) {
                 event.getTargetEntity().setLocation(storedLoc);
             }
         }
     }
-    
+
     @Listener
     public void breakBlock(ChangeBlockEvent event) {
         Optional<Player> optional = event.getCause().<Player>first(Player.class);
-        if(optional.isPresent()) {
-            if(stuckPlayers.contains(optional.get())) {
+        if (optional.isPresent()) {
+            if (stuckPlayers.contains(optional.get())) {
                 // Prevent players from changing blocks while they are stuck
                 event.setCancelled(true);
             }

@@ -46,43 +46,44 @@ import com.awesomeman.xtrapunish.util.CommandBase;
 import com.awesomeman.xtrapunish.util.UndoSuccess;
 
 public class PlayerPopular implements CommandBase {
-    
+
     private List<PopularStore> history = new ArrayList<>();
-    
+
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");
-        if(!optional.isPresent()) {
+        if (!optional.isPresent()) {
             src.sendMessage(Text.of(TextColors.RED, "Player argument not specified! Correct usage: /punish popular <player>"));
             return CommandResult.empty();
         }
         Player player = optional.get();
-        
+
         List<Player> players = new ArrayList<>();
         List<Location<World>> locs = new ArrayList<>();
-        
-        for(Player player2 : Sponge.getServer().getOnlinePlayers()) {
-            players.add(player2); locs.add(player2.getLocation());
+
+        for (Player player2 : Sponge.getServer().getOnlinePlayers()) {
+            players.add(player2);
+            locs.add(player2.getLocation());
             player2.setLocation(player.getLocation());
         }
-        
+
         history.add(new PopularStore(players, locs));
-        
+
         src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " is making new friends."));
-        
+
         return CommandResult.success();
     }
-    
+
     @Override
     public String description() {
         return "Teleports all players in a server to the specified player.";
     }
-    
+
     @Override
     public String[] command() {
-        return new String[] { "popular" };
+        return new String[] {"popular"};
     }
-    
+
     @Override
     public CommandSpec commandSpec() {
         return CommandSpec.builder()
@@ -93,22 +94,22 @@ public class PlayerPopular implements CommandBase {
                 .executor(this)
                 .build();
     }
-    
+
     @Override
     public UndoSuccess undoRecent() {
         PopularStore store = history.get(history.size() - 1);
-        for(int i = 0; i < store.players.size(); i++) {
+        for (int i = 0; i < store.players.size(); i++) {
             store.players.get(i).setLocationSafely(store.locs.get(i));
         }
         history.remove(store);
         return UndoSuccess.SUCCESS;
     }
-    
+
     public class PopularStore {
-        
+
         public List<Player> players;
         public List<Location<World>> locs;
-        
+
         public PopularStore(List<Player> players, List<Location<World>> locs) {
             this.players = players;
             this.locs = locs;

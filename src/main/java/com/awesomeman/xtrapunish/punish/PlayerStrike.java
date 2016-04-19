@@ -50,15 +50,15 @@ public class PlayerStrike implements CommandBase {
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");
-        if(!optional.isPresent()) {
+        if (!optional.isPresent()) {
             src.sendMessage(Text.of(TextColors.RED, "Player argument not specified! Correct usage: /punish strike <player>"));
             return CommandResult.empty();
         }
         Player player = optional.get();
         Extent extent = player.getLocation().getExtent();
-        
+
         Optional<Entity> optional2 = extent.createEntity(EntityTypes.LIGHTNING, player.getLocation().getPosition());
-        if(optional2.isPresent()) {
+        if (optional2.isPresent()) {
             extent.spawnEntity(optional2.get(), Cause.of(NamedCause.of("Lightning", this)));
             src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Striking " + player.getName() + "."));
         }
@@ -69,12 +69,12 @@ public class PlayerStrike implements CommandBase {
     public String description() {
         return "Strikes a player with lightning.";
     }
-    
+
     @Override
     public String[] command() {
-        return new String[] { "strike" };
+        return new String[] {"strike"};
     }
-    
+
     @Override
     public CommandSpec commandSpec() {
         return CommandSpec.builder()

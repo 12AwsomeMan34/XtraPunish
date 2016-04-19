@@ -42,33 +42,33 @@ import com.awesomeman.xtrapunish.util.CommandBase;
 import com.awesomeman.xtrapunish.util.UndoSuccess;
 
 public class PlayerUnstuck implements CommandBase {
-    
+
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");
-        if(!optional.isPresent()) {
+        if (!optional.isPresent()) {
             src.sendMessage(Text.of(TextColors.RED, "Player argument not specified! Correct usage: /punish unstuck <player>"));
             return CommandResult.empty();
         }
         Player player = optional.get();
-        
-        if(Managers.stuckManager.setPlayerUnstuck(player)) {
+
+        if (Managers.stuckManager.setPlayerUnstuck(player)) {
             src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " is free once more!"));
         } else {
             src.sendMessage(Text.of(TextColors.RED, "Player already free!"));
         }
         return CommandResult.success();
     }
-    
+
     @Override
     public String description() {
         return "Unfreezes a player, allowing them to move once more.";
     }
-    
+
     @Override
     public String[] command() {
-        return new String[] { "unstuck" };
+        return new String[] {"unstuck"};
     }
-    
+
     @Override
     public CommandSpec commandSpec() {
         return CommandSpec.builder()
@@ -79,7 +79,7 @@ public class PlayerUnstuck implements CommandBase {
                 .executor(this)
                 .build();
     }
-    
+
     @Override
     public UndoSuccess undoRecent() {
         return UndoSuccess.FAILUE_NOT_SUPPORTED;

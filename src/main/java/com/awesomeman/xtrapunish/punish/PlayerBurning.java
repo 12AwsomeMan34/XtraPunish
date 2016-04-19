@@ -48,22 +48,22 @@ import com.awesomeman.xtrapunish.util.CommandBase;
 import com.awesomeman.xtrapunish.util.UndoSuccess;
 
 public class PlayerBurning implements CommandBase {
-    
+
     private List<Set<Player>> history = new ArrayList<>();
-    
+
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");
         boolean flag = args.hasAny("a");
-        if(!optional.isPresent() && !flag) {
+        if (!optional.isPresent() && !flag) {
             src.sendMessage(Text.of(TextColors.RED, "Player argument not specified! Correct usage: /punish burn <player> [-a]"));
             return CommandResult.empty();
         }
-        
+
         IgniteableData data = Sponge.getGame().getDataManager().getManipulatorBuilder(IgniteableData.class).get().create();
-        if(flag) {
+        if (flag) {
             Set<Player> playersAffected = new HashSet<>();
-            for(Player player : Sponge.getServer().getOnlinePlayers()) {
-                if(!src.equals(player)) {
+            for (Player player : Sponge.getServer().getOnlinePlayers()) {
+                if (!src.equals(player)) {
                     player.offer(data.fireTicks().set(data.fireTicks().getMaxValue()));
                     playersAffected.add(player);
                 }
@@ -73,26 +73,26 @@ public class PlayerBurning implements CommandBase {
         } else {
             Player player = optional.get();
             player.offer(data.fireTicks().set(data.fireTicks().getMaxValue()));
-            
+
             Set<Player> playerAffected = new HashSet<>();
             playerAffected.add(player);
             history.add(playerAffected);
-            
+
             src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " is now a little warm!"));
         }
         return CommandResult.success();
     }
-    
+
     @Override
     public String description() {
         return "Sets a player on fire.";
     }
-    
+
     @Override
     public String[] command() {
-        return new String[] { "burn" };
+        return new String[] {"burn"};
     }
-    
+
     @Override
     public CommandSpec commandSpec() {
         return CommandSpec.builder()
@@ -104,11 +104,11 @@ public class PlayerBurning implements CommandBase {
                 .executor(this)
                 .build();
     }
-    
+
     @Override
     public UndoSuccess undoRecent() {
-        for(Set<Player> playerSet : history) {
-            for(Player player : playerSet) {
+        for (Set<Player> playerSet : history) {
+            for (Player player : playerSet) {
                 player.offer(Keys.FIRE_TICKS, 0);
             }
             history.remove(playerSet);

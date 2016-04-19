@@ -49,42 +49,42 @@ import com.awesomeman.xtrapunish.util.UndoSuccess;
 import com.awesomeman.xtrapunish.util.UndoUtil;
 
 public class PlayerGlass implements CommandBase {
-    
+
     private List<AffectedBlocks> history = new ArrayList<>();
-    
+
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");
-        if(!optional.isPresent()) {
+        if (!optional.isPresent()) {
             src.sendMessage(Text.of(TextColors.RED, "Player argument not specified! Correct usage: /punish glass <player>"));
             return CommandResult.empty();
         }
         Player player = optional.get();
         Location<World> location = player.getLocation();
-        
+
         List<Location<World>> locs = new ArrayList<>();
         List<BlockState> states = new ArrayList<>();
         locs.add(location);
         states.add(location.getBlock());
         history.add(new AffectedBlocks(locs, states));
-        
+
         location.add(0, 149, 0).setBlockType(BlockTypes.GLASS);
         player.setLocation(location.add(0, 150, 0));
-        
+
         src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " is now walking in the clouds."));
         return CommandResult.success();
     }
-    
+
     @Override
     public String description() {
         return "Teleports a player into the sky and places them on a glass block.";
     }
-    
+
     @Override
     public String[] command() {
-        return new String[] { "glass" };
+        return new String[] {"glass"};
     }
-    
+
     @Override
     public CommandSpec commandSpec() {
         return CommandSpec.builder()
@@ -95,7 +95,7 @@ public class PlayerGlass implements CommandBase {
                 .executor(this)
                 .build();
     }
-    
+
     @Override
     public UndoSuccess undoRecent() {
         return UndoUtil.removeBlockHistory(history);

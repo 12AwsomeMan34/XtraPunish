@@ -42,49 +42,49 @@ import com.awesomeman.xtrapunish.util.CommandBase;
 import com.awesomeman.xtrapunish.util.UndoSuccess;
 
 public class PlayerBounceExplode implements CommandBase {
-    
+
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");
-        if(!optional.isPresent()) {
+        if (!optional.isPresent()) {
             src.sendMessage(Text.of(TextColors.RED, "Player argument not specified! Correct usage: /punish bounce-explode <player>"));
             return CommandResult.empty();
         }
         Player player = optional.get();
-        
+
         Explosion explosion = Explosion.builder()
                 .world(player.getWorld()).origin(player.getLocation().getPosition())
                 .radius(1)
                 .shouldDamageEntities(true)
                 .shouldBreakBlocks(false).build();
         player.getWorld().triggerExplosion(explosion);
-        
+
         return CommandResult.success();
     }
-    
-	@Override
-	public String description() {
-		return "Bounces a player with an explosion!";
-	}
-	
-	@Override
-    public String[] command() {
-        return new String[] { "bounceexplode", "bounce-explode", "bounce_explode" };
+
+    @Override
+    public String description() {
+        return "Bounces a player with an explosion!";
     }
-	
-	@Override
-	public CommandSpec commandSpec() {
-		return CommandSpec.builder()
-				.permission("xtrapunish.explode.bounce")
-				.description(Text.of(description()))
-				.arguments(GenericArguments.optional(GenericArguments
+
+    @Override
+    public String[] command() {
+        return new String[] {"bounceexplode", "bounce-explode", "bounce_explode"};
+    }
+
+    @Override
+    public CommandSpec commandSpec() {
+        return CommandSpec.builder()
+                .permission("xtrapunish.explode.bounce")
+                .description(Text.of(description()))
+                .arguments(GenericArguments.optional(GenericArguments
                         .onlyOne(GenericArguments.player(Text.of("player")))))
-				.executor(this)
-				.build();
-	}
-	
-	@Override
-	public UndoSuccess undoRecent() {
-		return UndoSuccess.FAILUE_NOT_SUPPORTED;
-	}
+                .executor(this)
+                .build();
+    }
+
+    @Override
+    public UndoSuccess undoRecent() {
+        return UndoSuccess.FAILUE_NOT_SUPPORTED;
+    }
 }

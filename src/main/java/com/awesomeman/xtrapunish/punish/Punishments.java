@@ -29,11 +29,11 @@ import com.awesomeman.xtrapunish.XtraPunish;
 import com.awesomeman.xtrapunish.util.CommandBase;
 
 public class Punishments {
-    
+
     public static void registerPunishment(CommandBase commandBase) {
         XtraPunish.instance.commandBases.add(commandBase);
     }
-    
+
     /**
      * ALL commands must be registered through this. They must all be in
      * alphabetical order.

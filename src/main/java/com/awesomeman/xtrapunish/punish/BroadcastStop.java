@@ -38,26 +38,26 @@ import com.awesomeman.xtrapunish.util.CommandBase;
 import com.awesomeman.xtrapunish.util.UndoSuccess;
 
 public class BroadcastStop implements CommandBase {
-    
+
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-        if(Managers.broadcastManager.cancelBroadcast()) {
+        if (Managers.broadcastManager.cancelBroadcast()) {
             src.sendMessage(Text.of(TextColors.RED, "Broadcast is not running!"));
         } else {
             src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Broadcast successfully stopped."));
         }
         return CommandResult.success();
     }
-    
+
     @Override
     public String description() {
         return "Stops the broadcast.";
     }
-    
+
     @Override
     public String[] command() {
-        return new String[] { "stop-broadcast" };
+        return new String[] {"stop-broadcast"};
     }
-    
+
     @Override
     public CommandSpec commandSpec() {
         return CommandSpec.builder()
@@ -66,7 +66,7 @@ public class BroadcastStop implements CommandBase {
                 .executor(this)
                 .build();
     }
-    
+
     @Override
     public UndoSuccess undoRecent() {
         return UndoSuccess.FAILUE_NOT_SUPPORTED;

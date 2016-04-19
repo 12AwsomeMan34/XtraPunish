@@ -48,36 +48,36 @@ import com.awesomeman.xtrapunish.util.CommandBase;
 import com.awesomeman.xtrapunish.util.UndoSuccess;
 
 public class PlayerSponge implements CommandBase {
-    
+
     private List<PlayerSpongeStore> history = new ArrayList<>();
-    
+
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");
-        if(!optional.isPresent()) {
+        if (!optional.isPresent()) {
             src.sendMessage(Text.of(TextColors.RED, "Player argument not specified! Correct usage: /punish sponge <player>"));
             return CommandResult.empty();
         }
         Player player = optional.get();
-        
-        Inventory inv  = player.getInventory().query(GridInventory.class);
+
+        Inventory inv = player.getInventory().query(GridInventory.class);
         Inventory hotbar = player.getInventory().query(Hotbar.class);
-        
+
         List<ItemStack> items = new ArrayList<>();
         List<Inventory> slots = new ArrayList<>();
-        
+
         iterateSlots(inv, items, slots);
         iterateSlots(hotbar, items, slots);
-        
+
         history.add(new PlayerSpongeStore(items, slots));
         return CommandResult.success();
     }
-    
+
     public void iterateSlots(Inventory inv, List<ItemStack> items, List<Inventory> slots) {
         ItemStack sponge = ItemStack.builder().itemType(ItemTypes.SPONGE).build();
-        for(Inventory slot : inv.slots()) {
+        for (Inventory slot : inv.slots()) {
             Optional<ItemStack> stack = slot.poll();
-            if(stack.isPresent()) {
+            if (stack.isPresent()) {
                 items.add(stack.get());
             } else {
                 items.add(ItemStack.of(ItemTypes.NONE, 0));
@@ -86,17 +86,17 @@ public class PlayerSponge implements CommandBase {
             slot.set(sponge);
         }
     }
-    
+
     @Override
     public String description() {
         return "Sets everything in a player's inventory to sponge.";
     }
-    
+
     @Override
     public String[] command() {
-        return new String[] { "sponge" };
+        return new String[] {"sponge"};
     }
-    
+
     @Override
     public CommandSpec commandSpec() {
         return CommandSpec.builder()
@@ -107,22 +107,22 @@ public class PlayerSponge implements CommandBase {
                 .executor(this)
                 .build();
     }
-    
+
     @Override
     public UndoSuccess undoRecent() {
         PlayerSpongeStore store = history.get(history.size() - 1);
-        for(int i = 0; i < store.items.size(); i++) {
+        for (int i = 0; i < store.items.size(); i++) {
             store.slots.get(i).set(store.items.get(i));
         }
         history.remove(store);
         return UndoSuccess.SUCCESS;
     }
-    
+
     public class PlayerSpongeStore {
-        
+
         public List<ItemStack> items;
         public List<Inventory> slots;
-        
+
         public PlayerSpongeStore(List<ItemStack> items, List<Inventory> slots) {
             this.items = items;
             this.slots = slots;

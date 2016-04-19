@@ -42,33 +42,34 @@ import com.awesomeman.xtrapunish.util.CommandBase;
 import com.awesomeman.xtrapunish.util.UndoSuccess;
 
 public class PlayerStuck implements CommandBase {
-    
+
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");
-        if(!optional.isPresent()) {
+        if (!optional.isPresent()) {
             src.sendMessage(Text.of(TextColors.RED, "Player argument not specified! Correct usage: /punish stuck <player>"));
             return CommandResult.empty();
         }
         Player player = optional.get();
-        
-        if(Managers.stuckManager.setPlayerStuck(player)) {
-            src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " will not be moving anytime soon!"));
+
+        if (Managers.stuckManager.setPlayerStuck(player)) {
+            src.sendMessage(
+                    Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " will not be moving anytime soon!"));
         } else {
             src.sendMessage(Text.of(TextColors.RED, "Player already stuck!"));
         }
         return CommandResult.success();
     }
-    
+
     @Override
     public String description() {
         return "Prevents a player from moving.";
     }
-    
+
     @Override
     public String[] command() {
-        return new String[] { "stuck" };
+        return new String[] {"stuck"};
     }
-    
+
     @Override
     public CommandSpec commandSpec() {
         return CommandSpec.builder()
@@ -79,7 +80,7 @@ public class PlayerStuck implements CommandBase {
                 .executor(this)
                 .build();
     }
-    
+
     @Override
     public UndoSuccess undoRecent() {
         return UndoSuccess.FAILUE_NOT_SUPPORTED;

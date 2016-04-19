@@ -29,33 +29,33 @@ import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.command.spec.CommandSpec;
 
 public interface CommandBase extends CommandExecutor {
-    
+
     /**
-     * The description of the command. This is used in the help list
-     * and in the {@link CommandSpec}.
+     * The description of the command. This is used in the help list and in the
+     * {@link CommandSpec}.
      * 
      * @return The description of the command
      */
     String description();
-    
+
     /**
      * The command or any command aliases to be run.
      * 
      * @return The command to be run
      */
     String[] command();
-    
+
     /**
      * The built {@link CommandSpec} for the command.
      * 
      * @return The {@link CommandSpec} for the command
      */
     CommandSpec commandSpec();
-    
+
     /**
-     * This should undo any potential damage that may have been caused
-     * by the use of this command. Note that not all commands may be
-     * undone (ex. message commands).
+     * This should undo any potential damage that may have been caused by the
+     * use of this command. Note that not all commands may be undone (ex.
+     * message commands).
      * 
      * @return If the command was undone successfully
      */

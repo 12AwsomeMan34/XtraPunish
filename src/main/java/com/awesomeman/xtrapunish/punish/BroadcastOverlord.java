@@ -48,32 +48,32 @@ import com.awesomeman.xtrapunish.util.CommandBase;
 import com.awesomeman.xtrapunish.util.UndoSuccess;
 
 public class BroadcastOverlord implements CommandBase {
-    
+
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<String> optional = args.<String>getOne("broadcast");
-        if(!optional.isPresent()) {
+        if (!optional.isPresent()) {
             src.sendMessage(Text.of(TextColors.RED, "Message argument not specified! Correct usage: /punish broadcast <broadcast>"));
             return CommandResult.empty();
         }
         String broadcast = optional.get();
-        
-        if(Managers.broadcastManager.getBroadcast() != null) {
+
+        if (Managers.broadcastManager.getBroadcast() != null) {
             src.sendMessage(Text.of(TextColors.RED, "Broadcast already running! Cannot create another one."));
             return CommandResult.empty();
         }
-        
+
         // Allow our message to be formatted with &
         Text broadcastMessage = TextSerializers.FORMATTING_CODE.deserialize(broadcast);
         MessageChannel channel = MessageChannel.TO_ALL;
-        
+
         Scheduler scheduler = Sponge.getScheduler();
         Task.Builder taskBuilder = scheduler.createTaskBuilder();
-        // Runs an asynchronous task that displays the broadcast message twice a second
+        // Runs an asynchronous task that displays the broadcast message twice a
+        // second
         Task broadcastTask = taskBuilder.execute(
-            task -> {
-                channel.send(broadcastMessage);
-            }
-        ).async().interval(500, TimeUnit.MILLISECONDS).name("XtraPunish broadcast message command.").submit(XtraPunish.instance);
+                task -> {
+                    channel.send(broadcastMessage);
+                }).async().interval(500, TimeUnit.MILLISECONDS).name("XtraPunish broadcast message command.").submit(XtraPunish.instance);
         Managers.broadcastManager.storeBroadcast(broadcastTask);
         src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Broadcast has started."));
         return CommandResult.success();
@@ -83,12 +83,12 @@ public class BroadcastOverlord implements CommandBase {
     public String description() {
         return "Broadcasts a message to the server non-stop!";
     }
-    
+
     @Override
     public String[] command() {
-        return new String[] { "broadcast" };
+        return new String[] {"broadcast"};
     }
-    
+
     @Override
     public CommandSpec commandSpec() {
         return CommandSpec.builder()
@@ -99,7 +99,7 @@ public class BroadcastOverlord implements CommandBase {
                 .executor(this)
                 .build();
     }
-    
+
     @Override
     public UndoSuccess undoRecent() {
         return UndoSuccess.FAILUE_NOT_SUPPORTED;

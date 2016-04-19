@@ -52,19 +52,19 @@ import com.awesomeman.xtrapunish.util.UndoSuccess;
 import com.flowpowered.math.vector.Vector3d;
 
 public class PlayerBedrock implements CommandBase {
-    
+
     private List<AffectedBlocks> history = new ArrayList<>();
-    
+
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");
-        if(!optional.isPresent()) {
+        if (!optional.isPresent()) {
             src.sendMessage(Text.of(TextColors.RED, "Player argument not specified! Correct usage: /punish trap <player>"));
             return CommandResult.empty();
         }
         Player player = optional.get();
-        
+
         Location<World> loc = player.getLocation();
-        
+
         Location<World> bottomLoc = loc.getRelative(Direction.DOWN);
         Location<World> topLoc = loc.getRelative(Direction.UP).getRelative(Direction.UP);
         Location<World> sideLoc1 = player.getLocation().getRelative(Direction.NORTH);
@@ -75,26 +75,28 @@ public class PlayerBedrock implements CommandBase {
         Location<World> sideLoc2_1 = sideLoc2.getRelative(Direction.UP);
         Location<World> sideLoc3_1 = sideLoc3.getRelative(Direction.UP);
         Location<World> sideLoc4_1 = sideLoc4.getRelative(Direction.UP);
-        
+
         List<Location<World>> locs = new ArrayList<>();
         List<BlockState> states = new ArrayList<>();
-        
+
         locs.addAll(Arrays.asList(bottomLoc, topLoc, sideLoc1, sideLoc2, sideLoc3, sideLoc4,
                 sideLoc1_1, sideLoc2_1, sideLoc3_1, sideLoc4_1));
-        
-        for(Location<World> location : locs) {
+
+        for (Location<World> location : locs) {
             states.add(location.getBlock());
             location.setBlockType(BlockTypes.BEDROCK);
         }
         history.add(new AffectedBlocks(locs, states));
-        
-        // Set the player's location to prevent the player being stuck in the bedrock, or out of the trap
+
+        // Set the player's location to prevent the player being stuck in the
+        // bedrock, or out of the trap
         player.setLocation(player.getLocation().setPosition(new Vector3d(
                 Math.floor(bottomLoc.getX()) + 0.5,
                 Math.floor(player.getLocation().getY()),
                 Math.floor(bottomLoc.getZ()) + 0.5)));
-        
-        src.sendMessage(Text.of(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " is now encased in bedrock!")));
+
+        src.sendMessage(
+                Text.of(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " is now encased in bedrock!")));
         return CommandResult.success();
     }
 
@@ -105,7 +107,7 @@ public class PlayerBedrock implements CommandBase {
 
     @Override
     public String[] command() {
-        return new String[] { "trap" };
+        return new String[] {"trap"};
     }
 
     @Override

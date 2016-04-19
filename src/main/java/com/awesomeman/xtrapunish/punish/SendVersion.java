@@ -42,7 +42,7 @@ import com.awesomeman.xtrapunish.util.CommandBase;
 import com.awesomeman.xtrapunish.util.UndoSuccess;
 
 public class SendVersion implements CommandBase {
-    
+
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         src.sendMessage(Text.of(TextColors.GREEN, "-=-=-=- XtraPunish -=-=-=-"));
@@ -55,8 +55,9 @@ public class SendVersion implements CommandBase {
                     .color(TextColors.GREEN)
                     .append(Text.builder(github).color(TextColors.GOLD)
                             .onClick(TextActions.openUrl(new URL(github)))
-                            .build()).build());
-        } catch(MalformedURLException e) {
+                            .build())
+                    .build());
+        } catch (MalformedURLException e) {
             XtraPunish.instance.logger.error("Error opening github url!");
             src.sendMessage(Text.of(TextColors.GOLD, github));
         }
@@ -65,7 +66,7 @@ public class SendVersion implements CommandBase {
 
     @Override
     public String[] command() {
-        return new String[] { "version" };
+        return new String[] {"version"};
     }
 
     @Override

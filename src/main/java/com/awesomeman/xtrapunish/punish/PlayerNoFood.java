@@ -44,34 +44,34 @@ import com.awesomeman.xtrapunish.util.CommandBase;
 import com.awesomeman.xtrapunish.util.UndoSuccess;
 
 public class PlayerNoFood implements CommandBase {
-    
+
     private List<NoFoodStore> history = new ArrayList<>();
-    
+
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");
-        if(!optional.isPresent()) {
+        if (!optional.isPresent()) {
             src.sendMessage(Text.of(TextColors.RED, "Player argument not specified! Correct usage: /punish starve <player>"));
             return CommandResult.empty();
         }
         Player player = optional.get();
-        
+
         history.add(new NoFoodStore(player, player.foodLevel().get()));
-        
+
         player.offer(player.foodLevel().set(0));
         src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " is now starving!"));
         return CommandResult.success();
     }
-    
+
     @Override
     public String description() {
         return "Sets a player's hunger to zero!";
     }
-    
+
     @Override
     public String[] command() {
-        return new String[] { "starve" };
+        return new String[] {"starve"};
     }
-    
+
     @Override
     public CommandSpec commandSpec() {
         return CommandSpec.builder()
@@ -82,27 +82,27 @@ public class PlayerNoFood implements CommandBase {
                 .executor(this)
                 .build();
     }
-    
+
     @Override
     public UndoSuccess undoRecent() {
         NoFoodStore store = history.get(history.size() - 1);
-        
-        if(!store.player.isOnline()) {
+
+        if (!store.player.isOnline()) {
             return UndoSuccess.FAILUE_NO_PLAYER;
         }
         history.remove(store);
-        if(store.player.offer(store.player.foodLevel().set(store.hunger))
+        if (store.player.offer(store.player.foodLevel().set(store.hunger))
                 .equals(DataTransactionResult.Type.SUCCESS)) {
             return UndoSuccess.SUCCESS;
         }
         return UndoSuccess.FAILUE_UNKNOWN;
     }
-    
+
     private class NoFoodStore {
-        
+
         public Player player;
         public Integer hunger;
-        
+
         public NoFoodStore(Player player, Integer hunger) {
             this.player = player;
             this.hunger = hunger;

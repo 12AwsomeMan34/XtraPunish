@@ -41,31 +41,31 @@ import com.awesomeman.xtrapunish.util.CommandBase;
 import com.awesomeman.xtrapunish.util.UndoSuccess;
 
 public class PlayerDrop implements CommandBase {
-    
-	@Override
-	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-	    Optional<Player> optional = args.<Player>getOne("player");
-        if(!optional.isPresent()) {
+
+    @Override
+    public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
+        Optional<Player> optional = args.<Player>getOne("player");
+        if (!optional.isPresent()) {
             src.sendMessage(Text.of(TextColors.RED, "Player argument not specified! Correct usage: /punish drop <player>"));
             return CommandResult.empty();
         }
         Player player = optional.get();
         player.setLocation(player.getLocation().add(0, 150, 0));
-        
+
         src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " is now plunging to their death!"));
         return CommandResult.success();
-	}
-	
+    }
+
     @Override
     public String description() {
         return "Drops a player from the sky.";
     }
-    
+
     @Override
     public String[] command() {
-        return new String[] { "drop" };
+        return new String[] {"drop"};
     }
-    
+
     @Override
     public CommandSpec commandSpec() {
         return CommandSpec.builder()
@@ -76,7 +76,7 @@ public class PlayerDrop implements CommandBase {
                 .executor(this)
                 .build();
     }
-    
+
     @Override
     public UndoSuccess undoRecent() {
         return UndoSuccess.FAILUE_NOT_SUPPORTED;

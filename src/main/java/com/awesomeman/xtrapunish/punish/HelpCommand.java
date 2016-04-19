@@ -43,23 +43,23 @@ import com.awesomeman.xtrapunish.util.CommandBase;
 import com.awesomeman.xtrapunish.util.UndoSuccess;
 
 public class HelpCommand implements CommandBase {
-    
+
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         PaginationService service = Sponge.getServiceManager().provide(PaginationService.class).get();
-        
-        List<Text> descriptions = new ArrayList<>();        
-        for(CommandBase command : XtraPunish.instance.commandBases) {
+
+        List<Text> descriptions = new ArrayList<>();
+        for (CommandBase command : XtraPunish.instance.commandBases) {
             descriptions.add(Text.of(TextColors.GREEN, "/punish ",
                     command.command()[0], " - ", TextColors.GOLD,
                     command.description()));
         }
-        
+
         service.builder()
-            .title(Text.of(TextColors.GOLD, "XtraPunish"))
-            .contents(descriptions)
-            .padding(Text.of("-="))
-            .sendTo(src);
-        
+                .title(Text.of(TextColors.GOLD, "XtraPunish"))
+                .contents(descriptions)
+                .padding(Text.of("-="))
+                .sendTo(src);
+
         return CommandResult.success();
     }
 
@@ -70,7 +70,7 @@ public class HelpCommand implements CommandBase {
 
     @Override
     public String[] command() {
-        return new String[] { "help" };
+        return new String[] {"help"};
     }
 
     @Override

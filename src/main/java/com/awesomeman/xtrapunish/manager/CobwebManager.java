@@ -19,58 +19,36 @@
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 
-/*package com.awesomeman.xtrapunish.manager;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.spongepowered.api.block.BlockState;
-import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.event.Listener;
-import org.spongepowered.api.event.entity.DisplaceEntityEvent;
-import org.spongepowered.api.world.Location;
-import org.spongepowered.api.world.World;
-
-public class CobwebManager {
-    
-    private List<Player> cobwebPlayers = new ArrayList<>();
-    // We store a list of locations and blockstates for easy restoration
-    private List<List<Location<World>>> cobweb = new ArrayList<>();
-    private List<List<BlockState>> restoreBlocks = new ArrayList<>();
-    
-    public void addPlayer(Player player, List<Location<World>> cobwebs, List<BlockState> restoreBlock) {
-        if(!cobwebPlayers.contains(player)) {
-            cobwebPlayers.add(player);
-            cobweb.add(cobwebs);
-            restoreBlocks.add(restoreBlock);
-        }
-    }
-    
-    @Listener
-    public void move(DisplaceEntityEvent.Move.TargetPlayer event) {
-        if(cobwebPlayers.contains(event.getTargetEntity())) {
-            double x = event.getTargetEntity().getLocation().getX();
-            double z = event.getTargetEntity().getLocation().getZ();
-            List<Location<World>> cobwebs = cobweb.get(cobwebPlayers.indexOf(event.getTargetEntity()));
-            
-            // Mid block should always be stored at zero
-            double cobX = cobwebs.get(0).getX();
-            double cobZ = cobwebs.get(0).getZ();
-            if(x > cobX + 2.5 || x < cobX - 2.5 || z > cobZ + 2.5 || z < cobZ - 2.5) {
-                List<BlockState> restore = restoreBlocks.get(cobwebPlayers.indexOf(event.getTargetEntity()));
-                for(int i = 0; i < cobwebs.size(); i++) {
-                    cobwebs.get(i).setBlock(restore.get(i));
-                }
-                
-                cobwebPlayers.remove(event.getTargetEntity());
-                cobweb.remove(cobwebs);
-                restoreBlocks.remove(restore);
-            }
-        }
-    }
-}
-*/
+/*
+ * package com.awesomeman.xtrapunish.manager; import java.util.ArrayList; import
+ * java.util.List; import org.spongepowered.api.block.BlockState; import
+ * org.spongepowered.api.entity.living.player.Player; import
+ * org.spongepowered.api.event.Listener; import
+ * org.spongepowered.api.event.entity.DisplaceEntityEvent; import
+ * org.spongepowered.api.world.Location; import
+ * org.spongepowered.api.world.World; public class CobwebManager { private
+ * List<Player> cobwebPlayers = new ArrayList<>(); // We store a list of
+ * locations and blockstates for easy restoration private
+ * List<List<Location<World>>> cobweb = new ArrayList<>(); private
+ * List<List<BlockState>> restoreBlocks = new ArrayList<>(); public void
+ * addPlayer(Player player, List<Location<World>> cobwebs, List<BlockState>
+ * restoreBlock) { if(!cobwebPlayers.contains(player)) {
+ * cobwebPlayers.add(player); cobweb.add(cobwebs);
+ * restoreBlocks.add(restoreBlock); } }
+ * @Listener public void move(DisplaceEntityEvent.Move.TargetPlayer event) {
+ * if(cobwebPlayers.contains(event.getTargetEntity())) { double x =
+ * event.getTargetEntity().getLocation().getX(); double z =
+ * event.getTargetEntity().getLocation().getZ(); List<Location<World>> cobwebs =
+ * cobweb.get(cobwebPlayers.indexOf(event.getTargetEntity())); // Mid block
+ * should always be stored at zero double cobX = cobwebs.get(0).getX(); double
+ * cobZ = cobwebs.get(0).getZ(); if(x > cobX + 2.5 || x < cobX - 2.5 || z > cobZ
+ * + 2.5 || z < cobZ - 2.5) { List<BlockState> restore =
+ * restoreBlocks.get(cobwebPlayers.indexOf(event.getTargetEntity())); for(int i
+ * = 0; i < cobwebs.size(); i++) { cobwebs.get(i).setBlock(restore.get(i)); }
+ * cobwebPlayers.remove(event.getTargetEntity()); cobweb.remove(cobwebs);
+ * restoreBlocks.remove(restore); } } } }
+ */

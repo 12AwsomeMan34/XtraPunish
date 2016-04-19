@@ -50,57 +50,58 @@ import com.awesomeman.xtrapunish.util.CommandBase;
 import com.awesomeman.xtrapunish.util.UndoSuccess;
 
 public class PlayerCreeper implements CommandBase {
-	
-	private List<Entity> history = new ArrayList<>();
-    
+
+    private List<Entity> history = new ArrayList<>();
+
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");
-        if(!optional.isPresent()) {
+        if (!optional.isPresent()) {
             src.sendMessage(Text.of(TextColors.RED, "Player argument not specified! Correct usage: /punish creeper <player>"));
             return CommandResult.empty();
         }
         Player player = optional.get();
-        
+
         Extent extent = player.getLocation().getExtent();
         Optional<Entity> optional2 = extent.createEntity(EntityTypes.CREEPER, player.getLocation().getPosition());
-        if(optional2.isPresent()) {
+        if (optional2.isPresent()) {
             Entity entity = optional2.get();
             entity.offer(Keys.CREEPER_CHARGED, true);
             extent.spawnEntity(entity, Cause.source(EntitySpawnCause.builder().entity(entity).type(SpawnTypes.PLUGIN).build()).build());
             history.add(entity);
-            src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " will need to watch their back!"));
+            src.sendMessage(
+                    Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " will need to watch their back!"));
         } else {
             src.sendMessage(Text.of(TextColors.RED, "The entity could not be created!"));
         }
         return CommandResult.success();
     }
-    
-	@Override
-	public String description() {
-		return "Spawns a charged creeper on the player.";
-	}
-	
-	@Override
-    public String[] command() {
-        return new String[] { "creeper" };
+
+    @Override
+    public String description() {
+        return "Spawns a charged creeper on the player.";
     }
-	
-	@Override
-	public CommandSpec commandSpec() {
-		return CommandSpec.builder()
-				.permission("xtrapunish.creeper")
-				.description(Text.of(description()))
-				.arguments(GenericArguments.optional(GenericArguments
+
+    @Override
+    public String[] command() {
+        return new String[] {"creeper"};
+    }
+
+    @Override
+    public CommandSpec commandSpec() {
+        return CommandSpec.builder()
+                .permission("xtrapunish.creeper")
+                .description(Text.of(description()))
+                .arguments(GenericArguments.optional(GenericArguments
                         .onlyOne(GenericArguments.player(Text.of("player")))))
-				.executor(this)
-				.build();
-	}
-	
-	@Override
-	public UndoSuccess undoRecent() {
-		Entity entity = history.get(history.size() - 1);
-		entity.remove();
-		history.remove(entity);
-		return UndoSuccess.SUCCESS;
-	}
+                .executor(this)
+                .build();
+    }
+
+    @Override
+    public UndoSuccess undoRecent() {
+        Entity entity = history.get(history.size() - 1);
+        entity.remove();
+        history.remove(entity);
+        return UndoSuccess.SUCCESS;
+    }
 }

@@ -43,15 +43,15 @@ import com.awesomeman.xtrapunish.util.AffectedBlocks;
 import com.awesomeman.xtrapunish.util.CommandBase;
 
 public class PlayerExplode implements CommandBase {
-    
+
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");
-        if(!optional.isPresent()) {
+        if (!optional.isPresent()) {
             src.sendMessage(Text.of(TextColors.RED, "Player argument not specified! Correct usage: /punish explode <player>"));
             return CommandResult.empty();
         }
         Player player = optional.get();
-        
+
         Explosion explosion = Explosion.builder()
                 .world(player.getWorld()).origin(player.getLocation().getPosition())
                 .radius(4)
@@ -83,7 +83,7 @@ public class PlayerExplode implements CommandBase {
 
     @Override
     public String[] command() {
-        return new String[] { "explode" };
+        return new String[] {"explode"};
     }
 
     @Override

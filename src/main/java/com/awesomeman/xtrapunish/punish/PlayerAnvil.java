@@ -51,47 +51,47 @@ import com.awesomeman.xtrapunish.util.UndoSuccess;
 import com.awesomeman.xtrapunish.util.UndoUtil;
 
 public class PlayerAnvil implements CommandBase {
-    
+
     private List<AffectedBlocks> history = new ArrayList<>();
-    
+
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");
-        if(!optional.isPresent()) {
+        if (!optional.isPresent()) {
             src.sendMessage(Text.of(TextColors.RED, "Player argument not specified! Correct usage: /punish anvil <player>"));
             return CommandResult.empty();
         }
         Player player = optional.get();
         Location<World> loc = player.getLocation();
-        
+
         Location<World> anvil1 = loc.add(0, 6, 0);
         Location<World> anvil2 = anvil1.getRelative(Direction.UP);
         Location<World> anvil3 = anvil2.getRelative(Direction.UP);
-        
+
         List<Location<World>> locs = new ArrayList<>();
         List<BlockState> states = new ArrayList<>();
         locs.addAll(Arrays.asList(loc, anvil2.sub(0, 6, 0), anvil3.sub(0, 6, 0)));
         states.addAll(Arrays.asList(loc.getBlock(), anvil2.sub(0, 6, 0).getBlock(), anvil3.sub(0, 6, 0).getBlock()));
         history.add(new AffectedBlocks(locs, states));
-        
+
         anvil1.setBlockType(BlockTypes.ANVIL);
         anvil2.setBlockType(BlockTypes.ANVIL);
         anvil3.setBlockType(BlockTypes.ANVIL);
-        
+
         src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Dropping the hammer on " + player.getName() + "!"));
         return CommandResult.success();
     }
-    
+
     @Override
     public String description() {
         return "Drops three anvils on a player!";
     }
-    
+
     @Override
     public String[] command() {
-        return new String[] { "anvil" };
+        return new String[] {"anvil"};
     }
-    
+
     @Override
     public CommandSpec commandSpec() {
         return CommandSpec.builder()
@@ -102,7 +102,7 @@ public class PlayerAnvil implements CommandBase {
                 .executor(this)
                 .build();
     }
-    
+
     @Override
     public UndoSuccess undoRecent() {
         return UndoUtil.removeBlockHistory(history);

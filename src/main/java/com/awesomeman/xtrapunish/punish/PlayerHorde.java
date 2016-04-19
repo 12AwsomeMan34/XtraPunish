@@ -51,63 +51,64 @@ import com.awesomeman.xtrapunish.util.CommandBase;
 import com.awesomeman.xtrapunish.util.UndoSuccess;
 
 public class PlayerHorde implements CommandBase {
-	
-	private List<Set<Entity>> history = new ArrayList<>();
+
+    private List<Set<Entity>> history = new ArrayList<>();
 
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");
-        if(!optional.isPresent()) {
+        if (!optional.isPresent()) {
             src.sendMessage(Text.of(TextColors.RED, "Player argument not specified! Correct usage: /punish horde <player>"));
             return CommandResult.empty();
         }
         Player player = optional.get();
         Extent extent = player.getLocation().getExtent();
-        
+
         Set<Entity> entities = new HashSet<>();
-        
+
         // 20 creepers
-        for(int i = 0; i < 20; i++) {
+        for (int i = 0; i < 20; i++) {
             Optional<Entity> optional2 = extent.createEntity(EntityTypes.CREEPER, player.getLocation().getPosition());
-            if(optional2.isPresent()) {
+            if (optional2.isPresent()) {
                 extent.spawnEntity(optional2.get(), Cause.of(NamedCause.of("plugin", XtraPunish.instance)));
                 entities.add(optional2.get());
             }
         }
         history.add(entities);
-        
-        src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " might as well be sleeping with the fishes!"));        
+
+        src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD,
+                "Player " + player.getName() + " might as well be sleeping with the fishes!"));
         return CommandResult.success();
     }
-    
-	@Override
-	public String description() {
-		return "Spawns a horde of creepers onto the player!";
-	}
-	
-	@Override
-    public String[] command() {
-        return new String[] { "horde" };
+
+    @Override
+    public String description() {
+        return "Spawns a horde of creepers onto the player!";
     }
-	
-	@Override
-	public CommandSpec commandSpec() {
-		return CommandSpec.builder()
-				.permission("xtrapunish.horde")
-				.description(Text.of(description()))
-				.arguments(GenericArguments.optional(GenericArguments
-						.onlyOne(GenericArguments.player(Text.of("player")))))
-				.executor(this)
-				.build();
-	}
-	
-	@Override
-	public UndoSuccess undoRecent() {
-		Set<Entity> entitySet = history.get(history.size() - 1);
-		for(Entity entity : entitySet) {
-			entity.remove();
-		}
-		history.remove(entitySet);
-		return UndoSuccess.SUCCESS;
-	}
+
+    @Override
+    public String[] command() {
+        return new String[] {"horde"};
+    }
+
+    @Override
+    public CommandSpec commandSpec() {
+        return CommandSpec.builder()
+                .permission("xtrapunish.horde")
+                .description(Text.of(description()))
+                .arguments(GenericArguments.optional(GenericArguments
+                        .onlyOne(GenericArguments.player(Text.of("player")))))
+                .executor(this)
+                .build();
+    }
+
+    @Override
+    public UndoSuccess undoRecent() {
+        Set<Entity> entitySet = history.get(history.size() - 1);
+        for (Entity entity : entitySet) {
+            entity.remove();
+        }
+        history.remove(entitySet);
+        return UndoSuccess.SUCCESS;
+    }
 }

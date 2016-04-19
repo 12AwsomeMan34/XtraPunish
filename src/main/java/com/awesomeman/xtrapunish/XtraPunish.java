@@ -47,40 +47,39 @@ import com.awesomeman.xtrapunish.util.CommandBase;
 import com.google.inject.Inject;
 
 @Updatifier(repoName = PluginInfo.NAME, repoOwner = PluginInfo.ORGANIZATION, version = PluginInfo.VERSION)
-@Plugin(id = PluginInfo.ID, name = PluginInfo.NAME, version = PluginInfo.VERSION,
-    description = PluginInfo.DESCRIPTION)
+@Plugin(id = PluginInfo.ID, name = PluginInfo.NAME, version = PluginInfo.VERSION, description = PluginInfo.DESCRIPTION)
 public class XtraPunish {
-    
+
     public static XtraPunish instance;
-    public @Inject Logger logger;    
+    public @Inject Logger logger;
     public List<CommandBase> commandBases = new ArrayList<>();
-    
+
     @Listener
     public void onInit(GameInitializationEvent event) {
         logger.info("Initializing XtraPunish version " + PluginInfo.VERSION);
-        
+
         instance = this;
         Managers.initManagers();
-        
+
         EventManager eventManager = Sponge.getEventManager();
         CommandManager service = Sponge.getCommandManager();
-        
+
         eventManager.registerListeners(this, Managers.stuckManager);
-        //eventManager.registerListeners(this, Managers.cobwebManager);
-        
+        // eventManager.registerListeners(this, Managers.cobwebManager);
+
         Punishments.registerPunishments();
-        
+
         CommandSpec.Builder mainCommandBuilder = CommandSpec.builder()
                 .permission("xtrapunish.help")
                 .description(Text.of("Main command for XtraPunish!"))
                 .executor(new HelpCommand());
-        
-        for(CommandBase command : commandBases) {
+
+        for (CommandBase command : commandBases) {
             mainCommandBuilder.child(command.commandSpec(), command.command());
         }
-        
+
         service.register(this, mainCommandBuilder.build(), "xtra", "xtrapunish", "punish");
-        
+
         logger.info("XtraPunish has successfully loaded!");
     }
 }

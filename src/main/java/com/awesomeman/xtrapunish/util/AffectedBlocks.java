@@ -33,10 +33,10 @@ import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 public class AffectedBlocks {
-    
+
     public List<Location<World>> loc = new ArrayList<>();
     public List<BlockState> oldState = new ArrayList<>();
-    
+
     public AffectedBlocks(List<Location<World>> loc, List<BlockState> oldState) {
         this.loc = loc;
         this.oldState = oldState;

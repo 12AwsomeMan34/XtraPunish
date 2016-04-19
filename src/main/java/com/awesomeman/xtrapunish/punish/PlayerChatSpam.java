@@ -42,10 +42,10 @@ import com.awesomeman.xtrapunish.util.CommandBase;
 import com.awesomeman.xtrapunish.util.UndoSuccess;
 
 public class PlayerChatSpam implements CommandBase {
-    
+
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");
-        if(!optional.isPresent()) {
+        if (!optional.isPresent()) {
             src.sendMessage(Text.of(TextColors.RED, "Player argument not specified! Correct usage: /punish spam <player>"));
             return CommandResult.empty();
         }
@@ -53,18 +53,18 @@ public class PlayerChatSpam implements CommandBase {
         Random random = new Random();
         String message = "";
         char letter;
-        
+
         // We send 40 messages
-        for(int i = 0; i < 40; i++) {
+        for (int i = 0; i < 40; i++) {
             // With 50 chars in each
-            for(int i2 = 0; i2 < 50; i2++) {
+            for (int i2 = 0; i2 < 50; i2++) {
                 letter = (char) (random.nextInt(26) + 'a');
                 message += letter;
             }
             player.sendMessage(Text.of(message));
             message = "";
         }
-        
+
         src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " cannot see his chat!"));
         return CommandResult.success();
     }
@@ -73,12 +73,12 @@ public class PlayerChatSpam implements CommandBase {
     public String description() {
         return "Fills a player's chat with randomly generated charactors.";
     }
-    
+
     @Override
     public String[] command() {
-        return new String[] { "spam" };
+        return new String[] {"spam"};
     }
-    
+
     @Override
     public CommandSpec commandSpec() {
         return CommandSpec.builder()
@@ -89,7 +89,7 @@ public class PlayerChatSpam implements CommandBase {
                 .executor(this)
                 .build();
     }
-    
+
     @Override
     public UndoSuccess undoRecent() {
         return UndoSuccess.FAILUE_NOT_SUPPORTED;

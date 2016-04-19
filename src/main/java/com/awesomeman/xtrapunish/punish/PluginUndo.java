@@ -41,20 +41,20 @@ import com.awesomeman.xtrapunish.util.CommandBase;
 import com.awesomeman.xtrapunish.util.UndoSuccess;
 
 public class PluginUndo implements CommandBase {
-    
+
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<String> optional = args.<String>getOne("command");
-        if(!optional.isPresent()) {
+        if (!optional.isPresent()) {
             src.sendMessage(Text.of(TextColors.RED, "Command argument not specified! Correct usage: /punish undo <command>"));
             return CommandResult.empty();
         }
         String command = optional.get();
-        
-        for(CommandBase commandBase : XtraPunish.instance.commandBases) {
-            for(String command2 : commandBase.command()) {
-                if(command2.equals(command)) {
-                    switch(commandBase.undoRecent()) {
+
+        for (CommandBase commandBase : XtraPunish.instance.commandBases) {
+            for (String command2 : commandBase.command()) {
+                if (command2.equals(command)) {
+                    switch (commandBase.undoRecent()) {
                         case SUCCESS:
                             src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Command ", command2, " has been undone."));
                             break;
@@ -68,7 +68,8 @@ public class PluginUndo implements CommandBase {
                             src.sendMessage(Text.of(TextColors.RED, "Unable to successfully offer data for the command, ", command2, "!"));
                             break;
                         case FAILUE_NO_PLAYER:
-                            src.sendMessage(Text.of(TextColors.RED, "A player necessary to undo the command ", command2, " is unavailable. Removing undo entry."));
+                            src.sendMessage(Text.of(TextColors.RED, "A player necessary to undo the command ", command2,
+                                    " is unavailable. Removing undo entry."));
                             break;
                         case FAILUE_UNKNOWN:
                             src.sendMessage(Text.of(TextColors.RED, "An error occured while attempting to undo command ", command2, "!"));
@@ -79,10 +80,10 @@ public class PluginUndo implements CommandBase {
         }
         return CommandResult.success();
     }
-    
+
     @Override
     public String[] command() {
-        return new String[] { "undo" };
+        return new String[] {"undo"};
     }
 
     @Override

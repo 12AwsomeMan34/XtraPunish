@@ -51,19 +51,19 @@ import com.awesomeman.xtrapunish.util.UndoSuccess;
 import com.awesomeman.xtrapunish.util.UndoUtil;
 
 public class PlayerCobweb implements CommandBase {
-    
+
     private List<AffectedBlocks> history = new ArrayList<>();
-    
+
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");
-        if(!optional.isPresent()) {
+        if (!optional.isPresent()) {
             src.sendMessage(Text.of(TextColors.RED, "Player argument not specified! Correct usage: /punish cobweb <player>"));
             return CommandResult.empty();
         }
         Player player = optional.get();
         Location<World> loc = player.getLocation();
-        
+
         // Immediately around the player
         Location<World> loc1 = loc.getRelative(Direction.NORTH);
         Location<World> loc2 = loc.getRelative(Direction.EAST);
@@ -84,22 +84,22 @@ public class PlayerCobweb implements CommandBase {
         Location<World> loc1_6 = loc6.getRelative(Direction.UP);
         Location<World> loc1_7 = loc7.getRelative(Direction.UP);
         Location<World> loc1_8 = loc8.getRelative(Direction.UP);
-        
+
         List<Location<World>> locs = new ArrayList<>();
-        
+
         locs.addAll(Arrays.asList(loc, loc1, loc2, loc3, loc4, loc5, loc6, loc7, loc8, loc_1,
                 loc1_1, loc1_2, loc1_3, loc1_4, loc1_5, loc1_6, loc1_7, loc1_8));
-        
+
         List<BlockState> states = new ArrayList<>();
-        
-        for(Location<World> location : locs) {
+
+        for (Location<World> location : locs) {
             states.add(location.getBlock());
             location.setBlockType(BlockTypes.WEB);
         }
         history.add(new AffectedBlocks(locs, states));
-        
+
         src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " will be engulfed in cobwebs!"));
-        
+
         return CommandResult.success();
     }
 
@@ -107,12 +107,12 @@ public class PlayerCobweb implements CommandBase {
     public String description() {
         return "Spawns cobwebs around a player.";
     }
-    
+
     @Override
     public String[] command() {
-        return new String[] { "cobweb" };
+        return new String[] {"cobweb"};
     }
-    
+
     @Override
     public CommandSpec commandSpec() {
         return CommandSpec.builder()
@@ -123,7 +123,7 @@ public class PlayerCobweb implements CommandBase {
                 .executor(this)
                 .build();
     }
-    
+
     @Override
     public UndoSuccess undoRecent() {
         return UndoUtil.removeBlockHistory(history);
