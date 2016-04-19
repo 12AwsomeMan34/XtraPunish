@@ -25,22 +25,21 @@
 
 package com.awesomeman.xtrapunish.punish;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.command.args.GenericArguments;
+import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.world.explosion.Explosion;
 
-import com.awesomeman.xtrapunish.util.AffectedBlocks;
 import com.awesomeman.xtrapunish.util.CommandBase;
+import com.awesomeman.xtrapunish.util.UndoSuccess;
 
 public class PlayerBounceExplode implements CommandBase {
     
@@ -63,34 +62,29 @@ public class PlayerBounceExplode implements CommandBase {
         return CommandResult.success();
     }
     
-    @Override
-    public String permission() {
-        return "xtrapunish.explode.bounce";
-    }
-    
-    @Override
-    public Text description() {
-        return Text.of("Bounces a player with an explosion!");
-    }
-    
-    @Override
-    public Text helpDescription() {
-        return Text.of(TextColors.GREEN, "/punish bounceexplode <player> - ", TextColors.GOLD, "Bounces a player with an explosion.");
-    }
-    
-    @Override
-    public Optional<CommandElement> arguments() {
-        return Optional.of(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))));
-    }
-    
-    @Override
+	@Override
+	public String description() {
+		return "Bounces a player with an explosion!";
+	}
+	
+	@Override
     public String[] command() {
         return new String[] { "bounceexplode", "bounce-explode", "bounce_explode" };
     }
-
-    @Override
-    public Optional<List<AffectedBlocks>> affectedBlocks() {
-        // TODO: reverse explosions ?
-        return Optional.empty();
-    }
+	
+	@Override
+	public CommandSpec commandSpec() {
+		return CommandSpec.builder()
+				.permission("xtrapunish.explode.bounce")
+				.description(Text.of(description()))
+				.arguments(GenericArguments.optional(GenericArguments
+                        .onlyOne(GenericArguments.player(Text.of("player")))))
+				.executor(this)
+				.build();
+	}
+	
+	@Override
+	public UndoSuccess undoRecent() {
+		return UndoSuccess.FAILUE_NOT_SUPPORTED;
+	}
 }

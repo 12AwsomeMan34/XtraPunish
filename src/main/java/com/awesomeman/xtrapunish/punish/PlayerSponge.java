@@ -114,6 +114,7 @@ public class PlayerSponge implements CommandBase {
         for(int i = 0; i < store.items.size(); i++) {
             store.slots.get(i).set(store.items.get(i));
         }
+        history.remove(store);
         return UndoSuccess.SUCCESS;
     }
     

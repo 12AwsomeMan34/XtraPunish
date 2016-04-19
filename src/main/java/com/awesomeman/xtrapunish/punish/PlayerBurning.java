@@ -111,6 +111,7 @@ public class PlayerBurning implements CommandBase {
             for(Player player : playerSet) {
                 player.offer(Keys.FIRE_TICKS, 0);
             }
+            history.remove(playerSet);
         }
         return UndoSuccess.SUCCESS;
     }

@@ -100,6 +100,7 @@ public class PlayerPopular implements CommandBase {
         for(int i = 0; i < store.players.size(); i++) {
             store.players.get(i).setLocationSafely(store.locs.get(i));
         }
+        history.remove(store);
         return UndoSuccess.SUCCESS;
     }
     

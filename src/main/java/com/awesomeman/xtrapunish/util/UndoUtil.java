@@ -15,9 +15,7 @@ public class UndoUtil {
         for(int i = 0; i < affected.loc.size(); i++) {
             affected.loc.get(i).setBlock(affected.oldState.get(i));
         }
-        if(history.remove(affected)) {
-            return UndoSuccess.SUCCESS;
-        }
-        return UndoSuccess.FAILUE_UNKNOWN;
+        history.remove(affected);
+        return UndoSuccess.SUCCESS;
     }
 }
