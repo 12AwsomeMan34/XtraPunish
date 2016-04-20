@@ -59,5 +59,6 @@ public interface CommandBase extends CommandExecutor {
      * 
      * @return If the command was undone successfully
      */
-    UndoSuccess undoRecent();
+    CmdUtil.UndoSuccess undoRecent();
+
 }

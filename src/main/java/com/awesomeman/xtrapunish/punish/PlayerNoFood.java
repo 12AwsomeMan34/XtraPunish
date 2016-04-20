@@ -40,8 +40,8 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
+import com.awesomeman.xtrapunish.util.CmdUtil;
 import com.awesomeman.xtrapunish.util.CommandBase;
-import com.awesomeman.xtrapunish.util.UndoSuccess;
 
 public class PlayerNoFood implements CommandBase {
 
@@ -84,18 +84,18 @@ public class PlayerNoFood implements CommandBase {
     }
 
     @Override
-    public UndoSuccess undoRecent() {
+    public CmdUtil.UndoSuccess undoRecent() {
         NoFoodStore store = history.get(history.size() - 1);
 
         if (!store.player.isOnline()) {
-            return UndoSuccess.FAILUE_NO_PLAYER;
+            return CmdUtil.UndoSuccess.FAILUE_NO_PLAYER;
         }
         history.remove(store);
         if (store.player.offer(store.player.foodLevel().set(store.hunger))
                 .equals(DataTransactionResult.Type.SUCCESS)) {
-            return UndoSuccess.SUCCESS;
+            return CmdUtil.UndoSuccess.SUCCESS;
         }
-        return UndoSuccess.FAILUE_UNKNOWN;
+        return CmdUtil.UndoSuccess.FAILUE_UNKNOWN;
     }
 
     private class NoFoodStore {

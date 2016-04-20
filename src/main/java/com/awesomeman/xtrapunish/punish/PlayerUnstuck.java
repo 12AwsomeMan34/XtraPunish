@@ -38,8 +38,8 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
 import com.awesomeman.xtrapunish.manager.Managers;
+import com.awesomeman.xtrapunish.util.CmdUtil;
 import com.awesomeman.xtrapunish.util.CommandBase;
-import com.awesomeman.xtrapunish.util.UndoSuccess;
 
 public class PlayerUnstuck implements CommandBase {
 
@@ -81,7 +81,7 @@ public class PlayerUnstuck implements CommandBase {
     }
 
     @Override
-    public UndoSuccess undoRecent() {
-        return UndoSuccess.FAILUE_NOT_SUPPORTED;
+    public CmdUtil.UndoSuccess undoRecent() {
+        return CmdUtil.UndoSuccess.FAILUE_NOT_SUPPORTED;
     }
 }

@@ -44,8 +44,8 @@ import org.spongepowered.api.item.inventory.type.GridInventory;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
+import com.awesomeman.xtrapunish.util.CmdUtil;
 import com.awesomeman.xtrapunish.util.CommandBase;
-import com.awesomeman.xtrapunish.util.UndoSuccess;
 
 public class PlayerSponge implements CommandBase {
 
@@ -109,13 +109,13 @@ public class PlayerSponge implements CommandBase {
     }
 
     @Override
-    public UndoSuccess undoRecent() {
+    public CmdUtil.UndoSuccess undoRecent() {
         PlayerSpongeStore store = history.get(history.size() - 1);
         for (int i = 0; i < store.items.size(); i++) {
             store.slots.get(i).set(store.items.get(i));
         }
         history.remove(store);
-        return UndoSuccess.SUCCESS;
+        return CmdUtil.UndoSuccess.SUCCESS;
     }
 
     public class PlayerSpongeStore {

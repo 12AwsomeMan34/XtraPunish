@@ -37,8 +37,9 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
 import com.awesomeman.xtrapunish.XtraPunish;
+import com.awesomeman.xtrapunish.util.CmdUtil;
 import com.awesomeman.xtrapunish.util.CommandBase;
-import com.awesomeman.xtrapunish.util.UndoSuccess;
+import com.awesomeman.xtrapunish.util.CmdUtil.UndoSuccess;
 
 public class PluginUndo implements CommandBase {
 
@@ -104,6 +105,6 @@ public class PluginUndo implements CommandBase {
 
     @Override
     public UndoSuccess undoRecent() {
-        return UndoSuccess.FAILUE_NOT_SUPPORTED;
+        return CmdUtil.UndoSuccess.FAILUE_NOT_SUPPORTED;
     }
 }

@@ -44,8 +44,8 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
+import com.awesomeman.xtrapunish.util.CmdUtil;
 import com.awesomeman.xtrapunish.util.CommandBase;
-import com.awesomeman.xtrapunish.util.UndoSuccess;
 
 public class PlayerBurning implements CommandBase {
 
@@ -106,13 +106,13 @@ public class PlayerBurning implements CommandBase {
     }
 
     @Override
-    public UndoSuccess undoRecent() {
+    public CmdUtil.UndoSuccess undoRecent() {
         for (Set<Player> playerSet : history) {
             for (Player player : playerSet) {
                 player.offer(Keys.FIRE_TICKS, 0);
             }
             history.remove(playerSet);
         }
-        return UndoSuccess.SUCCESS;
+        return CmdUtil.UndoSuccess.SUCCESS;
     }
 }

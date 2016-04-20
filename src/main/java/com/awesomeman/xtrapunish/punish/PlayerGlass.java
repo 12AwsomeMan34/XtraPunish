@@ -44,9 +44,8 @@ import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 import com.awesomeman.xtrapunish.util.AffectedBlocks;
+import com.awesomeman.xtrapunish.util.CmdUtil;
 import com.awesomeman.xtrapunish.util.CommandBase;
-import com.awesomeman.xtrapunish.util.UndoSuccess;
-import com.awesomeman.xtrapunish.util.UndoUtil;
 
 public class PlayerGlass implements CommandBase {
 
@@ -97,7 +96,7 @@ public class PlayerGlass implements CommandBase {
     }
 
     @Override
-    public UndoSuccess undoRecent() {
-        return UndoUtil.removeBlockHistory(history);
+    public CmdUtil.UndoSuccess undoRecent() {
+        return CmdUtil.removeBlockHistory(history);
     }
 }

@@ -46,9 +46,8 @@ import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 import com.awesomeman.xtrapunish.util.AffectedBlocks;
+import com.awesomeman.xtrapunish.util.CmdUtil;
 import com.awesomeman.xtrapunish.util.CommandBase;
-import com.awesomeman.xtrapunish.util.UndoUtil;
-import com.awesomeman.xtrapunish.util.UndoSuccess;
 import com.flowpowered.math.vector.Vector3d;
 
 public class PlayerBedrock implements CommandBase {
@@ -122,7 +121,7 @@ public class PlayerBedrock implements CommandBase {
     }
 
     @Override
-    public UndoSuccess undoRecent() {
-        return UndoUtil.removeBlockHistory(history);
+    public CmdUtil.UndoSuccess undoRecent() {
+        return CmdUtil.removeBlockHistory(history);
     }
 }
