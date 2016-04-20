@@ -28,12 +28,10 @@ package com.awesomeman.xtrapunish.manager;
 public class Managers {
 
     public static BroadcastManager broadcastManager;
-    // public static CobwebManager cobwebManager;
     public static StuckManager stuckManager;
 
     public static void initManagers() {
         broadcastManager = new BroadcastManager();
-        // cobwebManager = new CobwebManager();
         stuckManager = new StuckManager();
     }
 }

@@ -106,4 +106,9 @@ public class PlayerAnvil implements CommandBase {
     public CmdUtil.UndoSuccess undoRecent() {
         return CmdUtil.removeBlockHistory(history);
     }
+
+    @Override
+    public boolean supportsUndo() {
+        return true;
+    }
 }

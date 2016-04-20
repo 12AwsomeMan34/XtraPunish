@@ -85,4 +85,9 @@ public class PlayerStuck implements CommandBase {
     public CmdUtil.UndoSuccess undoRecent() {
         return CmdUtil.UndoSuccess.FAILUE_NOT_SUPPORTED;
     }
+
+    @Override
+    public boolean supportsUndo() {
+        return false;
+    }
 }

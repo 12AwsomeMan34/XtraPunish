@@ -118,6 +118,11 @@ public class PlayerSponge implements CommandBase {
         return CmdUtil.UndoSuccess.SUCCESS;
     }
 
+    @Override
+    public boolean supportsUndo() {
+        return true;
+    }
+
     public class PlayerSpongeStore {
 
         public List<ItemStack> items;

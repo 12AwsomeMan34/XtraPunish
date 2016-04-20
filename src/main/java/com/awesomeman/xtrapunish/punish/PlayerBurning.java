@@ -115,4 +115,9 @@ public class PlayerBurning implements CommandBase {
         }
         return CmdUtil.UndoSuccess.SUCCESS;
     }
+
+    @Override
+    public boolean supportsUndo() {
+        return true;
+    }
 }

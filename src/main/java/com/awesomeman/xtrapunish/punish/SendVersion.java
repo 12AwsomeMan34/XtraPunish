@@ -88,4 +88,9 @@ public class SendVersion implements CommandBase {
     public UndoSuccess undoRecent() {
         return CmdUtil.UndoSuccess.FAILUE_NOT_SUPPORTED;
     }
+
+    @Override
+    public boolean supportsUndo() {
+        return false;
+    }
 }

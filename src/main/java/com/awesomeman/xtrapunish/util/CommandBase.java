@@ -61,4 +61,12 @@ public interface CommandBase extends CommandExecutor {
      */
     CmdUtil.UndoSuccess undoRecent();
 
+    /**
+     * If this command supports {@link CommandBase#undoRecent}. Note that this
+     * is used for help descriptions.
+     * 
+     * @return If this command supports undo
+     */
+    boolean supportsUndo();
+
 }

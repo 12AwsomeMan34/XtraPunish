@@ -104,4 +104,9 @@ public class PlayerCreeper implements CommandBase {
         history.remove(entity);
         return CmdUtil.UndoSuccess.SUCCESS;
     }
+
+    @Override
+    public boolean supportsUndo() {
+        return true;
+    }
 }

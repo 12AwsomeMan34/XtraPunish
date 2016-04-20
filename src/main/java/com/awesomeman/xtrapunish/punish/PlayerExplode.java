@@ -86,4 +86,10 @@ public class PlayerExplode implements CommandBase {
         // TODO: this
         return CmdUtil.UndoSuccess.FAILUE_NOT_SUPPORTED;
     }
+
+    @Override
+    public boolean supportsUndo() {
+        // TODO: this
+        return false;
+    }
 }

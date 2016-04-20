@@ -98,6 +98,11 @@ public class PlayerNoFood implements CommandBase {
         return CmdUtil.UndoSuccess.FAILUE_UNKNOWN;
     }
 
+    @Override
+    public boolean supportsUndo() {
+        return true;
+    }
+
     private class NoFoodStore {
 
         public Player player;

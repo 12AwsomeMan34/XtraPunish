@@ -105,6 +105,11 @@ public class PlayerPopular implements CommandBase {
         return CmdUtil.UndoSuccess.SUCCESS;
     }
 
+    @Override
+    public boolean supportsUndo() {
+        return true;
+    }
+
     public class PopularStore {
 
         public List<Player> players;

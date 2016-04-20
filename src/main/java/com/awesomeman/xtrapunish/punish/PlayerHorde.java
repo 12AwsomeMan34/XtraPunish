@@ -111,4 +111,9 @@ public class PlayerHorde implements CommandBase {
         history.remove(entitySet);
         return CmdUtil.UndoSuccess.SUCCESS;
     }
+
+    @Override
+    public boolean supportsUndo() {
+        return true;
+    }
 }
