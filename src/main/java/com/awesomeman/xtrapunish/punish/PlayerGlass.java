@@ -63,12 +63,12 @@ public class PlayerGlass implements CommandBase {
 
         List<Location<World>> locs = new ArrayList<>();
         List<BlockState> states = new ArrayList<>();
-        locs.add(location);
-        states.add(location.getBlock());
+        locs.add(location.add(0, 99, 0));
+        states.add(location.add(0, 99, 0).getBlock());
         history.add(new AffectedBlocks(locs, states));
 
-        location.add(0, 149, 0).setBlockType(BlockTypes.GLASS);
-        player.setLocation(location.add(0, 150, 0));
+        location.add(0, 99, 0).setBlockType(BlockTypes.GLASS);
+        player.setLocation(location.add(0, 100, 0));
 
         src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " is now walking in the clouds."));
         return CommandResult.success();

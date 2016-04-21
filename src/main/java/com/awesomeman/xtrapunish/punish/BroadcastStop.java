@@ -57,7 +57,7 @@ public class BroadcastStop implements CommandBase {
 
     @Override
     public String[] command() {
-        return new String[] {"stop-broadcast"};
+        return new String[] {"stop-broadcast", "broadcast-stop"};
     }
 
     @Override

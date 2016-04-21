@@ -42,6 +42,7 @@ import org.spongepowered.api.text.format.TextColors;
 
 import com.awesomeman.xtrapunish.util.CmdUtil;
 import com.awesomeman.xtrapunish.util.CommandBase;
+import com.awesomeman.xtrapunish.util.CmdUtil.UndoSuccess;
 
 public class PlayerNoFood implements CommandBase {
 
@@ -85,6 +86,10 @@ public class PlayerNoFood implements CommandBase {
 
     @Override
     public CmdUtil.UndoSuccess undoRecent() {
+        if (history.isEmpty()) {
+            return UndoSuccess.FAILURE_NO_HISTORY;
+        }
+
         NoFoodStore store = history.get(history.size() - 1);
 
         if (!store.player.isOnline()) {

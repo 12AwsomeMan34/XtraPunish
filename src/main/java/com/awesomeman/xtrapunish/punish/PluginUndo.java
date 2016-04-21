@@ -52,9 +52,11 @@ public class PluginUndo implements CommandBase {
         }
         String command = optional.get();
 
+        boolean found = false;
         for (CommandBase commandBase : XtraPunish.instance.commandBases) {
             for (String command2 : commandBase.command()) {
                 if (command2.equals(command)) {
+                    found = true;
                     switch (commandBase.undoRecent()) {
                         case SUCCESS:
                             src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Command ", command2, " has been undone."));
@@ -78,6 +80,10 @@ public class PluginUndo implements CommandBase {
                     }
                 }
             }
+        }
+        if (!found) {
+            src.sendMessage(Text.of(TextColors.RED, "Unable to find the command ", command, "!"));
+            return CommandResult.empty();
         }
         return CommandResult.success();
     }

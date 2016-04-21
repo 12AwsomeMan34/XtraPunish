@@ -36,6 +36,10 @@ public class CmdUtil {
      * @return If the undo was successful
      */
     public static UndoSuccess removeBlockHistory(List<AffectedBlocks> history) {
+        if (history.isEmpty()) {
+            return UndoSuccess.FAILURE_NO_HISTORY;
+        }
+
         AffectedBlocks affected = history.get(history.size() - 1);
         for (int i = 0; i < affected.loc.size(); i++) {
             affected.loc.get(i).setBlock(affected.oldState.get(i));

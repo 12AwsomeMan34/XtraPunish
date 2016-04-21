@@ -44,6 +44,7 @@ import org.spongepowered.api.world.World;
 
 import com.awesomeman.xtrapunish.util.CmdUtil;
 import com.awesomeman.xtrapunish.util.CommandBase;
+import com.awesomeman.xtrapunish.util.CmdUtil.UndoSuccess;
 
 public class PlayerPopular implements CommandBase {
 
@@ -97,6 +98,10 @@ public class PlayerPopular implements CommandBase {
 
     @Override
     public CmdUtil.UndoSuccess undoRecent() {
+        if (history.isEmpty()) {
+            return UndoSuccess.FAILURE_NO_HISTORY;
+        }
+
         PopularStore store = history.get(history.size() - 1);
         for (int i = 0; i < store.players.size(); i++) {
             store.players.get(i).setLocationSafely(store.locs.get(i));

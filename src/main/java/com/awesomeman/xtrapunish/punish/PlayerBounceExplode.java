@@ -53,12 +53,14 @@ public class PlayerBounceExplode implements CommandBase {
         Player player = optional.get();
 
         Explosion explosion = Explosion.builder()
-                .world(player.getWorld()).origin(player.getLocation().getPosition())
+                .world(player.getWorld())
+                .origin(player.getLocation().getPosition())
                 .radius(1)
                 .shouldDamageEntities(true)
                 .shouldBreakBlocks(false).build();
         player.getWorld().triggerExplosion(explosion);
 
+        src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " has been bounced by an explosion."));
         return CommandResult.success();
     }
 

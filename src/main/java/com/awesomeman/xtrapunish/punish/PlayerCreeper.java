@@ -48,6 +48,7 @@ import org.spongepowered.api.world.extent.Extent;
 
 import com.awesomeman.xtrapunish.util.CmdUtil;
 import com.awesomeman.xtrapunish.util.CommandBase;
+import com.awesomeman.xtrapunish.util.CmdUtil.UndoSuccess;
 
 public class PlayerCreeper implements CommandBase {
 
@@ -99,6 +100,10 @@ public class PlayerCreeper implements CommandBase {
 
     @Override
     public CmdUtil.UndoSuccess undoRecent() {
+        if (history.isEmpty()) {
+            return UndoSuccess.FAILURE_NO_HISTORY;
+        }
+
         Entity entity = history.get(history.size() - 1);
         entity.remove();
         history.remove(entity);

@@ -49,6 +49,7 @@ import org.spongepowered.api.world.extent.Extent;
 import com.awesomeman.xtrapunish.XtraPunish;
 import com.awesomeman.xtrapunish.util.CmdUtil;
 import com.awesomeman.xtrapunish.util.CommandBase;
+import com.awesomeman.xtrapunish.util.CmdUtil.UndoSuccess;
 
 public class PlayerHorde implements CommandBase {
 
@@ -104,6 +105,10 @@ public class PlayerHorde implements CommandBase {
 
     @Override
     public CmdUtil.UndoSuccess undoRecent() {
+        if (history.isEmpty()) {
+            return UndoSuccess.FAILURE_NO_HISTORY;
+        }
+
         Set<Entity> entitySet = history.get(history.size() - 1);
         for (Entity entity : entitySet) {
             entity.remove();

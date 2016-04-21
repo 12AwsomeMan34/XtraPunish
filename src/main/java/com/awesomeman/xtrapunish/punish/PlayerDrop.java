@@ -84,7 +84,7 @@ public class PlayerDrop implements CommandBase {
 
     @Override
     public boolean supportsUndo() {
-        return true;
+        return false;
     }
 
     @Override

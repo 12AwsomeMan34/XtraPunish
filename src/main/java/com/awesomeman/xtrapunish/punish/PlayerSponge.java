@@ -46,6 +46,7 @@ import org.spongepowered.api.text.format.TextColors;
 
 import com.awesomeman.xtrapunish.util.CmdUtil;
 import com.awesomeman.xtrapunish.util.CommandBase;
+import com.awesomeman.xtrapunish.util.CmdUtil.UndoSuccess;
 
 public class PlayerSponge implements CommandBase {
 
@@ -80,7 +81,7 @@ public class PlayerSponge implements CommandBase {
             if (stack.isPresent()) {
                 items.add(stack.get());
             } else {
-                items.add(ItemStack.of(ItemTypes.NONE, 0));
+                items.add(ItemStack.of(ItemTypes.NONE, 1));
             }
             slots.add(slot);
             slot.set(sponge);
@@ -110,9 +111,17 @@ public class PlayerSponge implements CommandBase {
 
     @Override
     public CmdUtil.UndoSuccess undoRecent() {
+        if (history.isEmpty()) {
+            return UndoSuccess.FAILURE_NO_HISTORY;
+        }
+
         PlayerSpongeStore store = history.get(history.size() - 1);
         for (int i = 0; i < store.items.size(); i++) {
-            store.slots.get(i).set(store.items.get(i));
+            if (!store.items.get(i).getItem().equals(ItemTypes.NONE)) {
+                store.slots.get(i).set(store.items.get(i));
+            } else {
+                store.slots.get(i).poll();
+            }
         }
         history.remove(store);
         return CmdUtil.UndoSuccess.SUCCESS;
