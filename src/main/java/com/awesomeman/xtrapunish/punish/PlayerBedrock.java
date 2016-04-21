@@ -112,7 +112,7 @@ public class PlayerBedrock implements CommandBase {
     @Override
     public CommandSpec commandSpec() {
         return CommandSpec.builder()
-                .permission("xtrapunish.trap")
+                .permission(permission())
                 .description(Text.of(description()))
                 .arguments(GenericArguments.optional(GenericArguments
                         .onlyOne(GenericArguments.player(Text.of("player")))))
@@ -128,5 +128,15 @@ public class PlayerBedrock implements CommandBase {
     @Override
     public boolean supportsUndo() {
         return true;
+    }
+
+    @Override
+    public String permission() {
+        return "xtrapunish.trap";
+    }
+
+    @Override
+    public Optional<String> argText() {
+        return Optional.of("[player]");
     }
 }

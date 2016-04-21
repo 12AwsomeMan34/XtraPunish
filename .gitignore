@@ -21,3 +21,6 @@
 /dist
 /manifest.mf
 .gradle/
+
+# Ma shiz gen stuff, ignore ;)
+/xtragen

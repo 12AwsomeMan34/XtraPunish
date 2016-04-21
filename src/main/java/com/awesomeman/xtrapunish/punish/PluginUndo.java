@@ -95,7 +95,7 @@ public class PluginUndo implements CommandBase {
     @Override
     public CommandSpec commandSpec() {
         return CommandSpec.builder()
-                .permission("xtrapunish.undo")
+                .permission(permission())
                 .description(Text.of(description()))
                 .arguments(GenericArguments.optional(
                         GenericArguments.string(Text.of("command"))))
@@ -111,5 +111,15 @@ public class PluginUndo implements CommandBase {
     @Override
     public boolean supportsUndo() {
         return false;
+    }
+
+    @Override
+    public String permission() {
+        return "xtrapunish.undo";
+    }
+
+    @Override
+    public Optional<String> argText() {
+        return Optional.empty();
     }
 }

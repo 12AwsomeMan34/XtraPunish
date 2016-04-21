@@ -73,7 +73,7 @@ public class PlayerExplode implements CommandBase {
     @Override
     public CommandSpec commandSpec() {
         return CommandSpec.builder()
-                .permission("xtrapunish.explode")
+                .permission(permission())
                 .description(Text.of(description()))
                 .arguments(GenericArguments.optional(GenericArguments
                         .onlyOne(GenericArguments.player(Text.of("player")))))
@@ -91,5 +91,15 @@ public class PlayerExplode implements CommandBase {
     public boolean supportsUndo() {
         // TODO: this
         return false;
+    }
+
+    @Override
+    public String permission() {
+        return "xtrapunish.explode";
+    }
+
+    @Override
+    public Optional<String> argText() {
+        return Optional.of("[player]");
     }
 }

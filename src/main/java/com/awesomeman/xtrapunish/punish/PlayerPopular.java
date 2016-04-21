@@ -87,7 +87,7 @@ public class PlayerPopular implements CommandBase {
     @Override
     public CommandSpec commandSpec() {
         return CommandSpec.builder()
-                .permission("xtrapunish.popular")
+                .permission(permission())
                 .description(Text.of(description()))
                 .arguments(GenericArguments.optional(GenericArguments
                         .onlyOne(GenericArguments.player(Text.of("player")))))
@@ -110,6 +110,11 @@ public class PlayerPopular implements CommandBase {
         return true;
     }
 
+    @Override
+    public String permission() {
+        return "xtrapunish.popular";
+    }
+
     public class PopularStore {
 
         public List<Player> players;
@@ -119,5 +124,10 @@ public class PlayerPopular implements CommandBase {
             this.players = players;
             this.locs = locs;
         }
+    }
+
+    @Override
+    public Optional<String> argText() {
+        return Optional.of("[player]");
     }
 }

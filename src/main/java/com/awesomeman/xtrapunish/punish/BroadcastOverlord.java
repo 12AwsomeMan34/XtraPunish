@@ -92,7 +92,7 @@ public class BroadcastOverlord implements CommandBase {
     @Override
     public CommandSpec commandSpec() {
         return CommandSpec.builder()
-                .permission("xtrapunish.broadcast.start")
+                .permission(permission())
                 .description(Text.of(description()))
                 .arguments(GenericArguments.optional(
                         GenericArguments.remainingJoinedStrings(Text.of("broadcast"))))
@@ -108,5 +108,15 @@ public class BroadcastOverlord implements CommandBase {
     @Override
     public boolean supportsUndo() {
         return false;
+    }
+
+    @Override
+    public String permission() {
+        return "xtrapunish.broadcast.start";
+    }
+
+    @Override
+    public Optional<String> argText() {
+        return Optional.of("[broadcast]");
     }
 }

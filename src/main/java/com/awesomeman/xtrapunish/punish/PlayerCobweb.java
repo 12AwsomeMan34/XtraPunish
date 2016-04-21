@@ -115,7 +115,7 @@ public class PlayerCobweb implements CommandBase {
     @Override
     public CommandSpec commandSpec() {
         return CommandSpec.builder()
-                .permission("xtrapunish.cobweb")
+                .permission(permission())
                 .description(Text.of(description()))
                 .arguments(GenericArguments.optional(GenericArguments
                         .onlyOne(GenericArguments.player(Text.of("player")))))
@@ -131,5 +131,15 @@ public class PlayerCobweb implements CommandBase {
     @Override
     public boolean supportsUndo() {
         return true;
+    }
+
+    @Override
+    public String permission() {
+        return "xtrapunish.cobweb";
+    }
+
+    @Override
+    public Optional<String> argText() {
+        return Optional.of("[player]");
     }
 }

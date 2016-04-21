@@ -75,7 +75,7 @@ public class PlayerNoFood implements CommandBase {
     @Override
     public CommandSpec commandSpec() {
         return CommandSpec.builder()
-                .permission("xtrapunish.nofood")
+                .permission(permission())
                 .description(Text.of(Text.of(description())))
                 .arguments(GenericArguments.optional(GenericArguments
                         .onlyOne(GenericArguments.player(Text.of("player")))))
@@ -103,6 +103,11 @@ public class PlayerNoFood implements CommandBase {
         return true;
     }
 
+    @Override
+    public String permission() {
+        return "xtrapunish.nofood";
+    }
+
     private class NoFoodStore {
 
         public Player player;
@@ -112,5 +117,10 @@ public class PlayerNoFood implements CommandBase {
             this.player = player;
             this.hunger = hunger;
         }
+    }
+
+    @Override
+    public Optional<String> argText() {
+        return Optional.of("[player]");
     }
 }

@@ -27,6 +27,8 @@ package com.awesomeman.xtrapunish.punish;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Optional;
+
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -78,7 +80,7 @@ public class SendVersion implements CommandBase {
     @Override
     public CommandSpec commandSpec() {
         return CommandSpec.builder()
-                .permission("xtrapunish.version")
+                .permission(permission())
                 .description(Text.of(description()))
                 .executor(this)
                 .build();
@@ -92,5 +94,15 @@ public class SendVersion implements CommandBase {
     @Override
     public boolean supportsUndo() {
         return false;
+    }
+
+    @Override
+    public String permission() {
+        return "xtrapunish.version";
+    }
+
+    @Override
+    public Optional<String> argText() {
+        return Optional.empty();
     }
 }

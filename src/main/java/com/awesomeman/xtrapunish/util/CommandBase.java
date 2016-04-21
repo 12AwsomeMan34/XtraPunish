@@ -25,6 +25,8 @@
 
 package com.awesomeman.xtrapunish.util;
 
+import java.util.Optional;
+
 import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.command.spec.CommandSpec;
 
@@ -68,5 +70,19 @@ public interface CommandBase extends CommandExecutor {
      * @return If this command supports undo
      */
     boolean supportsUndo();
+
+    /**
+     * The permission for running the command.
+     * 
+     * @return The permission necessary for running the command
+     */
+    String permission();
+
+    /**
+     * The arg text. This is only used for the generate package.
+     * 
+     * @return The arg text
+     */
+    Optional<String> argText();
 
 }

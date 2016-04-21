@@ -96,7 +96,7 @@ public class PlayerBurning implements CommandBase {
     @Override
     public CommandSpec commandSpec() {
         return CommandSpec.builder()
-                .permission("xtrapunish.burning")
+                .permission(permission())
                 .description(Text.of(description()))
                 .arguments(GenericArguments.flags().flag("a").buildWith(GenericArguments
                         .optional(GenericArguments.onlyOne(GenericArguments
@@ -119,5 +119,15 @@ public class PlayerBurning implements CommandBase {
     @Override
     public boolean supportsUndo() {
         return true;
+    }
+
+    @Override
+    public String permission() {
+        return "xtrapunish.burning";
+    }
+
+    @Override
+    public Optional<String> argText() {
+        return Optional.of("[player] [-a]");
     }
 }

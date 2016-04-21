@@ -69,7 +69,7 @@ public class PlayerDrop implements CommandBase {
     @Override
     public CommandSpec commandSpec() {
         return CommandSpec.builder()
-                .permission("xtrapunish.drop")
+                .permission(permission())
                 .description(Text.of(description()))
                 .arguments(GenericArguments.optional(GenericArguments
                         .onlyOne(GenericArguments.player(Text.of("player")))))
@@ -85,5 +85,15 @@ public class PlayerDrop implements CommandBase {
     @Override
     public boolean supportsUndo() {
         return true;
+    }
+
+    @Override
+    public String permission() {
+        return "xtrapunish.drop";
+    }
+
+    @Override
+    public Optional<String> argText() {
+        return Optional.of("[player]");
     }
 }

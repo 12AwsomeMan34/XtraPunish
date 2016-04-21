@@ -100,7 +100,7 @@ public class PlayerSponge implements CommandBase {
     @Override
     public CommandSpec commandSpec() {
         return CommandSpec.builder()
-                .permission("xtrapunish.sponge")
+                .permission(permission())
                 .description(Text.of(description()))
                 .arguments(GenericArguments.optional(GenericArguments
                         .onlyOne(GenericArguments.player(Text.of("player")))))
@@ -123,6 +123,11 @@ public class PlayerSponge implements CommandBase {
         return true;
     }
 
+    @Override
+    public String permission() {
+        return "xtrapunish.sponge";
+    }
+
     public class PlayerSpongeStore {
 
         public List<ItemStack> items;
@@ -132,5 +137,10 @@ public class PlayerSponge implements CommandBase {
             this.items = items;
             this.slots = slots;
         }
+    }
+
+    @Override
+    public Optional<String> argText() {
+        return Optional.of("[player]");
     }
 }

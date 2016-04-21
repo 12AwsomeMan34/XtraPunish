@@ -82,7 +82,7 @@ public class PlayerChatSpam implements CommandBase {
     @Override
     public CommandSpec commandSpec() {
         return CommandSpec.builder()
-                .permission("xtrapunish.chatspam")
+                .permission(permission())
                 .description(Text.of(description()))
                 .arguments(GenericArguments.optional(GenericArguments
                         .onlyOne(GenericArguments.player(Text.of("player")))))
@@ -98,5 +98,15 @@ public class PlayerChatSpam implements CommandBase {
     @Override
     public boolean supportsUndo() {
         return false;
+    }
+
+    @Override
+    public String permission() {
+        return "xtrapunish.chatspam";
+    }
+
+    @Override
+    public Optional<String> argText() {
+        return Optional.of("[player]");
     }
 }

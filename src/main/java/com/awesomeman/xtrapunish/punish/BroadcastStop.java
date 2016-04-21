@@ -25,6 +25,8 @@
 
 package com.awesomeman.xtrapunish.punish;
 
+import java.util.Optional;
+
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -61,7 +63,7 @@ public class BroadcastStop implements CommandBase {
     @Override
     public CommandSpec commandSpec() {
         return CommandSpec.builder()
-                .permission("xtrapunish.broadcast.stop")
+                .permission(permission())
                 .description(Text.of(description()))
                 .executor(this)
                 .build();
@@ -75,5 +77,15 @@ public class BroadcastStop implements CommandBase {
     @Override
     public boolean supportsUndo() {
         return false;
+    }
+
+    @Override
+    public String permission() {
+        return "xtrapunish.broadcast.stop";
+    }
+
+    @Override
+    public Optional<String> argText() {
+        return Optional.of("[broadcast]");
     }
 }

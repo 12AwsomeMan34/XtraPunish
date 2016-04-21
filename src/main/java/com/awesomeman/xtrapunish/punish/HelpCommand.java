@@ -27,6 +27,7 @@ package com.awesomeman.xtrapunish.punish;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
@@ -76,7 +77,7 @@ public class HelpCommand implements CommandBase {
     @Override
     public CommandSpec commandSpec() {
         return CommandSpec.builder()
-                .permission("xtrapunish.help")
+                .permission(permission())
                 .description(Text.of(description()))
                 .executor(this)
                 .build();
@@ -90,5 +91,15 @@ public class HelpCommand implements CommandBase {
     @Override
     public boolean supportsUndo() {
         return false;
+    }
+
+    @Override
+    public String permission() {
+        return "xtrapunish.help";
+    }
+
+    @Override
+    public Optional<String> argText() {
+        return Optional.empty();
     }
 }
