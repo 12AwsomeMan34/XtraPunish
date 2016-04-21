@@ -78,7 +78,8 @@ public class GenerateInfo {
         List<String> permsText = new ArrayList<>();
         for (CommandBase command : commandBases) {
             String args = command.argText().isPresent() ? command.argText().get() : "";
-            cmdsText.add("/punish " + command.command()[0] + " " + args + " - " + command.description());
+            String supports = command.supportsUndo() ? " Supports undo." : "";
+            cmdsText.add("/punish " + command.command()[0] + " " + args + " - " + command.description() + supports);
             permsText.add(command.permission());
         }
         FileUtils.writeToFile(cmdsFile, cmdsText);
