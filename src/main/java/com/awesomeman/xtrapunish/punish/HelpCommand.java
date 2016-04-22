@@ -50,9 +50,11 @@ public class HelpCommand implements CommandBase {
 
         List<Text> descriptions = new ArrayList<>();
         for (CommandBase command : XtraPunish.instance.commandBases) {
+            String supportsUndo = command.supportsUndo() ? " Supports Undo." : "";
             descriptions.add(Text.of(TextColors.GREEN, "/punish ",
                     command.command()[0], " - ", TextColors.GOLD,
-                    command.description()));
+                    command.description(),
+                    supportsUndo));
         }
 
         service.builder()
