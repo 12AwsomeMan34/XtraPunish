@@ -33,12 +33,12 @@ dependencies {
 // Exclude the gen stuff from being included in the
 // built jar as it's not really needed
 sourceSets {
-	main {
-		java {
-			srcDir 'src/main/java'
-			exclude 'com/awesomeman/xtrapunish/util/generate/**'
-		}
-	}
+    main {
+        java {
+            srcDir 'src/main/java'
+            exclude 'com/awesomeman/xtrapunish/util/generate/**'
+        }
+    }
 }
 
 blossom {
