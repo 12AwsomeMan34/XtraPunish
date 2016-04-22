@@ -30,6 +30,17 @@ dependencies {
     compile "com.github.Laxamer:LaxFile:2.0"
 }
 
+// Exclude the gen stuff from being included in the
+// built jar as it's not really needed
+sourceSets {
+	main {
+		java {
+			srcDir 'src/main/java'
+			exclude 'com/awesomeman/xtrapunish/util/generate/**'
+		}
+	}
+}
+
 blossom {
     replaceToken '@project.version@', project.version, 'src/main/java/com/awesomeman/xtrapunish/PluginInfo.java'
     replaceToken '@project.id@', project.id, 'src/main/java/com/awesomeman/xtrapunish/PluginInfo.java'

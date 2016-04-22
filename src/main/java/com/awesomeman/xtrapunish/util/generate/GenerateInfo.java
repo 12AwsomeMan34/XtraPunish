@@ -120,6 +120,7 @@ public class GenerateInfo {
     }
 
     public static void main(String[] args) {
+        System.out.println("Starting gen stuffz!");
         generateCmdInfo();
     }
 }
