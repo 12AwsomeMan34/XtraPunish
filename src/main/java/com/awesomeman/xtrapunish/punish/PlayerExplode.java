@@ -102,6 +102,7 @@ public class PlayerExplode implements CommandBase {
                 snapshot.getOriginal().getLocation().get().setBlock(snapshot.getOriginal().getState());
             }
         }
+        Managers.explosionManager.explosionHistory.remove(snapshots);
         return CmdUtil.UndoSuccess.SUCCESS;
     }
 

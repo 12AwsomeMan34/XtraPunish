@@ -61,6 +61,7 @@ public class ExplosionManager {
                     snapshots.add(transaction);
                 }
                 explosionHistory.add(snapshots);
+                explosions.remove(explosion);
                 break;
             }
         }
