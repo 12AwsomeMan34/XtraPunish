@@ -61,6 +61,11 @@ public class PlayerGlass implements CommandBase {
         Player player = optional.get();
         Location<World> location = player.getLocation();
 
+        if (location.add(0, 99, 0).getY() > 255) {
+            src.sendMessage(Text.of(TextColors.RED, "Cannot set a block above the height limit! Try again at a lower altitude."));
+            return CommandResult.empty();
+        }
+
         List<Location<World>> locs = new ArrayList<>();
         List<BlockState> states = new ArrayList<>();
         locs.add(location.add(0, 99, 0));
