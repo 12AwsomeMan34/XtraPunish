@@ -52,7 +52,8 @@ public class BroadcastOverlord implements CommandBase {
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<String> optional = args.<String>getOne("broadcast");
         if (!optional.isPresent()) {
-            src.sendMessage(Text.of(TextColors.RED, "Message argument not specified! Correct usage: /punish broadcast <broadcast>"));
+            src.sendMessage(
+                    Text.of(TextColors.RED, "Message argument not specified! Correct usage: ", TextColors.GOLD, "/punish broadcast <broadcast>"));
             return CommandResult.empty();
         }
         String broadcast = optional.get();

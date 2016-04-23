@@ -52,7 +52,7 @@ public class PlayerStrike implements CommandBase {
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");
         if (!optional.isPresent()) {
-            src.sendMessage(Text.of(TextColors.RED, "Player argument not specified! Correct usage: /punish strike <player>"));
+            src.sendMessage(Text.of(TextColors.RED, "Player argument not specified! Correct usage: ", TextColors.GOLD, "/punish strike <player>"));
             return CommandResult.empty();
         }
         Player player = optional.get();

@@ -56,7 +56,7 @@ public class PlayerBurning implements CommandBase {
         Optional<Player> optional = args.<Player>getOne("player");
         boolean flag = args.hasAny("a");
         if (!optional.isPresent() && !flag) {
-            src.sendMessage(Text.of(TextColors.RED, "Player argument not specified! Correct usage: /punish burn <player> [-a]"));
+            src.sendMessage(Text.of(TextColors.RED, "Player argument not specified! Correct usage: ", TextColors.GOLD, "/punish burn <player> [-a]"));
             return CommandResult.empty();
         }
 

@@ -47,7 +47,7 @@ public class PluginUndo implements CommandBase {
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<String> optional = args.<String>getOne("command");
         if (!optional.isPresent()) {
-            src.sendMessage(Text.of(TextColors.RED, "Command argument not specified! Correct usage: /punish undo <command>"));
+            src.sendMessage(Text.of(TextColors.RED, "Command argument not specified! Correct usage: ", TextColors.GOLD, "/punish undo <command>"));
             return CommandResult.empty();
         }
         String command = optional.get();
