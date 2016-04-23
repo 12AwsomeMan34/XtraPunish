@@ -60,7 +60,8 @@ public class PlayerBounceExplode implements CommandBase {
                 .shouldBreakBlocks(false).build();
         player.getWorld().triggerExplosion(explosion);
 
-        src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " has been bounced by an explosion."));
+        src.sendMessage(
+                Text.of(TextColors.GREEN, "Success! ", TextColors.BLUE, player.getName(), TextColors.GOLD, " has been bounced by an explosion."));
         return CommandResult.success();
     }
 

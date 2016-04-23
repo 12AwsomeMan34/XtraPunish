@@ -41,8 +41,8 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
 import com.awesomeman.xtrapunish.util.CmdUtil;
-import com.awesomeman.xtrapunish.util.CommandBase;
 import com.awesomeman.xtrapunish.util.CmdUtil.UndoSuccess;
+import com.awesomeman.xtrapunish.util.CommandBase;
 
 public class PlayerNoFood implements CommandBase {
 
@@ -59,7 +59,8 @@ public class PlayerNoFood implements CommandBase {
         history.add(new NoFoodStore(player, player.foodLevel().get()));
 
         player.offer(player.foodLevel().set(0));
-        src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " is now starving!"));
+        src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player ", TextColors.BLUE, player.getName(), TextColors.GOLD,
+                " is now starving!"));
         return CommandResult.success();
     }
 
@@ -70,7 +71,7 @@ public class PlayerNoFood implements CommandBase {
 
     @Override
     public String[] command() {
-        return new String[] {"starve"};
+        return new String[] {"starve", "nofood"};
     }
 
     @Override

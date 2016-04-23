@@ -47,8 +47,8 @@ import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.world.extent.Extent;
 
 import com.awesomeman.xtrapunish.util.CmdUtil;
-import com.awesomeman.xtrapunish.util.CommandBase;
 import com.awesomeman.xtrapunish.util.CmdUtil.UndoSuccess;
+import com.awesomeman.xtrapunish.util.CommandBase;
 
 public class PlayerCreeper implements CommandBase {
 
@@ -70,7 +70,8 @@ public class PlayerCreeper implements CommandBase {
             extent.spawnEntity(entity, Cause.source(EntitySpawnCause.builder().entity(entity).type(SpawnTypes.PLUGIN).build()).build());
             history.add(entity);
             src.sendMessage(
-                    Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " will need to watch their back!"));
+                    Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player ", TextColors.BLUE, player.getName(), TextColors.GOLD,
+                            " will need to watch their back!"));
         } else {
             src.sendMessage(Text.of(TextColors.RED, "The entity could not be created!"));
         }

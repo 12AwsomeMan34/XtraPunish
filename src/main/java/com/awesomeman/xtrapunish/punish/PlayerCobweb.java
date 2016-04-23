@@ -97,7 +97,8 @@ public class PlayerCobweb implements CommandBase {
         }
         history.add(new AffectedBlocks(locs, states));
 
-        src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " will be engulfed in cobwebs!"));
+        src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player ", TextColors.BLUE, player.getName(), TextColors.GOLD,
+                " has been engulfed in cobwebs!"));
 
         return CommandResult.success();
     }

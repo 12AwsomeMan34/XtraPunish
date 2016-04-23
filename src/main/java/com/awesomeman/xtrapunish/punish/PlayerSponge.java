@@ -45,8 +45,8 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
 import com.awesomeman.xtrapunish.util.CmdUtil;
-import com.awesomeman.xtrapunish.util.CommandBase;
 import com.awesomeman.xtrapunish.util.CmdUtil.UndoSuccess;
+import com.awesomeman.xtrapunish.util.CommandBase;
 
 public class PlayerSponge implements CommandBase {
 
@@ -71,6 +71,9 @@ public class PlayerSponge implements CommandBase {
         iterateSlots(hotbar, items, slots);
 
         history.add(new PlayerSpongeStore(items, slots));
+
+        src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player ", TextColors.BLUE, player.getName(), TextColors.GOLD,
+                " has had their inventory replaced with sponge!"));
         return CommandResult.success();
     }
 

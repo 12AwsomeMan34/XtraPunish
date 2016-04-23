@@ -65,7 +65,7 @@ public class PlayerChatSpam implements CommandBase {
             message = "";
         }
 
-        src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " cannot see his chat!"));
+        src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.BLUE, player.getName(), TextColors.GOLD, " cannot see his chat!"));
         return CommandResult.success();
     }
 
@@ -76,7 +76,7 @@ public class PlayerChatSpam implements CommandBase {
 
     @Override
     public String[] command() {
-        return new String[] {"spam"};
+        return new String[] {"spam", "chatspam", "chat-spam"};
     }
 
     @Override

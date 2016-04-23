@@ -38,8 +38,8 @@ import org.spongepowered.api.text.format.TextColors;
 
 import com.awesomeman.xtrapunish.XtraPunish;
 import com.awesomeman.xtrapunish.util.CmdUtil;
-import com.awesomeman.xtrapunish.util.CommandBase;
 import com.awesomeman.xtrapunish.util.CmdUtil.UndoSuccess;
+import com.awesomeman.xtrapunish.util.CommandBase;
 
 public class PluginUndo implements CommandBase {
 
@@ -59,30 +59,37 @@ public class PluginUndo implements CommandBase {
                     found = true;
                     switch (commandBase.undoRecent()) {
                         case SUCCESS:
-                            src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Command ", command2, " has been undone."));
+                            src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Command ", TextColors.BLUE, command2,
+                                    TextColors.GOLD, " has been undone."));
                             break;
                         case FAILUE_NOT_SUPPORTED:
-                            src.sendMessage(Text.of(TextColors.RED, "Command ", command2, " does not support undo!"));
+                            src.sendMessage(
+                                    Text.of(TextColors.RED, "Command ", TextColors.BLUE, command2, TextColors.RED, " does not support undo!"));
                             break;
                         case FAILURE_NO_HISTORY:
-                            src.sendMessage(Text.of(TextColors.RED, "Command ", command2, " has no history that can be undone!"));
+                            src.sendMessage(Text.of(TextColors.RED, "Command ", TextColors.BLUE, command2, TextColors.RED,
+                                    " has no history that can be undone!"));
                             break;
                         case FAILUE_FOOD_DATA:
-                            src.sendMessage(Text.of(TextColors.RED, "Unable to successfully offer data for the command, ", command2, "!"));
+                            src.sendMessage(
+                                    Text.of(TextColors.RED, "Unable to successfully offer data for the command, ", TextColors.BLUE, command2,
+                                            TextColors.RED, "!"));
                             break;
                         case FAILUE_NO_PLAYER:
-                            src.sendMessage(Text.of(TextColors.RED, "A player necessary to undo the command ", command2,
-                                    " is unavailable. Removing undo entry."));
+                            src.sendMessage(
+                                    Text.of(TextColors.RED, "A player necessary to undo the command ", TextColors.BLUE, command2, TextColors.RED,
+                                            " is unavailable. Removing undo entry."));
                             break;
                         case FAILUE_UNKNOWN:
-                            src.sendMessage(Text.of(TextColors.RED, "An error occured while attempting to undo command ", command2, "!"));
+                            src.sendMessage(Text.of(TextColors.RED, "An error occured while attempting to undo command ", TextColors.BLUE, command2,
+                                    TextColors.RED, "!"));
                             break;
                     }
                 }
             }
         }
         if (!found) {
-            src.sendMessage(Text.of(TextColors.RED, "Unable to find the command ", command, "!"));
+            src.sendMessage(Text.of(TextColors.RED, "Unable to find the command ", TextColors.BLUE, command, TextColors.RED, "!"));
             return CommandResult.empty();
         }
         return CommandResult.success();

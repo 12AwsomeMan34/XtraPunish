@@ -45,8 +45,8 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
 import com.awesomeman.xtrapunish.util.CmdUtil;
-import com.awesomeman.xtrapunish.util.CommandBase;
 import com.awesomeman.xtrapunish.util.CmdUtil.UndoSuccess;
+import com.awesomeman.xtrapunish.util.CommandBase;
 
 public class PlayerBurning implements CommandBase {
 
@@ -79,7 +79,7 @@ public class PlayerBurning implements CommandBase {
             playerAffected.add(player);
             history.add(playerAffected);
 
-            src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " is now a little warm!"));
+            src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.BLUE, player.getName(), TextColors.GOLD, " is now a little warm!"));
         }
         return CommandResult.success();
     }

@@ -60,7 +60,11 @@ public class PlayerStrike implements CommandBase {
         Optional<Entity> optional2 = extent.createEntity(EntityTypes.LIGHTNING, player.getLocation().getPosition());
         if (optional2.isPresent()) {
             extent.spawnEntity(optional2.get(), Cause.of(NamedCause.of("Lightning", this)));
-            src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Striking " + player.getName() + "."));
+            src.sendMessage(
+                    Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Striking ", TextColors.BLUE, player.getName(), TextColors.GOLD,
+                            " with lightning!"));
+        } else {
+            src.sendMessage(Text.of(TextColors.RED, "Unable to create lightning entity!"));
         }
         return CommandResult.success();
     }
@@ -72,7 +76,7 @@ public class PlayerStrike implements CommandBase {
 
     @Override
     public String[] command() {
-        return new String[] {"strike"};
+        return new String[] {"strike", "thor", "lightning"};
     }
 
     @Override

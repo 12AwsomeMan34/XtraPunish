@@ -43,8 +43,8 @@ import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 import com.awesomeman.xtrapunish.util.CmdUtil;
-import com.awesomeman.xtrapunish.util.CommandBase;
 import com.awesomeman.xtrapunish.util.CmdUtil.UndoSuccess;
+import com.awesomeman.xtrapunish.util.CommandBase;
 
 public class PlayerPopular implements CommandBase {
 
@@ -63,15 +63,17 @@ public class PlayerPopular implements CommandBase {
         List<Location<World>> locs = new ArrayList<>();
 
         for (Player player2 : Sponge.getServer().getOnlinePlayers()) {
-            players.add(player2);
-            locs.add(player2.getLocation());
-            player2.setLocation(player.getLocation());
+            if (!player2.equals(player)) {
+                players.add(player2);
+                locs.add(player2.getLocation());
+                player2.setLocation(player.getLocation());
+            }
         }
 
         history.add(new PopularStore(players, locs));
 
-        src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " is making new friends."));
-
+        src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player ", TextColors.BLUE, player.getName(), TextColors.GOLD,
+                " is making new friends."));
         return CommandResult.success();
     }
 

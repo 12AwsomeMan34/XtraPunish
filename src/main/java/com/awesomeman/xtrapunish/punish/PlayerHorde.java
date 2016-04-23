@@ -48,8 +48,8 @@ import org.spongepowered.api.world.extent.Extent;
 
 import com.awesomeman.xtrapunish.XtraPunish;
 import com.awesomeman.xtrapunish.util.CmdUtil;
-import com.awesomeman.xtrapunish.util.CommandBase;
 import com.awesomeman.xtrapunish.util.CmdUtil.UndoSuccess;
+import com.awesomeman.xtrapunish.util.CommandBase;
 
 public class PlayerHorde implements CommandBase {
 
@@ -77,8 +77,8 @@ public class PlayerHorde implements CommandBase {
         }
         history.add(entities);
 
-        src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD,
-                "Player " + player.getName() + " might as well be sleeping with the fishes!"));
+        src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player ", TextColors.BLUE, player.getName(), TextColors.GOLD,
+                " has been engulfed by the horde!"));
         return CommandResult.success();
     }
 

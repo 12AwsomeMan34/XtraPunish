@@ -95,7 +95,7 @@ public class PlayerBedrock implements CommandBase {
                 Math.floor(bottomLoc.getZ()) + 0.5)));
 
         src.sendMessage(
-                Text.of(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " is now encased in bedrock!")));
+                Text.of(Text.of(TextColors.GREEN, "Success! ", TextColors.BLUE, player.getName(), TextColors.GOLD, " is now encased in bedrock!")));
         return CommandResult.success();
     }
 
@@ -106,7 +106,7 @@ public class PlayerBedrock implements CommandBase {
 
     @Override
     public String[] command() {
-        return new String[] {"trap"};
+        return new String[] {"trap", "bedrock"};
     }
 
     @Override

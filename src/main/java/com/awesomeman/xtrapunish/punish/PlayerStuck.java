@@ -53,7 +53,8 @@ public class PlayerStuck implements CommandBase {
 
         if (Managers.stuckManager.setPlayerStuck(player)) {
             src.sendMessage(
-                    Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " will not be moving anytime soon!"));
+                    Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player ", TextColors.BLUE, player.getName(), TextColors.GOLD,
+                            " will not be moving anytime soon!"));
         } else {
             src.sendMessage(Text.of(TextColors.RED, "Player already stuck!"));
         }

@@ -63,6 +63,8 @@ public class PlayerExplode implements CommandBase {
                 .shouldBreakBlocks(true).build();
         Managers.explosionManager.addExplosion(explosion);
         player.getWorld().triggerExplosion(explosion);
+        src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player ", TextColors.BLUE, player.getName(), TextColors.GOLD,
+                " has gone kaboom!"));
         return CommandResult.success();
     }
 

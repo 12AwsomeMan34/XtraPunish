@@ -77,7 +77,8 @@ public class PlayerAnvil implements CommandBase {
         anvil2.setBlockType(BlockTypes.ANVIL);
         anvil3.setBlockType(BlockTypes.ANVIL);
 
-        src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Dropping the hammer on " + player.getName() + "!"));
+        src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Dropping the hammer on ", TextColors.BLUE, player.getName(),
+                TextColors.GOLD, "!"));
         return CommandResult.success();
     }
 

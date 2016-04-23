@@ -52,7 +52,8 @@ public class PlayerUnstuck implements CommandBase {
         Player player = optional.get();
 
         if (Managers.stuckManager.setPlayerUnstuck(player)) {
-            src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " is free once more!"));
+            src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player ", TextColors.BLUE, player.getName(), TextColors.GOLD,
+                    " is free once more!"));
         } else {
             src.sendMessage(Text.of(TextColors.RED, "Player already free!"));
         }

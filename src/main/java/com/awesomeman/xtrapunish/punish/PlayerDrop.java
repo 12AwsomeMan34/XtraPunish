@@ -52,7 +52,8 @@ public class PlayerDrop implements CommandBase {
         Player player = optional.get();
         player.setLocation(player.getLocation().add(0, 150, 0));
 
-        src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " is now plunging to their death!"));
+        src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player ", TextColors.BLUE, player.getName(), TextColors.GOLD,
+                " is now plunging to their death!"));
         return CommandResult.success();
     }
 

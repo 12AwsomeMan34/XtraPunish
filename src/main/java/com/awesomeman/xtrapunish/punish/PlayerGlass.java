@@ -70,7 +70,7 @@ public class PlayerGlass implements CommandBase {
         location.add(0, 99, 0).setBlockType(BlockTypes.GLASS);
         player.setLocation(location.add(0, 100, 0));
 
-        src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player " + player.getName() + " is now walking in the clouds."));
+        src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.BLUE, player.getName(), TextColors.GOLD, " is now walking in the clouds."));
         return CommandResult.success();
     }
 
