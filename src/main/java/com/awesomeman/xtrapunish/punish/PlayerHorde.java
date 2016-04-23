@@ -41,12 +41,12 @@ import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.cause.Cause;
-import org.spongepowered.api.event.cause.NamedCause;
+import org.spongepowered.api.event.cause.entity.spawn.EntitySpawnCause;
+import org.spongepowered.api.event.cause.entity.spawn.SpawnTypes;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.world.extent.Extent;
 
-import com.awesomeman.xtrapunish.XtraPunish;
 import com.awesomeman.xtrapunish.util.CmdUtil;
 import com.awesomeman.xtrapunish.util.CmdUtil.UndoSuccess;
 import com.awesomeman.xtrapunish.util.CommandBase;
@@ -71,7 +71,8 @@ public class PlayerHorde implements CommandBase {
         for (int i = 0; i < 20; i++) {
             Optional<Entity> optional2 = extent.createEntity(EntityTypes.CREEPER, player.getLocation().getPosition());
             if (optional2.isPresent()) {
-                extent.spawnEntity(optional2.get(), Cause.of(NamedCause.of("plugin", XtraPunish.instance)));
+                extent.spawnEntity(optional2.get(),
+                        Cause.source(EntitySpawnCause.builder().entity(optional2.get()).type(SpawnTypes.PLUGIN).build()).build());
                 entities.add(optional2.get());
             }
         }

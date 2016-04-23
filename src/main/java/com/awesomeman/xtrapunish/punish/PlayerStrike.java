@@ -37,7 +37,8 @@ import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.cause.Cause;
-import org.spongepowered.api.event.cause.NamedCause;
+import org.spongepowered.api.event.cause.entity.spawn.EntitySpawnCause;
+import org.spongepowered.api.event.cause.entity.spawn.SpawnTypes;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.world.extent.Extent;
@@ -59,7 +60,8 @@ public class PlayerStrike implements CommandBase {
 
         Optional<Entity> optional2 = extent.createEntity(EntityTypes.LIGHTNING, player.getLocation().getPosition());
         if (optional2.isPresent()) {
-            extent.spawnEntity(optional2.get(), Cause.of(NamedCause.of("Lightning", this)));
+            extent.spawnEntity(optional2.get(),
+                    Cause.source(EntitySpawnCause.builder().entity(optional2.get()).type(SpawnTypes.PLUGIN).build()).build());
             src.sendMessage(
                     Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Striking ", TextColors.BLUE, player.getName(), TextColors.GOLD,
                             " with lightning!"));
