@@ -28,10 +28,12 @@ package com.awesomeman.xtrapunish.manager;
 public class Managers {
 
     public static BroadcastManager broadcastManager;
+    public static ExplosionManager explosionManager;
     public static StuckManager stuckManager;
 
     public static void initManagers() {
         broadcastManager = new BroadcastManager();
+        explosionManager = new ExplosionManager();
         stuckManager = new StuckManager();
     }
 }

@@ -65,6 +65,7 @@ public class XtraPunish {
         CommandManager service = Sponge.getCommandManager();
 
         eventManager.registerListeners(this, Managers.stuckManager);
+        eventManager.registerListeners(this, Managers.explosionManager);
 
         Punishments.registerPunishments();
 

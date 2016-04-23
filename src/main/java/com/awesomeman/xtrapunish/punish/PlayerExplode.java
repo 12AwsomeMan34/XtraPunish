@@ -26,19 +26,24 @@
 package com.awesomeman.xtrapunish.punish;
 
 import java.util.Optional;
+import java.util.Set;
 
+import org.spongepowered.api.block.BlockSnapshot;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandSpec;
+import org.spongepowered.api.data.Transaction;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.world.explosion.Explosion;
 
+import com.awesomeman.xtrapunish.manager.Managers;
 import com.awesomeman.xtrapunish.util.CmdUtil;
+import com.awesomeman.xtrapunish.util.CmdUtil.UndoSuccess;
 import com.awesomeman.xtrapunish.util.CommandBase;
 
 public class PlayerExplode implements CommandBase {
@@ -56,6 +61,7 @@ public class PlayerExplode implements CommandBase {
                 .radius(4)
                 .shouldDamageEntities(true)
                 .shouldBreakBlocks(true).build();
+        Managers.explosionManager.addExplosion(explosion);
         player.getWorld().triggerExplosion(explosion);
         return CommandResult.success();
     }
@@ -83,14 +89,23 @@ public class PlayerExplode implements CommandBase {
 
     @Override
     public CmdUtil.UndoSuccess undoRecent() {
-        // TODO: this
-        return CmdUtil.UndoSuccess.FAILUE_NOT_SUPPORTED;
+        if (Managers.explosionManager.explosionHistory.isEmpty()) {
+            return UndoSuccess.FAILURE_NO_HISTORY;
+        }
+
+        Set<Transaction<BlockSnapshot>> snapshots = Managers.explosionManager.explosionHistory
+                .get(Managers.explosionManager.explosionHistory.size() - 1);
+        for (Transaction<BlockSnapshot> snapshot : snapshots) {
+            if (snapshot.getOriginal().getLocation().isPresent()) {
+                snapshot.getOriginal().getLocation().get().setBlock(snapshot.getOriginal().getState());
+            }
+        }
+        return CmdUtil.UndoSuccess.SUCCESS;
     }
 
     @Override
     public boolean supportsUndo() {
-        // TODO: this
-        return false;
+        return true;
     }
 
     @Override
