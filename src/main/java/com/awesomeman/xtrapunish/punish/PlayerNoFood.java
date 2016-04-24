@@ -94,14 +94,14 @@ public class PlayerNoFood implements CommandBase {
         NoFoodStore store = history.get(history.size() - 1);
 
         if (!store.player.isOnline()) {
-            return CmdUtil.UndoSuccess.FAILUE_NO_PLAYER;
+            return CmdUtil.UndoSuccess.FAILURE_NO_PLAYER;
         }
         history.remove(store);
         if (store.player.offer(store.player.foodLevel().set(store.hunger))
                 .equals(DataTransactionResult.Type.SUCCESS)) {
             return CmdUtil.UndoSuccess.SUCCESS;
         }
-        return CmdUtil.UndoSuccess.FAILUE_UNKNOWN;
+        return CmdUtil.UndoSuccess.FAILURE_UNKNOWN;
     }
 
     @Override

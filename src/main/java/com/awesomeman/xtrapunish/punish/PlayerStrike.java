@@ -44,6 +44,7 @@ import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.world.extent.Extent;
 
 import com.awesomeman.xtrapunish.util.CmdUtil;
+import com.awesomeman.xtrapunish.util.CmdUtil.UndoSuccess;
 import com.awesomeman.xtrapunish.util.CommandBase;
 
 public class PlayerStrike implements CommandBase {
@@ -94,7 +95,7 @@ public class PlayerStrike implements CommandBase {
 
     @Override
     public CmdUtil.UndoSuccess undoRecent() {
-        return CmdUtil.UndoSuccess.FAILUE_NOT_SUPPORTED;
+        return CmdUtil.UndoSuccess.FAILURE_NOT_SUPPORTED;
     }
 
     @Override
@@ -110,5 +111,10 @@ public class PlayerStrike implements CommandBase {
     @Override
     public Optional<String> argText() {
         return Optional.of("[player]");
+    }
+
+    @Override
+    public UndoSuccess redoRecent() {
+        return CmdUtil.UndoSuccess.FAILURE_NOT_SUPPORTED;
     }
 }

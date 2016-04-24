@@ -94,6 +94,7 @@ public class GenerateInfo {
         registerPunishment(new PlayerStrike());
         registerPunishment(new PlayerStuck());
         registerPunishment(new PlayerUnstuck());
+        registerPunishment(new PluginRedo());
         registerPunishment(new PluginUndo());
         registerPunishment(new SendVersion());
     }

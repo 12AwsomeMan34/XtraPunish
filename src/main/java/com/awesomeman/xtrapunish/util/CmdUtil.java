@@ -52,9 +52,9 @@ public class CmdUtil {
 
         SUCCESS,
         FAILURE_NO_HISTORY,
-        FAILUE_NOT_SUPPORTED,
-        FAILUE_FOOD_DATA,
-        FAILUE_NO_PLAYER,
-        FAILUE_UNKNOWN;
+        FAILURE_NOT_SUPPORTED,
+        FAILURE_FOOD_DATA,
+        FAILURE_NO_PLAYER,
+        FAILURE_UNKNOWN;
     }
 }

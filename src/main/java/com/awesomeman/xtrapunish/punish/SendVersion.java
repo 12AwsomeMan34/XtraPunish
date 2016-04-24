@@ -88,7 +88,7 @@ public class SendVersion implements CommandBase {
 
     @Override
     public UndoSuccess undoRecent() {
-        return CmdUtil.UndoSuccess.FAILUE_NOT_SUPPORTED;
+        return CmdUtil.UndoSuccess.FAILURE_NOT_SUPPORTED;
     }
 
     @Override
@@ -104,5 +104,10 @@ public class SendVersion implements CommandBase {
     @Override
     public Optional<String> argText() {
         return Optional.empty();
+    }
+
+    @Override
+    public UndoSuccess redoRecent() {
+        return CmdUtil.UndoSuccess.FAILURE_NOT_SUPPORTED;
     }
 }

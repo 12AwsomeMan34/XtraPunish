@@ -64,6 +64,13 @@ public interface CommandBase extends CommandExecutor {
     CmdUtil.UndoSuccess undoRecent();
 
     /**
+     * This will redo the damage caused by this command after it was undone.
+     * 
+     * @return If the command was redone successfully
+     */
+    CmdUtil.UndoSuccess redoRecent();
+
+    /**
      * If this command supports {@link CommandBase#undoRecent}. Note that this
      * is used for help descriptions.
      * 

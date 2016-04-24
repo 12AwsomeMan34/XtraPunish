@@ -62,7 +62,7 @@ public class PluginUndo implements CommandBase {
                             src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Command ", TextColors.BLUE, command2,
                                     TextColors.GOLD, " has been undone."));
                             break;
-                        case FAILUE_NOT_SUPPORTED:
+                        case FAILURE_NOT_SUPPORTED:
                             src.sendMessage(
                                     Text.of(TextColors.RED, "Command ", TextColors.BLUE, command2, TextColors.RED, " does not support undo!"));
                             break;
@@ -70,17 +70,17 @@ public class PluginUndo implements CommandBase {
                             src.sendMessage(Text.of(TextColors.RED, "Command ", TextColors.BLUE, command2, TextColors.RED,
                                     " has no history that can be undone!"));
                             break;
-                        case FAILUE_FOOD_DATA:
+                        case FAILURE_FOOD_DATA:
                             src.sendMessage(
                                     Text.of(TextColors.RED, "Unable to successfully offer data for the command, ", TextColors.BLUE, command2,
                                             TextColors.RED, "!"));
                             break;
-                        case FAILUE_NO_PLAYER:
+                        case FAILURE_NO_PLAYER:
                             src.sendMessage(
                                     Text.of(TextColors.RED, "A player necessary to undo the command ", TextColors.BLUE, command2, TextColors.RED,
                                             " is unavailable. Removing undo entry."));
                             break;
-                        case FAILUE_UNKNOWN:
+                        case FAILURE_UNKNOWN:
                             src.sendMessage(Text.of(TextColors.RED, "An error occured while attempting to undo command ", TextColors.BLUE, command2,
                                     TextColors.RED, "!"));
                             break;
@@ -118,7 +118,7 @@ public class PluginUndo implements CommandBase {
 
     @Override
     public UndoSuccess undoRecent() {
-        return CmdUtil.UndoSuccess.FAILUE_NOT_SUPPORTED;
+        return CmdUtil.UndoSuccess.FAILURE_NOT_SUPPORTED;
     }
 
     @Override
@@ -133,6 +133,11 @@ public class PluginUndo implements CommandBase {
 
     @Override
     public Optional<String> argText() {
-        return Optional.empty();
+        return Optional.of("[command]");
+    }
+
+    @Override
+    public UndoSuccess redoRecent() {
+        return CmdUtil.UndoSuccess.FAILURE_NOT_SUPPORTED;
     }
 }
