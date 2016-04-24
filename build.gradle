@@ -3,6 +3,7 @@ plugins {
     id 'eclipse'
     id 'net.minecrell.licenser' version '0.1.5'
     id 'net.ellune.blossom' version '1.0.1'
+    id 'com.github.johnrengelman.shadow' version '1.2.3'
 }
 
 sourceCompatibility = '1.8'
@@ -26,8 +27,12 @@ repositories {
 
 dependencies {
     compile "org.spongepowered:spongeapi:4.1.0-SNAPSHOT"
-    compile "com.github.Flibio:Updatifier:v1.4.0:api"
     compile "com.github.Laxamer:LaxFile:2.0"
+    shadow "com.github.Flibio:Updatifier:v1.4.0:api"
+}
+
+configurations {
+    compile.extendsFrom shadow
 }
 
 // Exclude the gen stuff from being included in the
@@ -39,6 +44,15 @@ sourceSets {
             exclude 'com/awesomeman/xtrapunish/util/generate/**'
         }
     }
+}
+
+tasks.getByPath(':jar').enabled = false
+shadowJar {
+    dependencies {
+        include(dependency('com.github.Flibio:Updatifier:v1.4.0:api'))
+    }
+    configurations = [project.configurations.shadow]
+    classifier = ''
 }
 
 blossom {
