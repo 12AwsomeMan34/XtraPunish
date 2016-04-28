@@ -71,7 +71,7 @@ public class PlayerAnvil implements CommandBase {
         List<BlockState> states = new ArrayList<>();
         locs.addAll(Arrays.asList(loc, anvil2.sub(0, 6, 0), anvil3.sub(0, 6, 0)));
         states.addAll(Arrays.asList(loc.getBlock(), anvil2.sub(0, 6, 0).getBlock(), anvil3.sub(0, 6, 0).getBlock()));
-        history.add(new AffectedBlocks(locs, states));
+        this.history.add(new AffectedBlocks(locs, states));
 
         anvil1.setBlockType(BlockTypes.ANVIL);
         anvil2.setBlockType(BlockTypes.ANVIL);
@@ -105,7 +105,7 @@ public class PlayerAnvil implements CommandBase {
 
     @Override
     public CmdUtil.UndoSuccess undoRecent() {
-        return CmdUtil.removeBlockHistory(history);
+        return CmdUtil.removeBlockHistory(this.history);
     }
 
     @Override

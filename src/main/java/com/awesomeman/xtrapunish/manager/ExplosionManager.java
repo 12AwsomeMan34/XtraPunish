@@ -51,7 +51,7 @@ public class ExplosionManager {
         double eventX = eventExplosion.getOrigin().getX();
         double eventY = eventExplosion.getOrigin().getY();
         double eventZ = eventExplosion.getOrigin().getZ();
-        for (Explosion explosion : explosions) {
+        for (Explosion explosion : this.explosions) {
             double explX = explosion.getOrigin().getX();
             double explY = explosion.getOrigin().getY();
             double explZ = explosion.getOrigin().getZ();
@@ -60,8 +60,8 @@ public class ExplosionManager {
                 for (Transaction<BlockSnapshot> transaction : event.getTransactions()) {
                     snapshots.add(transaction);
                 }
-                explosionHistory.add(snapshots);
-                explosions.remove(explosion);
+                this.explosionHistory.add(snapshots);
+                this.explosions.remove(explosion);
                 break;
             }
         }

@@ -133,6 +133,6 @@ public class PluginUndo implements CommandBase {
 
     @Override
     public Optional<String> argText() {
-        return Optional.empty();
+        return Optional.of("[command]");
     }
 }

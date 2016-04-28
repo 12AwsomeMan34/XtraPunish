@@ -76,7 +76,7 @@ public class PlayerHorde implements CommandBase {
                 entities.add(optional2.get());
             }
         }
-        history.add(entities);
+        this.history.add(entities);
 
         src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player ", TextColors.BLUE, player.getName(), TextColors.GOLD,
                 " has been engulfed by the horde!"));
@@ -106,15 +106,15 @@ public class PlayerHorde implements CommandBase {
 
     @Override
     public CmdUtil.UndoSuccess undoRecent() {
-        if (history.isEmpty()) {
+        if (this.history.isEmpty()) {
             return UndoSuccess.FAILURE_NO_HISTORY;
         }
 
-        Set<Entity> entitySet = history.get(history.size() - 1);
+        Set<Entity> entitySet = this.history.get(this.history.size() - 1);
         for (Entity entity : entitySet) {
             entity.remove();
         }
-        history.remove(entitySet);
+        this.history.remove(entitySet);
         return CmdUtil.UndoSuccess.SUCCESS;
     }
 

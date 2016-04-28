@@ -41,10 +41,10 @@ public class ChatSpamManager {
     }
 
     public boolean stopSpam(Player player) {
-        for (TaskPlayer taskPlayer : taskPlayers) {
+        for (TaskPlayer taskPlayer : this.taskPlayers) {
             if (taskPlayer.player.equals(player)) {
                 taskPlayer.task.cancel();
-                taskPlayers.remove(taskPlayer);
+                this.taskPlayers.remove(taskPlayer);
                 return true;
             }
         }

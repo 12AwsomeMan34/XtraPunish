@@ -70,7 +70,7 @@ public class PlayerPopular implements CommandBase {
             }
         }
 
-        history.add(new PopularStore(players, locs));
+        this.history.add(new PopularStore(players, locs));
 
         src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player ", TextColors.BLUE, player.getName(), TextColors.GOLD,
                 " is making new friends."));
@@ -100,15 +100,15 @@ public class PlayerPopular implements CommandBase {
 
     @Override
     public CmdUtil.UndoSuccess undoRecent() {
-        if (history.isEmpty()) {
+        if (this.history.isEmpty()) {
             return UndoSuccess.FAILURE_NO_HISTORY;
         }
 
-        PopularStore store = history.get(history.size() - 1);
+        PopularStore store = this.history.get(this.history.size() - 1);
         for (int i = 0; i < store.players.size(); i++) {
             store.players.get(i).setLocationSafely(store.locs.get(i));
         }
-        history.remove(store);
+        this.history.remove(store);
         return CmdUtil.UndoSuccess.SUCCESS;
     }
 

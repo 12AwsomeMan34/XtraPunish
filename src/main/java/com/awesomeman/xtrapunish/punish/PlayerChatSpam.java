@@ -52,7 +52,7 @@ import com.awesomeman.xtrapunish.util.TaskPlayer;
 public class PlayerChatSpam implements CommandBase {
 
     private final Random random = new Random();
-    private final Collection<TextColor> textCollection = Sponge.getRegistry().getAllOf(TextColor.class);
+    private Collection<TextColor> textCollection;
 
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");
@@ -61,6 +61,10 @@ public class PlayerChatSpam implements CommandBase {
             return CommandResult.empty();
         }
         Player player = optional.get();
+
+        if (textCollection == null) {
+            textCollection = Sponge.getRegistry().getAllOf(TextColor.class);
+        }
 
         Task spamTask = Sponge.getScheduler().createTaskBuilder().execute(
                 task -> {
@@ -116,9 +120,9 @@ public class PlayerChatSpam implements CommandBase {
         Text.Builder message = Text.builder();
         // With 50 chars in each spam message
         for (int i2 = 0; i2 < 50; i2++) {
-            char letter = (char) (random.nextInt(26) + 'a');
-            int textCol = random.nextInt(textCollection.size());
-            message.append(Text.of(textCollection.toArray()[textCol], letter));
+            char letter = (char) (this.random.nextInt(26) + 'a');
+            int textCol = this.random.nextInt(this.textCollection.size());
+            message.append(Text.of(this.textCollection.toArray()[textCol], letter));
         }
         return message.build();
     }

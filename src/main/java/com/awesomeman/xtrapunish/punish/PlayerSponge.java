@@ -70,7 +70,7 @@ public class PlayerSponge implements CommandBase {
         iterateSlots(inv, items, slots);
         iterateSlots(hotbar, items, slots);
 
-        history.add(new PlayerSpongeStore(items, slots));
+        this.history.add(new PlayerSpongeStore(items, slots));
 
         src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player ", TextColors.BLUE, player.getName(), TextColors.GOLD,
                 " has had their inventory replaced with sponge!"));
@@ -114,11 +114,11 @@ public class PlayerSponge implements CommandBase {
 
     @Override
     public CmdUtil.UndoSuccess undoRecent() {
-        if (history.isEmpty()) {
+        if (this.history.isEmpty()) {
             return UndoSuccess.FAILURE_NO_HISTORY;
         }
 
-        PlayerSpongeStore store = history.get(history.size() - 1);
+        PlayerSpongeStore store = this.history.get(this.history.size() - 1);
         for (int i = 0; i < store.items.size(); i++) {
             if (!store.items.get(i).getItem().equals(ItemTypes.NONE)) {
                 store.slots.get(i).set(store.items.get(i));
@@ -126,7 +126,7 @@ public class PlayerSponge implements CommandBase {
                 store.slots.get(i).poll();
             }
         }
-        history.remove(store);
+        this.history.remove(store);
         return CmdUtil.UndoSuccess.SUCCESS;
     }
 

@@ -86,6 +86,6 @@ public class BroadcastStop implements CommandBase {
 
     @Override
     public Optional<String> argText() {
-        return Optional.of("[broadcast]");
+        return Optional.empty();
     }
 }

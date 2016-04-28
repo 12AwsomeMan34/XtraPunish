@@ -95,7 +95,7 @@ public class PlayerCobweb implements CommandBase {
             states.add(location.getBlock());
             location.setBlockType(BlockTypes.WEB);
         }
-        history.add(new AffectedBlocks(locs, states));
+        this.history.add(new AffectedBlocks(locs, states));
 
         src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player ", TextColors.BLUE, player.getName(), TextColors.GOLD,
                 " has been engulfed in cobwebs!"));
@@ -126,7 +126,7 @@ public class PlayerCobweb implements CommandBase {
 
     @Override
     public CmdUtil.UndoSuccess undoRecent() {
-        return CmdUtil.removeBlockHistory(history);
+        return CmdUtil.removeBlockHistory(this.history);
     }
 
     @Override

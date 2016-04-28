@@ -29,7 +29,29 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.awesomeman.xtrapunish.punish.*;
+import com.awesomeman.xtrapunish.punish.BroadcastOverlord;
+import com.awesomeman.xtrapunish.punish.BroadcastStop;
+import com.awesomeman.xtrapunish.punish.HelpCommand;
+import com.awesomeman.xtrapunish.punish.PlayerAnvil;
+import com.awesomeman.xtrapunish.punish.PlayerBedrock;
+import com.awesomeman.xtrapunish.punish.PlayerBounceExplode;
+import com.awesomeman.xtrapunish.punish.PlayerBurning;
+import com.awesomeman.xtrapunish.punish.PlayerChatSpam;
+import com.awesomeman.xtrapunish.punish.PlayerChatStop;
+import com.awesomeman.xtrapunish.punish.PlayerCobweb;
+import com.awesomeman.xtrapunish.punish.PlayerCreeper;
+import com.awesomeman.xtrapunish.punish.PlayerDrop;
+import com.awesomeman.xtrapunish.punish.PlayerExplode;
+import com.awesomeman.xtrapunish.punish.PlayerGlass;
+import com.awesomeman.xtrapunish.punish.PlayerHorde;
+import com.awesomeman.xtrapunish.punish.PlayerNoFood;
+import com.awesomeman.xtrapunish.punish.PlayerPopular;
+import com.awesomeman.xtrapunish.punish.PlayerSponge;
+import com.awesomeman.xtrapunish.punish.PlayerStrike;
+import com.awesomeman.xtrapunish.punish.PlayerStuck;
+import com.awesomeman.xtrapunish.punish.PlayerUnstuck;
+import com.awesomeman.xtrapunish.punish.PluginUndo;
+import com.awesomeman.xtrapunish.punish.SendVersion;
 import com.awesomeman.xtrapunish.util.CommandBase;
 import com.laxamer.file.FileUtils;
 
@@ -56,9 +78,9 @@ public class GenerateInfo {
         List<String> cmdsText = new ArrayList<>();
         List<String> permsText = new ArrayList<>();
         for (CommandBase command : commandBases) {
-            String args = command.argText().isPresent() ? command.argText().get() : "";
+            String args = command.argText().isPresent() ? command.argText().get() + " " : "";
             String supports = command.supportsUndo() ? " Supports undo." : "";
-            cmdsText.add("/punish " + command.command()[0] + " " + args + " - " + command.description() + supports);
+            cmdsText.add("/punish " + command.command()[0] + " " + args + "- " + command.description() + supports);
             permsText.add(command.permission());
         }
         FileUtils.writeToFile(cmdsFile, cmdsText);

@@ -70,7 +70,7 @@ public class PlayerGlass implements CommandBase {
         List<BlockState> states = new ArrayList<>();
         locs.add(location.add(0, 99, 0));
         states.add(location.add(0, 99, 0).getBlock());
-        history.add(new AffectedBlocks(locs, states));
+        this.history.add(new AffectedBlocks(locs, states));
 
         location.add(0, 99, 0).setBlockType(BlockTypes.GLASS);
         player.setLocation(location.add(0, 100, 0));
@@ -102,7 +102,7 @@ public class PlayerGlass implements CommandBase {
 
     @Override
     public CmdUtil.UndoSuccess undoRecent() {
-        return CmdUtil.removeBlockHistory(history);
+        return CmdUtil.removeBlockHistory(this.history);
     }
 
     @Override

@@ -68,7 +68,7 @@ public class PlayerCreeper implements CommandBase {
             Entity entity = optional2.get();
             entity.offer(Keys.CREEPER_CHARGED, true);
             extent.spawnEntity(entity, Cause.source(EntitySpawnCause.builder().entity(entity).type(SpawnTypes.PLUGIN).build()).build());
-            history.add(entity);
+            this.history.add(entity);
             src.sendMessage(
                     Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player ", TextColors.BLUE, player.getName(), TextColors.GOLD,
                             " will need to watch their back!"));
@@ -101,13 +101,13 @@ public class PlayerCreeper implements CommandBase {
 
     @Override
     public CmdUtil.UndoSuccess undoRecent() {
-        if (history.isEmpty()) {
+        if (this.history.isEmpty()) {
             return UndoSuccess.FAILURE_NO_HISTORY;
         }
 
-        Entity entity = history.get(history.size() - 1);
+        Entity entity = this.history.get(this.history.size() - 1);
         entity.remove();
-        history.remove(entity);
+        this.history.remove(entity);
         return CmdUtil.UndoSuccess.SUCCESS;
     }
 

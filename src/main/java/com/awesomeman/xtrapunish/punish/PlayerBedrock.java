@@ -85,7 +85,7 @@ public class PlayerBedrock implements CommandBase {
             states.add(location.getBlock());
             location.setBlockType(BlockTypes.BEDROCK);
         }
-        history.add(new AffectedBlocks(locs, states));
+        this.history.add(new AffectedBlocks(locs, states));
 
         // Set the player's location to prevent the player being stuck in the
         // bedrock, or out of the trap
@@ -122,7 +122,7 @@ public class PlayerBedrock implements CommandBase {
 
     @Override
     public CmdUtil.UndoSuccess undoRecent() {
-        return CmdUtil.removeBlockHistory(history);
+        return CmdUtil.removeBlockHistory(this.history);
     }
 
     @Override

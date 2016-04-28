@@ -36,7 +36,7 @@ public class BroadcastManager {
     }
 
     public Task getBroadcast() {
-        return broadcast;
+        return this.broadcast;
     }
 
     /**
@@ -46,9 +46,9 @@ public class BroadcastManager {
      * @return If the broadcast was not running
      */
     public boolean cancelBroadcast() {
-        if (broadcast != null) {
-            boolean running = broadcast.cancel();
-            broadcast = null;
+        if (this.broadcast != null) {
+            boolean running = this.broadcast.cancel();
+            this.broadcast = null;
             return running;
         }
         return true;

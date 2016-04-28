@@ -69,7 +69,7 @@ public class PlayerBurning implements CommandBase {
                     playersAffected.add(player);
                 }
             }
-            history.add(playersAffected);
+            this.history.add(playersAffected);
             src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "All players on the server are now a little warm!"));
         } else {
             Player player = optional.get();
@@ -77,7 +77,7 @@ public class PlayerBurning implements CommandBase {
 
             Set<Player> playerAffected = new HashSet<>();
             playerAffected.add(player);
-            history.add(playerAffected);
+            this.history.add(playerAffected);
 
             src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.BLUE, player.getName(), TextColors.GOLD, " is now a little warm!"));
         }
@@ -108,17 +108,17 @@ public class PlayerBurning implements CommandBase {
 
     @Override
     public CmdUtil.UndoSuccess undoRecent() {
-        if (history.isEmpty()) {
+        if (this.history.isEmpty()) {
             return UndoSuccess.FAILURE_NO_HISTORY;
         }
 
-        for (Set<Player> playerSet : history) {
+        for (Set<Player> playerSet : this.history) {
             for (Player player : playerSet) {
                 if (player.isOnline()) {
                     player.offer(Keys.FIRE_TICKS, 0);
                 }
             }
-            history.remove(playerSet);
+            this.history.remove(playerSet);
         }
         return CmdUtil.UndoSuccess.SUCCESS;
     }

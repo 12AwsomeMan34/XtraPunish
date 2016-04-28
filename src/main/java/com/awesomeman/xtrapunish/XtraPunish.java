@@ -28,8 +28,6 @@ package com.awesomeman.xtrapunish;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.flibio.updatifier.Updatifier;
-
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandManager;
@@ -46,6 +44,8 @@ import com.awesomeman.xtrapunish.punish.Punishments;
 import com.awesomeman.xtrapunish.util.CommandBase;
 import com.google.inject.Inject;
 
+import me.flibio.updatifier.Updatifier;
+
 @Updatifier(repoName = PluginInfo.NAME, repoOwner = PluginInfo.ORGANIZATION, version = PluginInfo.VERSION)
 @Plugin(id = PluginInfo.ID, name = PluginInfo.NAME, version = PluginInfo.VERSION, description = PluginInfo.DESCRIPTION)
 public class XtraPunish {
@@ -56,7 +56,7 @@ public class XtraPunish {
 
     @Listener
     public void onInit(GameInitializationEvent event) {
-        logger.info("Initializing XtraPunish version " + PluginInfo.VERSION);
+        this.logger.info("Initializing XtraPunish version " + PluginInfo.VERSION);
 
         instance = this;
         Managers.initManagers();
@@ -74,12 +74,12 @@ public class XtraPunish {
                 .description(Text.of("Main command for XtraPunish!"))
                 .executor(new HelpCommand());
 
-        for (CommandBase command : commandBases) {
+        for (CommandBase command : this.commandBases) {
             mainCommandBuilder.child(command.commandSpec(), command.command());
         }
 
         service.register(this, mainCommandBuilder.build(), "xtra", "xtrapunish", "punish");
 
-        logger.info("XtraPunish has successfully loaded!");
+        this.logger.info("XtraPunish has successfully loaded!");
     }
 }

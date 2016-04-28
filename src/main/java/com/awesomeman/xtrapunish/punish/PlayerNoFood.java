@@ -56,7 +56,7 @@ public class PlayerNoFood implements CommandBase {
         }
         Player player = optional.get();
 
-        history.add(new NoFoodStore(player, player.foodLevel().get()));
+        this.history.add(new NoFoodStore(player, player.foodLevel().get()));
 
         player.offer(player.foodLevel().set(0));
         src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player ", TextColors.BLUE, player.getName(), TextColors.GOLD,
@@ -87,16 +87,16 @@ public class PlayerNoFood implements CommandBase {
 
     @Override
     public CmdUtil.UndoSuccess undoRecent() {
-        if (history.isEmpty()) {
+        if (this.history.isEmpty()) {
             return UndoSuccess.FAILURE_NO_HISTORY;
         }
 
-        NoFoodStore store = history.get(history.size() - 1);
+        NoFoodStore store = this.history.get(this.history.size() - 1);
 
         if (!store.player.isOnline()) {
             return CmdUtil.UndoSuccess.FAILUE_NO_PLAYER;
         }
-        history.remove(store);
+        this.history.remove(store);
         if (store.player.offer(store.player.foodLevel().set(store.hunger))
                 .equals(DataTransactionResult.Type.SUCCESS)) {
             return CmdUtil.UndoSuccess.SUCCESS;
