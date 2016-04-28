@@ -23,19 +23,18 @@
  * SOFTWARE.
  */
 
-package com.awesomeman.xtrapunish.manager;
+package com.awesomeman.xtrapunish.util;
 
-public class Managers {
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.scheduler.Task;
 
-    public static BroadcastManager broadcastManager;
-    public static ChatSpamManager chatSpamManager;
-    public static ExplosionManager explosionManager;
-    public static StuckManager stuckManager;
+public class TaskPlayer {
 
-    public static void initManagers() {
-        broadcastManager = new BroadcastManager();
-        chatSpamManager = new ChatSpamManager();
-        explosionManager = new ExplosionManager();
-        stuckManager = new StuckManager();
+    public Task task;
+    public Player player;
+
+    public TaskPlayer(Task task, Player player) {
+        this.task = task;
+        this.player = player;
     }
 }

@@ -82,6 +82,7 @@ public class GenerateInfo {
         registerPunishment(new PlayerBounceExplode());
         registerPunishment(new PlayerBurning());
         registerPunishment(new PlayerChatSpam());
+        registerPunishment(new PlayerChatStop());
         registerPunishment(new PlayerCobweb());
         registerPunishment(new PlayerCreeper());
         registerPunishment(new PlayerDrop());

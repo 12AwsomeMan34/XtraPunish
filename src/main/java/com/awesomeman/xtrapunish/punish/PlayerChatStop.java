@@ -25,12 +25,8 @@
 
 package com.awesomeman.xtrapunish.punish;
 
-import java.util.Collection;
 import java.util.Optional;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
-import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -38,47 +34,43 @@ import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.format.TextColor;
 import org.spongepowered.api.text.format.TextColors;
 
-import com.awesomeman.xtrapunish.XtraPunish;
 import com.awesomeman.xtrapunish.manager.Managers;
-import com.awesomeman.xtrapunish.util.CmdUtil;
+import com.awesomeman.xtrapunish.util.CmdUtil.UndoSuccess;
 import com.awesomeman.xtrapunish.util.CommandBase;
-import com.awesomeman.xtrapunish.util.TaskPlayer;
 
-public class PlayerChatSpam implements CommandBase {
+public class PlayerChatStop implements CommandBase {
 
-    private final Random random = new Random();
-    private final Collection<TextColor> textCollection = Sponge.getRegistry().getAllOf(TextColor.class);
-
+    @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");
         if (!optional.isPresent()) {
-            src.sendMessage(Text.of(TextColors.RED, "Player argument not specified! Correct usage: ", TextColors.GOLD, "/punish spam <player>"));
+            src.sendMessage(Text.of(TextColors.RED, "Player argument not specified! Correct usage: ", TextColors.GOLD, "/punish chat-stop <player>"));
             return CommandResult.empty();
         }
         Player player = optional.get();
 
-        Task spamTask = Sponge.getScheduler().createTaskBuilder().execute(
-                task -> {
-                    player.sendMessage(generateSpam());
-                }).async().interval(100, TimeUnit.MILLISECONDS).name("XtraPunish chatspam command.").submit(XtraPunish.instance);
-        Managers.chatSpamManager.storeSpam(new TaskPlayer(spamTask, player));
-        src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.BLUE, player.getName(), TextColors.GOLD, " cannot see his chat!"));
+        if (!Managers.chatSpamManager.stopSpam(player)) {
+            src.sendMessage(Text.of(TextColors.RED, "Could not find the task for ", TextColors.BLUE, player.getName(), TextColors.RED,
+                    "! Are you sure he is being spammed?"));
+            return CommandResult.empty();
+        }
+        src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Stopped spamming ", TextColors.BLUE, player.getName(),
+                TextColors.GOLD, "."));
+
         return CommandResult.success();
     }
 
     @Override
     public String description() {
-        return "Fills a player's chat with randomly generated charactors.";
+        return "Stops spamming a player.";
     }
 
     @Override
     public String[] command() {
-        return new String[] {"spam", "chatspam", "chat-spam"};
+        return new String[] {"chatstop", "chat-stop"};
     }
 
     @Override
@@ -93,8 +85,8 @@ public class PlayerChatSpam implements CommandBase {
     }
 
     @Override
-    public CmdUtil.UndoSuccess undoRecent() {
-        return CmdUtil.UndoSuccess.FAILUE_NOT_SUPPORTED;
+    public UndoSuccess undoRecent() {
+        return UndoSuccess.FAILUE_NOT_SUPPORTED;
     }
 
     @Override
@@ -104,22 +96,11 @@ public class PlayerChatSpam implements CommandBase {
 
     @Override
     public String permission() {
-        return "xtrapunish.chatspam";
+        return "xtrapunish.chatspam.stop";
     }
 
     @Override
     public Optional<String> argText() {
-        return Optional.of("[player]");
-    }
-
-    private Text generateSpam() {
-        Text.Builder message = Text.builder();
-        // With 50 chars in each spam message
-        for (int i2 = 0; i2 < 50; i2++) {
-            char letter = (char) (random.nextInt(26) + 'a');
-            int textCol = random.nextInt(textCollection.size());
-            message.append(Text.of(textCollection.toArray()[textCol], letter));
-        }
-        return message.build();
+        return Optional.empty();
     }
 }

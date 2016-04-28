@@ -25,17 +25,29 @@
 
 package com.awesomeman.xtrapunish.manager;
 
-public class Managers {
+import java.util.ArrayList;
+import java.util.List;
 
-    public static BroadcastManager broadcastManager;
-    public static ChatSpamManager chatSpamManager;
-    public static ExplosionManager explosionManager;
-    public static StuckManager stuckManager;
+import org.spongepowered.api.entity.living.player.Player;
 
-    public static void initManagers() {
-        broadcastManager = new BroadcastManager();
-        chatSpamManager = new ChatSpamManager();
-        explosionManager = new ExplosionManager();
-        stuckManager = new StuckManager();
+import com.awesomeman.xtrapunish.util.TaskPlayer;
+
+public class ChatSpamManager {
+
+    private List<TaskPlayer> taskPlayers = new ArrayList<>();
+
+    public void storeSpam(TaskPlayer taskPlayer) {
+        this.taskPlayers.add(taskPlayer);
+    }
+
+    public boolean stopSpam(Player player) {
+        for (TaskPlayer taskPlayer : taskPlayers) {
+            if (taskPlayer.player.equals(player)) {
+                taskPlayer.task.cancel();
+                taskPlayers.remove(taskPlayer);
+                return true;
+            }
+        }
+        return false;
     }
 }
