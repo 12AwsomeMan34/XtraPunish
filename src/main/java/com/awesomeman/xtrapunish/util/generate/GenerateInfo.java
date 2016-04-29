@@ -80,8 +80,8 @@ public class GenerateInfo {
         for (CommandBase command : commandBases) {
             String args = command.argText().isPresent() ? command.argText().get() + " " : "";
             String supports = command.supportsUndo() ? " Supports undo." : "";
-            cmdsText.add("/punish " + command.command()[0] + " " + args + "- " + command.description() + supports);
-            permsText.add(command.permission());
+            cmdsText.add("> /punish " + command.command()[0] + " " + args + "- " + command.description() + supports);
+            permsText.add("> " + command.permission());
         }
         FileUtils.writeToFile(cmdsFile, cmdsText);
         FileUtils.writeToFile(permsFile, permsText);
