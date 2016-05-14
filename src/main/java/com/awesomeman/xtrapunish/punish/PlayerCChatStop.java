@@ -38,36 +38,39 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
 import com.awesomeman.xtrapunish.manager.Managers;
-import com.awesomeman.xtrapunish.util.CmdUtil;
+import com.awesomeman.xtrapunish.util.CmdUtil.UndoSuccess;
 import com.awesomeman.xtrapunish.util.CommandBase;
 
-public class PlayerChatSpam implements CommandBase {
+public class PlayerCChatStop implements CommandBase {
 
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> optional = args.<Player>getOne("player");
         if (!optional.isPresent()) {
-            src.sendMessage(Text.of(TextColors.RED, "Player argument not specified! Correct usage: ", TextColors.GOLD, "/punish cspam <player>"));
+            src.sendMessage(Text.of(TextColors.RED, "Player argument not specified! Correct usage: ", TextColors.GOLD, "/punish chat-stop <player>"));
             return CommandResult.empty();
         }
         Player player = optional.get();
 
-        for (int i = 0; i < 100; i++) {
-            player.sendMessage(Managers.chatSpamManager.generateSpam());
+        if (!Managers.chatSpamManager.stopSpam(player)) {
+            src.sendMessage(Text.of(TextColors.RED, "Could not find the task for ", TextColors.BLUE, player.getName(), TextColors.RED,
+                    "! Are you sure he is being spammed?"));
+            return CommandResult.empty();
         }
+        src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Stopped spamming ", TextColors.BLUE, player.getName(),
+                TextColors.GOLD, "."));
 
-        src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.BLUE, player.getName(), TextColors.GOLD, " has had his chat filled!"));
         return CommandResult.success();
     }
 
     @Override
     public String description() {
-        return "Fills a player's chat with random characters.";
+        return "Stops spamming a player.";
     }
 
     @Override
     public String[] command() {
-        return new String[] {"spam", "chatspam", "chat-spam"};
+        return new String[] {"spamstop", "stopspam", "chatstop", "chat-stop", "cchatstop", "cchat-stop"};
     }
 
     @Override
@@ -82,8 +85,8 @@ public class PlayerChatSpam implements CommandBase {
     }
 
     @Override
-    public CmdUtil.UndoSuccess undoRecent() {
-        return CmdUtil.UndoSuccess.FAILUE_NOT_SUPPORTED;
+    public UndoSuccess undoRecent() {
+        return UndoSuccess.FAILUE_NOT_SUPPORTED;
     }
 
     @Override
@@ -93,11 +96,11 @@ public class PlayerChatSpam implements CommandBase {
 
     @Override
     public String permission() {
-        return "xtrapunish.chatspam";
+        return "xtrapunish.chatspam.stop";
     }
 
     @Override
     public Optional<String> argText() {
-        return Optional.of("[player]");
+        return Optional.empty();
     }
 }

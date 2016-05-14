@@ -26,9 +26,14 @@
 package com.awesomeman.xtrapunish.manager;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Random;
 
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextColor;
 
 import com.awesomeman.xtrapunish.util.TaskPlayer;
 
@@ -49,5 +54,19 @@ public class ChatSpamManager {
             }
         }
         return false;
+    }
+
+    public Text generateSpam() {
+        Text.Builder message = Text.builder();
+        Random random = new Random();
+        Collection<TextColor> textCollection = Sponge.getRegistry().getAllOf(TextColor.class);
+
+        // With 50 chars in each spam message
+        for (int i2 = 0; i2 < 50; i2++) {
+            char letter = (char) (random.nextInt(26) + 'a');
+            int textCol = random.nextInt(textCollection.size());
+            message.append(Text.of(textCollection.toArray()[textCol], letter));
+        }
+        return message.build();
     }
 }

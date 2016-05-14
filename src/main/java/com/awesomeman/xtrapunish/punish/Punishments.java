@@ -48,8 +48,9 @@ public class Punishments {
         registerPunishment(new PlayerBedrock());
         registerPunishment(new PlayerBounceExplode());
         registerPunishment(new PlayerBurning());
+        registerPunishment(new PlayerCChatSpam());
+        registerPunishment(new PlayerCChatStop());
         registerPunishment(new PlayerChatSpam());
-        registerPunishment(new PlayerChatStop());
         registerPunishment(new PlayerCobweb());
         registerPunishment(new PlayerCreeper());
         registerPunishment(new PlayerDrop());
