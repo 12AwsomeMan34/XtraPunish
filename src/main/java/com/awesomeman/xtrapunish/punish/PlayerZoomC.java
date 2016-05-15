@@ -65,12 +65,12 @@ public class PlayerZoomC implements CommandBase {
                             " is already having their zoom toggled continuously."));
             return CommandResult.empty();
         }
-        PotionEffect potionEffect = PotionEffect.of(PotionEffectTypes.SLOWNESS, 2, 5);
+        PotionEffect potionEffect = PotionEffect.of(PotionEffectTypes.SLOWNESS, 2, 3);
 
         Task zoomTask = Sponge.getScheduler().createTaskBuilder().execute(
                 task -> {
                     player.offer(player.getOrCreate(PotionEffectData.class).get().addElement(potionEffect));
-                }).intervalTicks(5).name("XtraPunish czoom command.").submit(XtraPunish.instance);
+                }).intervalTicks(4).name("XtraPunish czoom command.").submit(XtraPunish.instance);
 
         Managers.zoomManager.storePlayer(new ZoomStore(zoomTask, player, potionEffect));
         src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player ", TextColors.BLUE, player.getName(), TextColors.GOLD,

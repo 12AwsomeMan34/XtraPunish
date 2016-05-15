@@ -57,7 +57,7 @@ public class PlayerZoom implements CommandBase {
         PotionEffect potionEffect = PotionEffect.of(PotionEffectTypes.SLOWNESS, 2, 5);
         player.offer(player.getOrCreate(PotionEffectData.class).get().addElement(potionEffect));
         src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player ", TextColors.BLUE, player.getName(), TextColors.GOLD,
-                " will have their screen zoomed in for a short moment."));
+                " will have their screen zoomed in just once."));
         return CommandResult.success();
     }
 
