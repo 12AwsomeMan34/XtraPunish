@@ -46,6 +46,7 @@ public class Punishments {
         registerPunishment(new HelpCommand());
         registerPunishment(new PlayerAnvil());
         registerPunishment(new PlayerBedrock());
+        registerPunishment(new PlayerBlind());
         registerPunishment(new PlayerBounceExplode());
         registerPunishment(new PlayerBurning());
         registerPunishment(new PlayerCChatSpam());
@@ -55,14 +56,19 @@ public class Punishments {
         registerPunishment(new PlayerCreeper());
         registerPunishment(new PlayerDrop());
         registerPunishment(new PlayerExplode());
+        registerPunishment(new PlayerFlash());
         registerPunishment(new PlayerGlass());
         registerPunishment(new PlayerHorde());
         registerPunishment(new PlayerNoFood());
         registerPunishment(new PlayerPopular());
+        registerPunishment(new PlayerSlow());
         registerPunishment(new PlayerSponge());
         registerPunishment(new PlayerStrike());
         registerPunishment(new PlayerStuck());
         registerPunishment(new PlayerUnstuck());
+        registerPunishment(new PlayerZoom());
+        registerPunishment(new PlayerZoomC());
+        registerPunishment(new PlayerZoomCStop());
         registerPunishment(new PluginUndo());
         registerPunishment(new SendVersion());
     }

@@ -31,11 +31,13 @@ public class Managers {
     public static ChatSpamManager chatSpamManager;
     public static ExplosionManager explosionManager;
     public static StuckManager stuckManager;
+    public static ZoomManager zoomManager;
 
     public static void initManagers() {
         broadcastManager = new BroadcastManager();
         chatSpamManager = new ChatSpamManager();
         explosionManager = new ExplosionManager();
         stuckManager = new StuckManager();
+        zoomManager = new ZoomManager();
     }
 }
