@@ -25,7 +25,7 @@ repositories {
 }
 
 dependencies {
-    compile "org.spongepowered:spongeapi:4.1.0-SNAPSHOT"
+    compile "org.spongepowered:spongeapi:4.1.0"
     compile "com.github.Laxamer:LaxFile:2.0"
     shadow "com.github.Flibio:Updatifier:v1.4.0:api"
 }
@@ -56,8 +56,6 @@ shadowJar {
 
 blossom {
     replaceToken '@project.version@', project.version, 'src/main/java/com/awesomeman/xtrapunish/PluginInfo.java'
-    replaceToken '@project.id@', project.id, 'src/main/java/com/awesomeman/xtrapunish/PluginInfo.java'
-    replaceToken '@project.name@', project.name, 'src/main/java/com/awesomeman/xtrapunish/PluginInfo.java'
     replaceToken '@project.description@', project.description, 'src/main/java/com/awesomeman/xtrapunish/PluginInfo.java'
     replaceToken '@project.organization@', project.organization, 'src/main/java/com/awesomeman/xtrapunish/PluginInfo.java'
 }

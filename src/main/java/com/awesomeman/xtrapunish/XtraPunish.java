@@ -46,8 +46,8 @@ import com.google.inject.Inject;
 
 import me.flibio.updatifier.Updatifier;
 
-@Updatifier(repoName = PluginInfo.NAME, repoOwner = PluginInfo.ORGANIZATION, version = PluginInfo.VERSION)
-@Plugin(id = PluginInfo.ID, name = PluginInfo.NAME, version = PluginInfo.VERSION, description = PluginInfo.DESCRIPTION)
+@Updatifier(repoName = "XtraPunish", repoOwner = PluginInfo.ORGANIZATION, version = PluginInfo.VERSION)
+@Plugin(id = "xtrapunish", name = "XtraPunish", version = PluginInfo.VERSION, description = PluginInfo.DESCRIPTION, authors = "12AwsomeMan34")
 public class XtraPunish {
 
     public static XtraPunish instance;

@@ -56,7 +56,6 @@ public class Punishments {
         registerPunishment(new PlayerCreeper());
         registerPunishment(new PlayerDrop());
         registerPunishment(new PlayerExplode());
-        registerPunishment(new PlayerFlash());
         registerPunishment(new PlayerGlass());
         registerPunishment(new PlayerHorde());
         registerPunishment(new PlayerNoFood());

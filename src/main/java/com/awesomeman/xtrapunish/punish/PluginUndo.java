@@ -81,7 +81,7 @@ public class PluginUndo implements CommandBase {
                                             " is unavailable. Removing undo entry."));
                             break;
                         case FAILUE_UNKNOWN:
-                            src.sendMessage(Text.of(TextColors.RED, "An error occured while attempting to undo command ", TextColors.BLUE, command2,
+                            src.sendMessage(Text.of(TextColors.RED, "An error occurred while attempting to undo command ", TextColors.BLUE, command2,
                                     TextColors.RED, "!"));
                             break;
                     }

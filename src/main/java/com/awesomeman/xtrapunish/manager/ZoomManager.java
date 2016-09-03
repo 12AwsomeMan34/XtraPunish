@@ -27,10 +27,13 @@ package com.awesomeman.xtrapunish.manager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.manipulator.mutable.PotionEffectData;
 import org.spongepowered.api.entity.living.player.Player;
 
+import com.awesomeman.xtrapunish.XtraPunish;
 import com.awesomeman.xtrapunish.util.ZoomStore;
 
 public class ZoomManager {
@@ -53,11 +56,26 @@ public class ZoomManager {
     public void removePlayer(Player player) {
         for (ZoomStore store : zoomingPlayers) {
             if (store.player.equals(player)) {
-                player.offer(player.get(PotionEffectData.class).get().remove(store.effect));
-                store.task.cancel();
-                zoomingPlayers.remove(store);
+                Optional<PotionEffectData> optional = player.get(PotionEffectData.class);
+                if (optional.isPresent()) {
+                    this.removePlayerData(player, optional.get(), store);
+                } else {
+                    // If no data, schedule to keep checking
+                    Sponge.getScheduler().createTaskBuilder().execute(task -> {
+                        Optional<PotionEffectData> optional2 = player.get(PotionEffectData.class);
+                        if (optional2.isPresent()) {
+                            this.removePlayerData(player, optional2.get(), store);
+                        }
+                    }).intervalTicks(1).submit(XtraPunish.instance);
+                }
                 break;
             }
         }
+    }
+
+    private void removePlayerData(Player player, PotionEffectData data, ZoomStore store) {
+        player.offer(data.remove(store.effect));
+        store.task.cancel();
+        zoomingPlayers.remove(store);
     }
 }

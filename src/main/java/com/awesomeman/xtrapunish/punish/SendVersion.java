@@ -50,7 +50,7 @@ public class SendVersion implements CommandBase {
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         src.sendMessage(Text.of(TextColors.GREEN, "-=-=-=- XtraPunish -=-=-=-"));
         src.sendMessage(Text.of(TextColors.GREEN, "Version: ", TextColors.GOLD, PluginInfo.VERSION));
-        src.sendMessage(Text.of(TextColors.GREEN, "Author: ", TextColors.GOLD, "12AwesomeMan34"));
+        src.sendMessage(Text.of(TextColors.GREEN, "Author: ", TextColors.GOLD, "12AwsomeMan34"));
         String github = "https://github.com/XtraStudio/XtraPunish";
         try {
             src.sendMessage(Text
