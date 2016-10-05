@@ -27,6 +27,8 @@ package com.awesomeman.xtrapunish.util;
 
 import java.util.List;
 
+import com.awesomeman.xtrapunish.XtraPunish;
+
 public class CmdUtil {
 
     /**
@@ -42,7 +44,7 @@ public class CmdUtil {
 
         AffectedBlocks affected = history.get(history.size() - 1);
         for (int i = 0; i < affected.loc.size(); i++) {
-            affected.loc.get(i).setBlock(affected.oldState.get(i));
+            affected.loc.get(i).setBlock(affected.oldState.get(i), XtraPunish.cause);
         }
         history.remove(affected);
         return UndoSuccess.SUCCESS;

@@ -34,6 +34,7 @@ import org.spongepowered.api.command.CommandManager;
 import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.event.EventManager;
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.text.Text;
@@ -51,6 +52,7 @@ import me.flibio.updatifier.Updatifier;
 public class XtraPunish {
 
     public static XtraPunish instance;
+    public static Cause cause;
     public @Inject Logger logger;
     public List<CommandBase> commandBases = new ArrayList<>();
 
@@ -59,6 +61,7 @@ public class XtraPunish {
         this.logger.info("Initializing XtraPunish version " + PluginInfo.VERSION);
 
         instance = this;
+        cause = Cause.source(Sponge.getPluginManager().fromInstance(this).get()).build();
         Managers.initManagers();
 
         EventManager eventManager = Sponge.getEventManager();

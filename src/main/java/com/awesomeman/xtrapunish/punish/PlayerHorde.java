@@ -69,12 +69,9 @@ public class PlayerHorde implements CommandBase {
 
         // 20 creepers
         for (int i = 0; i < 20; i++) {
-            Optional<Entity> optional2 = extent.createEntity(EntityTypes.CREEPER, player.getLocation().getPosition());
-            if (optional2.isPresent()) {
-                extent.spawnEntity(optional2.get(),
-                        Cause.source(EntitySpawnCause.builder().entity(optional2.get()).type(SpawnTypes.PLUGIN).build()).build());
-                entities.add(optional2.get());
-            }
+            Entity entity = extent.createEntity(EntityTypes.CREEPER, player.getLocation().getPosition());
+            extent.spawnEntity(entity, Cause.source(EntitySpawnCause.builder().entity(entity).type(SpawnTypes.PLUGIN).build()).build());
+            entities.add(entity);
         }
         this.history.add(entities);
 

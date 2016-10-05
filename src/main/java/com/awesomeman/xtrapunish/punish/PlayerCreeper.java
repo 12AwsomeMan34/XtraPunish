@@ -63,18 +63,13 @@ public class PlayerCreeper implements CommandBase {
         Player player = optional.get();
 
         Extent extent = player.getLocation().getExtent();
-        Optional<Entity> optional2 = extent.createEntity(EntityTypes.CREEPER, player.getLocation().getPosition());
-        if (optional2.isPresent()) {
-            Entity entity = optional2.get();
-            entity.offer(Keys.CREEPER_CHARGED, true);
-            extent.spawnEntity(entity, Cause.source(EntitySpawnCause.builder().entity(entity).type(SpawnTypes.PLUGIN).build()).build());
-            this.history.add(entity);
-            src.sendMessage(
-                    Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player ", TextColors.BLUE, player.getName(), TextColors.GOLD,
-                            " will need to watch their back!"));
-        } else {
-            src.sendMessage(Text.of(TextColors.RED, "The entity could not be created!"));
-        }
+        Entity entity = extent.createEntity(EntityTypes.CREEPER, player.getLocation().getPosition());
+        entity.offer(Keys.CREEPER_CHARGED, true);
+        extent.spawnEntity(entity, Cause.source(EntitySpawnCause.builder().entity(entity).type(SpawnTypes.PLUGIN).build()).build());
+        this.history.add(entity);
+        src.sendMessage(
+                Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player ", TextColors.BLUE, player.getName(), TextColors.GOLD,
+                        " will need to watch their back!"));
         return CommandResult.success();
     }
 

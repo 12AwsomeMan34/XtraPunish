@@ -35,12 +35,12 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandSpec;
-import org.spongepowered.api.data.Transaction;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.world.explosion.Explosion;
 
+import com.awesomeman.xtrapunish.XtraPunish;
 import com.awesomeman.xtrapunish.manager.Managers;
 import com.awesomeman.xtrapunish.util.CmdUtil;
 import com.awesomeman.xtrapunish.util.CmdUtil.UndoSuccess;
@@ -57,12 +57,14 @@ public class PlayerExplode implements CommandBase {
         Player player = optional.get();
 
         Explosion explosion = Explosion.builder()
-                .world(player.getWorld()).origin(player.getLocation().getPosition())
+                .location(player.getLocation())
                 .radius(4)
                 .shouldDamageEntities(true)
-                .shouldBreakBlocks(true).build();
+                .shouldPlaySmoke(true)
+                .shouldBreakBlocks(true)
+                .build();
         Managers.explosionManager.addExplosion(explosion);
-        player.getWorld().triggerExplosion(explosion);
+        player.getWorld().triggerExplosion(explosion, XtraPunish.cause);
         src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Player ", TextColors.BLUE, player.getName(), TextColors.GOLD,
                 " has gone kaboom!"));
         return CommandResult.success();
@@ -95,11 +97,11 @@ public class PlayerExplode implements CommandBase {
             return UndoSuccess.FAILURE_NO_HISTORY;
         }
 
-        Set<Transaction<BlockSnapshot>> snapshots = Managers.explosionManager.explosionHistory
+        Set<BlockSnapshot> snapshots = Managers.explosionManager.explosionHistory
                 .get(Managers.explosionManager.explosionHistory.size() - 1);
-        for (Transaction<BlockSnapshot> snapshot : snapshots) {
-            if (snapshot.getOriginal().getLocation().isPresent()) {
-                snapshot.getOriginal().getLocation().get().setBlock(snapshot.getOriginal().getState());
+        for (BlockSnapshot snapshot : snapshots) {
+            if (snapshot.getLocation().isPresent()) {
+                snapshot.getLocation().get().setBlock(snapshot.getState(), XtraPunish.cause);
             }
         }
         Managers.explosionManager.explosionHistory.remove(snapshots);

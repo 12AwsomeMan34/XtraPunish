@@ -45,6 +45,7 @@ import org.spongepowered.api.util.Direction;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
+import com.awesomeman.xtrapunish.XtraPunish;
 import com.awesomeman.xtrapunish.util.AffectedBlocks;
 import com.awesomeman.xtrapunish.util.CmdUtil;
 import com.awesomeman.xtrapunish.util.CommandBase;
@@ -93,7 +94,7 @@ public class PlayerCobweb implements CommandBase {
 
         for (Location<World> location : locs) {
             states.add(location.getBlock());
-            location.setBlockType(BlockTypes.WEB);
+            location.setBlockType(BlockTypes.WEB, XtraPunish.cause);
         }
         this.history.add(new AffectedBlocks(locs, states));
 

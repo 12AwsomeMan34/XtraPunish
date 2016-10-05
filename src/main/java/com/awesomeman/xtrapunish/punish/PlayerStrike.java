@@ -58,16 +58,10 @@ public class PlayerStrike implements CommandBase {
         Player player = optional.get();
         Extent extent = player.getLocation().getExtent();
 
-        Optional<Entity> optional2 = extent.createEntity(EntityTypes.LIGHTNING, player.getLocation().getPosition());
-        if (optional2.isPresent()) {
-            extent.spawnEntity(optional2.get(),
-                    Cause.source(EntitySpawnCause.builder().entity(optional2.get()).type(SpawnTypes.PLUGIN).build()).build());
-            src.sendMessage(
-                    Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Striking ", TextColors.BLUE, player.getName(), TextColors.GOLD,
-                            " with lightning!"));
-        } else {
-            src.sendMessage(Text.of(TextColors.RED, "Unable to create lightning entity!"));
-        }
+        Entity entity = extent.createEntity(EntityTypes.LIGHTNING, player.getLocation().getPosition());
+        extent.spawnEntity(entity, Cause.source(EntitySpawnCause.builder().entity(entity).type(SpawnTypes.PLUGIN).build()).build());
+        src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Striking ", TextColors.BLUE, player.getName(), TextColors.GOLD,
+                " with lightning!"));
         return CommandResult.success();
     }
 

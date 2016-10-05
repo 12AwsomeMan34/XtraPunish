@@ -38,6 +38,7 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.world.explosion.Explosion;
 
+import com.awesomeman.xtrapunish.XtraPunish;
 import com.awesomeman.xtrapunish.util.CmdUtil;
 import com.awesomeman.xtrapunish.util.CommandBase;
 
@@ -54,12 +55,11 @@ public class PlayerBounceExplode implements CommandBase {
         Player player = optional.get();
 
         Explosion explosion = Explosion.builder()
-                .world(player.getWorld())
-                .origin(player.getLocation().getPosition())
+                .location(player.getLocation())
                 .radius(1)
                 .shouldDamageEntities(true)
-                .shouldBreakBlocks(false).build();
-        player.getWorld().triggerExplosion(explosion);
+                .build();
+        player.getWorld().triggerExplosion(explosion, XtraPunish.cause);
 
         src.sendMessage(
                 Text.of(TextColors.GREEN, "Success! ", TextColors.BLUE, player.getName(), TextColors.GOLD, " has been bounced by an explosion."));

@@ -43,6 +43,7 @@ import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
+import com.awesomeman.xtrapunish.XtraPunish;
 import com.awesomeman.xtrapunish.util.AffectedBlocks;
 import com.awesomeman.xtrapunish.util.CmdUtil;
 import com.awesomeman.xtrapunish.util.CommandBase;
@@ -72,7 +73,7 @@ public class PlayerGlass implements CommandBase {
         states.add(location.add(0, 99, 0).getBlock());
         this.history.add(new AffectedBlocks(locs, states));
 
-        location.add(0, 99, 0).setBlockType(BlockTypes.GLASS);
+        location.add(0, 99, 0).setBlockType(BlockTypes.GLASS, XtraPunish.cause);
         player.setLocation(location.add(0, 100, 0));
 
         src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.BLUE, player.getName(), TextColors.GOLD, " is now walking in the clouds."));

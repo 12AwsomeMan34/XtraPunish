@@ -45,6 +45,7 @@ import org.spongepowered.api.util.Direction;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
+import com.awesomeman.xtrapunish.XtraPunish;
 import com.awesomeman.xtrapunish.util.AffectedBlocks;
 import com.awesomeman.xtrapunish.util.CmdUtil;
 import com.awesomeman.xtrapunish.util.CommandBase;
@@ -73,9 +74,9 @@ public class PlayerAnvil implements CommandBase {
         states.addAll(Arrays.asList(loc.getBlock(), anvil2.sub(0, 6, 0).getBlock(), anvil3.sub(0, 6, 0).getBlock()));
         this.history.add(new AffectedBlocks(locs, states));
 
-        anvil1.setBlockType(BlockTypes.ANVIL);
-        anvil2.setBlockType(BlockTypes.ANVIL);
-        anvil3.setBlockType(BlockTypes.ANVIL);
+        anvil1.setBlockType(BlockTypes.ANVIL, XtraPunish.cause);
+        anvil2.setBlockType(BlockTypes.ANVIL, XtraPunish.cause);
+        anvil3.setBlockType(BlockTypes.ANVIL, XtraPunish.cause);
 
         src.sendMessage(Text.of(TextColors.GREEN, "Success! ", TextColors.GOLD, "Dropping the hammer on ", TextColors.BLUE, player.getName(),
                 TextColors.GOLD, "!"));

@@ -31,14 +31,15 @@ import java.util.List;
 import java.util.Set;
 
 import org.spongepowered.api.block.BlockSnapshot;
-import org.spongepowered.api.data.Transaction;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.world.ExplosionEvent;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 import org.spongepowered.api.world.explosion.Explosion;
 
 public class ExplosionManager {
 
-    public List<Set<Transaction<BlockSnapshot>>> explosionHistory = new ArrayList<>();
+    public List<Set<BlockSnapshot>> explosionHistory = new ArrayList<>();
     private List<Explosion> explosions = new ArrayList<>();
 
     public void addExplosion(Explosion explosion) {
@@ -48,17 +49,17 @@ public class ExplosionManager {
     @Listener
     public void onExplode(ExplosionEvent.Detonate event) {
         Explosion eventExplosion = event.getExplosion();
-        double eventX = eventExplosion.getOrigin().getX();
-        double eventY = eventExplosion.getOrigin().getY();
-        double eventZ = eventExplosion.getOrigin().getZ();
+        double eventX = eventExplosion.getLocation().getX();
+        double eventY = eventExplosion.getLocation().getY();
+        double eventZ = eventExplosion.getLocation().getZ();
         for (Explosion explosion : this.explosions) {
-            double explX = explosion.getOrigin().getX();
-            double explY = explosion.getOrigin().getY();
-            double explZ = explosion.getOrigin().getZ();
+            double explX = explosion.getLocation().getX();
+            double explY = explosion.getLocation().getY();
+            double explZ = explosion.getLocation().getZ();
             if (eventX == explX && eventY == explY && eventZ == explZ) {
-                Set<Transaction<BlockSnapshot>> snapshots = new HashSet<>();
-                for (Transaction<BlockSnapshot> transaction : event.getTransactions()) {
-                    snapshots.add(transaction);
+                Set<BlockSnapshot> snapshots = new HashSet<>();
+                for (Location<World> location : event.getAffectedLocations()) {
+                    snapshots.add(location.createSnapshot());
                 }
                 this.explosionHistory.add(snapshots);
                 this.explosions.remove(explosion);
