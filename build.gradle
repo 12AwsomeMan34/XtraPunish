@@ -1,13 +1,7 @@
 plugins {
     id 'java'
-    id 'eclipse'
-    id 'net.minecrell.licenser' version '0.1.5'
-    id 'net.ellune.blossom' version '1.0.1'
-    id 'com.github.johnrengelman.shadow' version '1.2.3'
+    id 'net.minecrell.licenser' version '0.4.1'
 }
-
-sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
 
 repositories {
     mavenCentral()
@@ -15,49 +9,10 @@ repositories {
         name 'Sponge maven repo'
         url 'http://repo.spongepowered.org/maven/'
     }
-    maven {
-        url 'https://jitpack.io'
-    }
-    maven {
-        name 'minecrell-releases'
-        url 'http://repo.minecrell.net/releases'
-    }
 }
 
 dependencies {
-    compile "org.spongepowered:spongeapi:4.1.0"
-    compile "com.github.Laxamer:LaxFile:2.0"
-    shadow "com.github.Flibio:Updatifier:v1.4.0:api"
-}
-
-configurations {
-    compile.extendsFrom shadow
-}
-
-// Exclude the gen stuff from being included in the
-// built jar as it's not really needed
-sourceSets {
-    main {
-        java {
-            srcDir 'src/main/java'
-            exclude 'com/awesomeman/xtrapunish/util/generate/**'
-        }
-    }
-}
-
-tasks.getByPath(':jar').enabled = false
-shadowJar {
-    dependencies {
-        include(dependency('com.github.Flibio:Updatifier:v1.4.0:api'))
-    }
-    configurations = [project.configurations.shadow]
-    classifier = ''
-}
-
-blossom {
-    replaceToken '@project.version@', project.version, 'src/main/java/com/awesomeman/xtrapunish/PluginInfo.java'
-    replaceToken '@project.description@', project.description, 'src/main/java/com/awesomeman/xtrapunish/PluginInfo.java'
-    replaceToken '@project.organization@', project.organization, 'src/main/java/com/awesomeman/xtrapunish/PluginInfo.java'
+    compile "org.spongepowered:spongeapi:7.1.0"
 }
 
 license {
