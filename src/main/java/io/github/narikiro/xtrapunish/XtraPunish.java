@@ -45,11 +45,11 @@ import io.github.narikiro.xtrapunish.punish.HelpCommand;
 import io.github.narikiro.xtrapunish.punish.Punishments;
 import io.github.narikiro.xtrapunish.util.CommandBase;
 
-@Plugin(id = "xtrapunish", name = "XtraPunish", version = "3.0", description = "Punish your players!", authors = "NariKiro")
+@Plugin(id = "xtrapunish", name = "XtraPunish", version = "BETA-3.0", description = "Punish your players!", authors = "NariKiro")
 public class XtraPunish {
 
     public static XtraPunish instance;
-    public static String VERSION = "3.0";
+    public static String VERSION = "BETA-3.0";
     public @Inject Logger logger;
     public List<CommandBase> commandBases = new ArrayList<>();
 
